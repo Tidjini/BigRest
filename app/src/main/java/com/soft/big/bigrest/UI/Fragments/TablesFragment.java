@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
+
 
 /**
  *
@@ -55,12 +57,12 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnTableSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
+//        try {
+//            mCallback = (OnTableSelectedListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement OnHeadlineSelectedListener");
+//        }
     }
 
     @Override
@@ -97,19 +99,22 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
         mTablesRecyclerView.setHasFixedSize(true);
 
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            // do something
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),
-                    2);
-            mTablesRecyclerView.setLayoutManager(gridLayoutManager);
+//       if (tabletSize) {
+//            // do something
+//            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),
+//                    2);
+//            mTablesRecyclerView.setLayoutManager(gridLayoutManager);
+//
+//        } else {
+//           // do something else
+//           mGridLayoutManager = new StaggeredGridLayoutManager(3,
+//                   StaggeredGridLayoutManager.VERTICAL);
+//           mTablesRecyclerView.setLayoutManager(mGridLayoutManager);
+//        }
 
-        } else {
-            // do something else
-            mGridLayoutManager = new StaggeredGridLayoutManager(3,
-                    StaggeredGridLayoutManager.VERTICAL);
-            mTablesRecyclerView.setLayoutManager(mGridLayoutManager);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mTablesRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        }
 
     }
 
@@ -118,6 +123,8 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
     {
         AsyncTables asyncTables = new AsyncTables();
         asyncTables.execute();
+
+
     }
 
     @Override
@@ -137,8 +144,29 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
 
         @Override
         protected List<Table> doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection();
-            return TableService.getTables(connection);
+            //TODO Connection connection = DatabaseAccess.databaseConnection();
+            //TODO return TableService.getTables(connection);
+            //Fake
+            Table table;
+            ArrayList<Table> tables = new ArrayList<>();
+            for(int i = 0;  i<10; i++){
+                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.FREE);
+                tables.add(table);
+
+            }
+            for(int i = 10;  i<15; i++){
+                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.SERVED);
+                tables.add(table);
+
+            }
+            for(int i = 15;  i<18; i++){
+                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.OCCUPIE);
+                tables.add(table);
+
+            }
+            return tables;
+
+
 
         }
 

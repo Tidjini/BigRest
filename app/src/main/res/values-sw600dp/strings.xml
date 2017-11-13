@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Big Rest</string>
-    <string name="tables_title">TABLES</string>
+    <string name="tables_title">MOBILE RESTAURANT</string>
     <string name="table_title">TABLE</string>
 
     <string name="send_order">Send</string>

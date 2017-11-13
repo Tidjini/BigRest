@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
+import static com.soft.big.bigrest.Services.MenuService.fakeImage;
 
 /**
  * Created by Tidjini on 13/11/2017.
@@ -75,7 +76,7 @@ public class MenuFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        getTableData();
+        //TODO getTableData();
         executeTask();
     }
 
@@ -110,6 +111,8 @@ public class MenuFragment extends Fragment{
     {
         MenuFragment.AsyncDetails asyncMenu = new MenuFragment.AsyncDetails();
         asyncMenu.execute();
+
+
     }
 
     class AsyncDetails extends AsyncTask<String, String, List<DetailsOrder>> {
@@ -122,8 +125,18 @@ public class MenuFragment extends Fragment{
 
         @Override
         protected List<DetailsOrder> doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection();
-            return MenuService.getDetails(connection);
+            //TODO Connection connection = DatabaseAccess.databaseConnection();
+            //TODO return MenuService.getDetails(connection);
+
+            DetailsOrder detail;
+            ArrayList<DetailsOrder> details = new ArrayList<>();
+            for(int i = 0;  i<20; i++){
+                detail = new DetailsOrder("name "+ i,  "description du menu "+i, i*1000, fakeImage(i%8), 0  );
+                details.add(detail);
+
+            }
+
+            return details;
 
         }
 

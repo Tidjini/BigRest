@@ -101,8 +101,9 @@ public class MenuService {
     }
 
 
-    private static int fakeImage(int position){
+    public static int fakeImage(int position){
         //note a single Random object is reused here
+
         switch (position){
             case 2:
                 return R.drawable.p_02;

@@ -8,19 +8,19 @@
     card_view:cardUseCompatPadding="true"
     >
     <LinearLayout
-        android:padding="4dp"
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="60dp">
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:elevation="4dp"
             >
             <ImageView
                 android:id="@+id/iv_plat_menu"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:src="@drawable/p_01"
                 android:scaleType="centerCrop"/>
             <TextView
@@ -39,10 +39,10 @@
         </RelativeLayout>
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="bottom"
+            android:layout_gravity="center"
             android:layout_marginLeft="14dp">
             <TextView
                 android:id="@+id/tv_plat_name_menu"
@@ -51,17 +51,17 @@
                 android:textStyle="bold"
                 android:text="Plat name"
 
-                android:textSize="18sp"/>
+                android:textSize="14sp"/>
             <TextView
                 android:id="@+id/tv_plat_desc_menu"
-                android:layout_marginTop="4dp"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description of the menu if exist"
-                android:textSize="16sp"
+                android:textSize="11sp"
                 android:textStyle="italic"/>
             <LinearLayout
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView

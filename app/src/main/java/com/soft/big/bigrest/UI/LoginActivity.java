@@ -48,8 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         mUsername = mUsernameEditText.getText().toString();
         mPassword = mPasswordEditText.getText().toString();
 
-        AsyncLogin asyncLogin = new AsyncLogin();
-        asyncLogin.execute(mUsername, mPassword);
+// TODO       AsyncLogin asyncLogin = new AsyncLogin();
+//        asyncLogin.execute(mUsername, mPassword);
+        goToTableActivity(1);
     }
 
 

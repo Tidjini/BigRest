@@ -9,46 +9,59 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="180dp"
+        android:layout_height="60dp">
         <ImageView
             android:id="@+id/iv_table_state_item"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:src="@drawable/free_table"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/table_back"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#BB000000"
+            ></View>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
             android:orientation="vertical"
             android:gravity="center">
-            <TextView
-                android:id="@+id/tv_table_number_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                />
             <TextView
                 android:id="@+id/tv_capacite_item"
                 android:layout_toRightOf="@id/tv_table_number_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6 seats"
-                android:textSize="9sp"
+                android:text="TABLE"
+                android:textSize="14sp"
+
+                android:textColor="#FFF"
+
+                />
+            <TextView
+                android:id="@+id/tv_table_number_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:layout_gravity="left"
+                android:textColor="#FFF"
+                android:textSize="22sp"
                 android:textStyle="bold"
+                />
 
-                />
-            <ImageView
-                android:id="@+id/iv_table_state_item_icon"
-                android:visibility="gone"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@mipmap/ic_notifications_black_24dp"
-                android:tint="@color/colorPrimary"
-                />
+
         </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_table_state_item_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_notifications_none_white_24dp"
 
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

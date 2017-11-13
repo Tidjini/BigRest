@@ -17,7 +17,7 @@ public class BigRest extends Application {
         super.onCreate();
         // Fresco.initialize(this);
         // font from assets: "assets/fonts/Roboto-Regular.ttf
-        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/Quicksand-Regular.ttf");
+        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/Exo-Light.ttf");
 
     }
 }

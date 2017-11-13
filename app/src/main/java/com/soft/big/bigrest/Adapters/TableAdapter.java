@@ -136,18 +136,19 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void bind(String number, String capacite ,State state){
             mTableCapaciteTextView.setText(capacite);
             mTableNumberTextView.setText(number);
-            int iconStateVisibility = View.VISIBLE, stateIconDraw = R.mipmap.ic_notifications_black_24dp;
-            int stateImage = R.drawable.free_table;
+            int iconStateVisibility = View.VISIBLE, stateIconDraw = R.mipmap.ic_notifications_none_white_24dp;
+            //int stateImage = R.drawable.free_table;
+            int stateImage = R.drawable.table_back;
             switch (state){
                 case SERVED:
                     //todo reference
-                    stateIconDraw = R.mipmap.ic_notifications_none_black_24dp;
-                    stateImage = R.drawable.occupie_table;
+                    stateIconDraw = R.mipmap.ic_notifications_white_24dp;
+                    //stateImage = R.drawable.occupie_table;
                     break;
                 case OCCUPIE:
                     //todo reference
-                    stateIconDraw = R.mipmap.ic_notifications_black_24dp;
-                    stateImage = R.drawable.occupie_table;
+                    stateIconDraw = R.mipmap.ic_notifications_none_white_24dp;
+                    //stateImage = R.drawable.occupie_table;
                     break;
                 default:
 
