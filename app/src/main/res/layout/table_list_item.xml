@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true"
+    android:padding="4dp"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_table_state_item"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:src="@drawable/free_table"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_table_number_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                />
+            <TextView
+                android:id="@+id/tv_capacite_item"
+                android:layout_toRightOf="@id/tv_table_number_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6 seats"
+                android:textSize="9sp"
+                android:textStyle="bold"
+
+                />
+            <ImageView
+                android:id="@+id/iv_table_state_item_icon"
+                android:visibility="gone"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@mipmap/ic_notifications_black_24dp"
+                android:tint="@color/colorPrimary"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

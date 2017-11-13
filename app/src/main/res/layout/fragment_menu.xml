@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.soft.big.bigrest.UI.OrderActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <include layout="@layout/nav_action_bar"/>
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check customer wishes"
+                android:layout_gravity="center"
+                android:textSize="22sp"
+                />
+            <View
+                android:layout_marginRight="56dp"
+                android:layout_marginLeft="56dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_marginBottom="16dp"/>
+            <android.support.v7.widget.RecyclerView
+
+                android:id="@+id/rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="#FFF"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:elevation="4dp">
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginLeft="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Price: 0.00 DA"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:visibility="gone"
+        android:layout_below="@id/nav_action_custom_bar"
+        android:id="@+id/fl_order_process"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#660E020E">
+        <ProgressBar
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+
+
+</RelativeLayout>

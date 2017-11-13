@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true"
+    >
+    <LinearLayout
+        android:padding="4dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:elevation="4dp"
+            >
+            <ImageView
+                android:id="@+id/iv_plat_menu"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/p_01"
+                android:scaleType="centerCrop"/>
+            <TextView
+                android:id="@+id/tv_price_menu"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_price_background"
+                android:text="1 780,00 DA"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:padding="4dp"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:layout_marginLeft="14dp">
+            <TextView
+                android:id="@+id/tv_plat_name_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Plat name"
+
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tv_plat_desc_menu"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description of the menu if exist"
+                android:textSize="16sp"
+                android:textStyle="italic"/>
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_total_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total : 0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_total_price_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price: 0,00 DA"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="11sp"
+                    android:layout_marginLeft="14dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="250dp">
+        <ImageView
+            android:id="@+id/iv_table_big_state_item"
+            android:layout_width="120dp"
+            android:layout_height="250dp"
+            android:src="@drawable/free_big_table"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+
+            >
+            <TextView
+                android:id="@+id/tv_table_big_number_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="4dp"
+                />
+            <TextView
+                android:id="@+id/tv_big_capacite_item"
+                android:layout_marginTop="56dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11 seats"
+                android:rotation="-90"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginTop="56dp"
+                android:layout_gravity="center"
+                android:id="@+id/iv_table_big_state_item_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@mipmap/ic_notifications_black_24dp"
+                android:tint="@color/colorPrimary"
+
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
