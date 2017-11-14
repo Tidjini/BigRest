@@ -154,12 +154,12 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
                 tables.add(table);
 
             }
-            for(int i = 10;  i<15; i++){
+            for(int i = 10;  i<12; i++){
                 table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.SERVED);
                 tables.add(table);
 
             }
-            for(int i = 15;  i<18; i++){
+            for(int i = 12;  i<100; i++){
                 table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.OCCUPIE);
                 tables.add(table);
 

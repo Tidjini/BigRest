@@ -1,0 +1,16 @@
+presentation 
+	Server config:
+		Direct:
+			ip; username pass; database; integrated security of win
+		Or service 
+	information just for tablet if you want phones its may be chaged	
+
+modification
+	table state 3 state free = 1, occupied = 2, served = 3
+	cloture of the order yo free the table
+	notification for users
+
+TODO
+	Meeting this weekend
+	Find tablet if your can kitkat and arleayer 
+		

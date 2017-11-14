@@ -81,7 +81,7 @@ public class MenuFragment extends Fragment{
     }
 
     private void bindFragment(View container){
-        mProgressFrameLayout = container.findViewById(R.id.fl_order_process);
+        //TODO mProgressFrameLayout = container.findViewById(R.id.fl_order_process);
 
         mOrderRecyclerView = container.findViewById(R.id.rv_menu);
         mOrderRecyclerView.setHasFixedSize(true);
@@ -120,7 +120,7 @@ public class MenuFragment extends Fragment{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressFrameLayout.setVisibility(View.VISIBLE);
+            //TODO mProgressFrameLayout.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -130,7 +130,7 @@ public class MenuFragment extends Fragment{
 
             DetailsOrder detail;
             ArrayList<DetailsOrder> details = new ArrayList<>();
-            for(int i = 0;  i<20; i++){
+            for(int i = 0;  i<300; i++){
                 detail = new DetailsOrder("name "+ i,  "description du menu "+i, i*1000, fakeImage(i%8), 0  );
                 details.add(detail);
 
@@ -143,7 +143,7 @@ public class MenuFragment extends Fragment{
         @Override
         protected void onPostExecute(List<DetailsOrder> detailsOrders) {
             super.onPostExecute(detailsOrders);
-            mProgressFrameLayout.setVisibility(View.GONE);
+            //mProgressFrameLayout.setVisibility(View.GONE);
 
             if(detailsOrders == null) return;
             mDetailsOrder = detailsOrders;

@@ -12,10 +12,10 @@
 
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp">
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:elevation="4dp"
             >
             <ImageView
@@ -61,28 +61,28 @@
                 android:text="Description of the menu if exist"
                 android:textSize="11sp"
                 android:textStyle="italic"/>
-            <LinearLayout
-                android:layout_marginTop="2dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tv_total_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total : 0"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    />
-                <TextView
-                    android:id="@+id/tv_total_price_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Price: 0,00 DA"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="11sp"
-                    android:layout_marginLeft="14dp"
-                    />
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_marginTop="2dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_total_menu"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Total : 0"-->
+                    <!--android:textColor="@color/colorPrimary"-->
+                    <!--android:textSize="14sp"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_total_price_menu"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Price: 0,00 DA"-->
+                    <!--android:textColor="@color/colorPrimary"-->
+                    <!--android:textSize="11sp"-->
+                    <!--android:layout_marginLeft="14dp"-->
+                    <!--/>-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 

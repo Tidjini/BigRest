@@ -15,23 +15,24 @@
 
         <!--TODO-->
         <TextView
-            android:visibility="gone"
+
             android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/nav_action_custom_bar"
-            android:text="Select customer table"
-            android:layout_gravity="center"
-            android:textSize="22sp"
+
+            android:text="TABLES"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
             />
         <View
-            android:visibility="gone"
-            android:layout_marginRight="56dp"
-            android:layout_marginLeft="56dp"
-            android:layout_width="match_parent"
+
+            android:layout_marginLeft="8dp"
+            android:layout_width="50dp"
             android:layout_height="2dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginBottom="16dp"/>
+            android:background="@color/colorAccent"
+            />
         <!--TODO-->
         <android.support.v7.widget.RecyclerView
             android:layout_margin="8dp"
@@ -39,9 +40,9 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+
             android:scrollbars="vertical"
-            android:layout_centerHorizontal="true"
+
             />
     </LinearLayout>
 

@@ -4,6 +4,21 @@
     <item android:id="@+id/user_notification"
         android:title="@string/send_order"
         app:showAsAction="always"
-        android:icon="@mipmap/ic_notifications_none_white_24dp"
+        android:icon="@mipmap/ic_notifications_white_24dp"
+        ></item>
+    <item android:id="@+id/user_refresh"
+        android:title="Refresh"
+
+
+        ></item>
+    <item android:id="@+id/user_about"
+        android:title="About"
+
+
+        ></item>
+    <item android:id="@+id/user_deconnect"
+        android:title="Log out"
+
+
         ></item>
 </menu>

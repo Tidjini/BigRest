@@ -1,7 +1,7 @@
 USE [master]
 GO
 
-/****** Object:  Database [BigRestaurent]    Script Date: 14/11/2017 06:29:04 ******/
+/****** Object:  Database [BigRestaurent]    Script Date: 14/11/2017 06:29:04 
 CREATE DATABASE [BigRestaurent]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -9,7 +9,7 @@ CREATE DATABASE [BigRestaurent]
  LOG ON 
 ( NAME = N'BigRestaurent_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\BigRestaurent_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
 GO
-
+******/
 ALTER DATABASE [BigRestaurent] SET COMPATIBILITY_LEVEL = 120
 GO
 

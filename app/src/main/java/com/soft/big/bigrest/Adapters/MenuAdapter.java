@@ -74,16 +74,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             mPriceTextView = itemView.findViewById(R.id.tv_price_menu);
             mNameTextView = itemView.findViewById(R.id.tv_plat_name_menu);
             mDescriptionTextView = itemView.findViewById(R.id.tv_plat_desc_menu);
-            mTotalTextView = itemView.findViewById(R.id.tv_total_menu);
-            mTotalPriceTextView =  itemView.findViewById(R.id.tv_total_price_menu);
+//            mTotalTextView = itemView.findViewById(R.id.tv_total_menu);
+//            mTotalPriceTextView =  itemView.findViewById(R.id.tv_total_price_menu);
             mPlatImageView =  itemView.findViewById(R.id.iv_plat_menu);
         }
         public void bind(String price, String name, String description, String total, String totalPrice, int idImage){
             mPriceTextView.setText(price);
             mNameTextView.setText(name);
             mDescriptionTextView.setText(description);
-            mTotalTextView.setText(total);
-            mTotalPriceTextView.setText(totalPrice);
+//            mTotalTextView.setText(total);
+//            mTotalPriceTextView.setText(totalPrice);
             mPlatImageView.setImageResource(idImage);
 
         }
