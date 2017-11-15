@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.soft.big.bigrest.Adapters.MenuAdapter;
 import com.soft.big.bigrest.Adapters.TableAdapter;
@@ -48,6 +49,8 @@ public class MenuFragment extends Fragment{
 
     private List<DetailsOrder> mDetailsOrder = new ArrayList<DetailsOrder>();
     private FrameLayout mProgressFrameLayout;
+
+    private TextView mTotalPriceTextView;
 
     //table data
     private int mIdTable;
@@ -86,6 +89,7 @@ public class MenuFragment extends Fragment{
         mOrderRecyclerView = container.findViewById(R.id.rv_menu);
         mOrderRecyclerView.setHasFixedSize(true);
 
+        mTotalPriceTextView = container.findViewById(R.id.tv_total_price_order);
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
             mLinearLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -104,6 +108,10 @@ public class MenuFragment extends Fragment{
         mTable = TableService.getTableFromId(mConnection, mIdTable);
         //TODO getSupportActionBar().setTitle("Table  n° "+mTable.getNumero());
 
+    }
+
+    public void setData(){
+        mTotalPriceTextView.setText("0,00 DA");
     }
 
 

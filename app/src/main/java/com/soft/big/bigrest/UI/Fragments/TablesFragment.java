@@ -48,21 +48,21 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
 
     // Container Activity must implement this interface
     public interface OnTableSelectedListener {
-        public void onTableSelected(int position);
+        void onTableSelected(int position);
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
-//        try {
-//            mCallback = (OnTableSelectedListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement OnHeadlineSelectedListener");
-//        }
+        try {
+            mCallback = (OnTableSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     @Override
@@ -99,7 +99,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
         mTablesRecyclerView.setHasFixedSize(true);
 
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-//       if (tabletSize) {
+//      TODO if (tabletSize) {
 //            // do something
 //            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),
 //                    2);
@@ -129,9 +129,10 @@ public class TablesFragment extends Fragment implements TableAdapter.TableAdapte
 
     @Override
     public void onClick(int idTable) {
-        Intent intent = new Intent(getContext(), OrderActivity.class);
-        intent.putExtra(TABLE_ID_EXTRA_MESSAGE, idTable);
-        getContext().startActivity(intent);
+        mCallback.onTableSelected(idTable);
+        //TODO Intent intent = new Intent(getContext(), OrderActivity.class);
+        //intent.putExtra(TABLE_ID_EXTRA_MESSAGE, idTable);
+        //getContext().startActivity(intent);
     }
 
     class AsyncTables extends AsyncTask<String, String, List<Table>> {

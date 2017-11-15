@@ -13,7 +13,6 @@
         >
 
 
-        <!--TODO-->
         <TextView
 
             android:layout_marginTop="16dp"
@@ -33,7 +32,6 @@
             android:layout_height="2dp"
             android:background="@color/colorAccent"
             />
-        <!--TODO-->
         <android.support.v7.widget.RecyclerView
             android:layout_margin="8dp"
 
@@ -59,4 +57,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
     </FrameLayout>
+    <include layout="@layout/progress_layout"></include>
 </RelativeLayout>

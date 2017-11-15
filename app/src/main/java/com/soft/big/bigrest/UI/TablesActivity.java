@@ -10,8 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.soft.big.bigrest.R;
+import com.soft.big.bigrest.UI.Fragments.MenuFragment;
 import com.soft.big.bigrest.UI.Fragments.TablesFragment;
 
 
@@ -23,6 +25,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
 
+    private TextView mTableNumberTextView;
 
 
 
@@ -53,6 +56,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         //Custom Toolbar
         mToolbar = findViewById(R.id.nav_action_custom_bar);
         setSupportActionBar(mToolbar);
+        mTableNumberTextView = findViewById(R.id.table_name_number);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.tables_title);
@@ -60,6 +64,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         if(!getResources().getBoolean(R.bool.portrait_only)){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
+
 
     }
 
@@ -96,7 +101,9 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     /**
      * explain
      *  Table selected => check if is Active;
-     *      Yes =>
+     *      Yes => display command content
+     *      else => new command
+     *
      *
      *
      *
@@ -105,6 +112,11 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
     @Override
     public void onTableSelected(int position) {
-
+        // Get Fragment B
+        MenuFragment menuFragment = (MenuFragment)
+                getSupportFragmentManager().findFragmentById(R.id.menu_fragment);
+        //TODO update menuFragment.updateText(text);
+        mTableNumberTextView.setText("Table np; " + position);
+        menuFragment.setData();
     }
 }
