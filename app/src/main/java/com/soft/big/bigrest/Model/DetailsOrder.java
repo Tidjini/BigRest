@@ -8,13 +8,12 @@ public class DetailsOrder {
 
     String platName, platDescription;
     double price;
-    int imageId, total;
+    int total;
 
-    public DetailsOrder(String platName, String platDescription, double price, int imageId, int total) {
+    public DetailsOrder(String platName, String platDescription, double price, int total) {
         this.platName = platName;
         this.platDescription = platDescription;
         this.price = price;
-        this.imageId = imageId;
         this.total = total;
     }
 
@@ -43,14 +42,6 @@ public class DetailsOrder {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
     }
 
     public int getTotal() {

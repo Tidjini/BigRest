@@ -4,6 +4,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.soft.big.bigrest.Adapters.TableAdapter;
+import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Table;
 
 import java.sql.Connection;
@@ -11,7 +12,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.soft.big.bigrest.Converters.TableStateConverter.stateConverter;
+import static com.soft.big.bigrest.Services.OrderService.getTableOpenOrderFromId;
 
 /**
  * Created by Tidjini on 10/11/2017.
@@ -19,8 +25,7 @@ import java.util.List;
 
 public class TableService {
 
-    public final static String TAG = "UserService";
-
+    public final static String TAG = "TableService";
     private static String selectAllQueryBuilder(){
         return "select Id\n" +
                 "      , Name\n" +
@@ -29,7 +34,6 @@ public class TableService {
                 "      , MaxNumber\n" +
                 "      , State from ResTables";
     }
-
     private static String selectTableQueryBuilder(int id){
 
         return "select Id\n" +
@@ -41,12 +45,38 @@ public class TableService {
                 "Id = '"+ Integer.toString(id) +"'";
     }
 
-    private static TableAdapter.State stateConverter(int state){
-        if(state == 1) return TableAdapter.State.OCCUPIE;
-        if(state == 2) return TableAdapter.State.SERVED;
-        return TableAdapter.State.FREE;
+
+
+
+    //Map list => get just one entry Map.Entry<TableAdapter.State , Integer>
+    private static Map.Entry<TableAdapter.State , Integer> getTableState(Connection connection, int idTable){
+        //dictionary to get <State, order_id> pair
+        Map<TableAdapter.State, Integer> tableDictionary = new HashMap<TableAdapter.State, Integer>();
+        //free state
+        int state = 0, orderId = 0;
+        Order tableOpenOrder = getTableOpenOrderFromId(connection, idTable);
+        if(tableOpenOrder != null)
+        {
+            orderId = tableOpenOrder.getId();
+            //occupied
+            if(!tableOpenOrder.isClose())
+                state = 1;
+            //served
+            if(tableOpenOrder.isEffected())
+                state = 2;
+
+        }
+        //put data
+        tableDictionary.put(stateConverter(state), orderId);
+        return  tableDictionary.entrySet().iterator().next();
     }
 
+
+    /**
+     * Get Tables list with all informations data + state + id of opened order
+     * @param connection
+     * @return
+     */
     public static List<Table> getTables(Connection connection){
         Statement statement;
         List<Table> tables = new ArrayList<Table>();
@@ -57,12 +87,13 @@ public class TableService {
             while (resultSet.next()){
                 int id = resultSet.getInt("Id");
                 String name = resultSet.getString("Name");
-                int numero = resultSet.getInt("Numero");
+                int number = resultSet.getInt("Numero");
                 String remarque = resultSet.getString("Remarque");
                 int maxNumber = resultSet.getInt("MaxNumber");
-                int state = resultSet.getInt("State");
-
-                table = new Table(id,  numero, maxNumber, name, remarque,  stateConverter(state));
+                //get table state form orders, open order id
+                Map.Entry<TableAdapter.State , Integer> tableDictionaryEntry  = getTableState(connection, id);
+                //set data of order in table
+                table = new Table(id,  number, maxNumber, remarque, tableDictionaryEntry.getValue(), name, tableDictionaryEntry.getKey());
                 tables.add(table);
             }
 
@@ -74,6 +105,12 @@ public class TableService {
         }
     }
 
+    /**
+     * Called when table is selected; to check table state
+     * @param connection
+     * @param id
+     * @return
+     */
     public static Table getTableFromId(Connection connection, int id){
         Statement statement;
         Table table = null;
@@ -85,8 +122,11 @@ public class TableService {
                 int numero = resultSet.getInt("Numero");
                 String remarque = resultSet.getString("Remarque");
                 int maxNumber = resultSet.getInt("MaxNumber");
-                int state = resultSet.getInt("State");
-                table = new Table(id,  numero, maxNumber, name, remarque,  stateConverter(state));
+                //state; open order id
+                Map.Entry<TableAdapter.State , Integer> tableDictionaryEntry  = getTableState(connection, id);
+                //set data of order in table
+                table = new Table(id,  numero, maxNumber, remarque, tableDictionaryEntry.getValue(), name, tableDictionaryEntry.getKey());
+
             }
 
             return table;

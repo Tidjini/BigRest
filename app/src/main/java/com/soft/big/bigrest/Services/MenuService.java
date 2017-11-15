@@ -51,10 +51,10 @@ public class MenuService {
                 double price = resultSet.getDouble("Price");
                 //todo int image = resultSet.g("Image");
                 //DetailsOrder(String platName, String platDescription, double price, int imageId, int total)
-                detail = new DetailsOrder(name,  remarque, price, fakeImage(i), 0  );
+                //TODO detail = new DetailsOrder(name,  remarque, price, fakeImage(i), 0  );
                 //fake image
                 i++;
-                details.add(detail);
+                //TODO details.add(detail);
             }
 
             return details;

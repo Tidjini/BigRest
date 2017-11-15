@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.soft.big.bigrest.Adapters.MenuAdapter;
-import com.soft.big.bigrest.Adapters.TableAdapter;
 import com.soft.big.bigrest.Behaviors.DatabaseAccess;
 import com.soft.big.bigrest.Model.DetailsOrder;
 import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
-import com.soft.big.bigrest.Services.MenuService;
 import com.soft.big.bigrest.Services.TableService;
-import com.soft.big.bigrest.UI.OrderActivity;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -139,8 +135,8 @@ public class MenuFragment extends Fragment{
             DetailsOrder detail;
             ArrayList<DetailsOrder> details = new ArrayList<>();
             for(int i = 0;  i<300; i++){
-                detail = new DetailsOrder("name "+ i,  "description du menu "+i, i*1000, fakeImage(i%8), 0  );
-                details.add(detail);
+                //TODO detail = new DetailsOrder("name "+ i,  "description du menu "+i, i*1000, fakeImage(i%8), 0  );
+                //TODO details.add(detail);
 
             }
 
@@ -171,7 +167,7 @@ public class MenuFragment extends Fragment{
 
         if(detailsOrders.size() <= 0) return false;
         //todo id user
-        Order order = new Order(mIdTable, 1, 0, false, "remarquos");
+        //TODO Order order = new Order(mIdTable, 1, 0, false, close, "remarquos");
         return true;
         //Connection connection = DatabaseAccess.databaseConnection();
         //return createOrder(connection, null );

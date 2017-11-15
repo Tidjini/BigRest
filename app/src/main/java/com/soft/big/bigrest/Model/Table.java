@@ -10,6 +10,10 @@ public class Table {
     private int id, numero, maxNumber;
     private String remarque;
 
+    private int orderOpenId;
+
+
+
     private String name;
     private TableAdapter.State state;
 
@@ -25,6 +29,23 @@ public class Table {
         this.state = state;
     }
 
+    public Table(int id, int numero, int maxNumber, String remarque, int orderOpenId, String name, TableAdapter.State state) {
+        this.id = id;
+        this.numero = numero;
+        this.maxNumber = maxNumber;
+        this.remarque = remarque;
+        this.orderOpenId = orderOpenId;
+        this.name = name;
+        this.state = state;
+    }
+
+    public int getOrderOpenId() {
+        return orderOpenId;
+    }
+
+    public void setOrderOpenId(int orderOpenId) {
+        this.orderOpenId = orderOpenId;
+    }
     public TableAdapter.State getState() {
         return state;
     }
