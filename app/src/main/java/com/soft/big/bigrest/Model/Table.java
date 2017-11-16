@@ -1,6 +1,8 @@
 package com.soft.big.bigrest.Model;
 
 import com.soft.big.bigrest.Adapters.TableAdapter;
+import com.soft.big.bigrest.Behaviors.Constants;
+import com.soft.big.bigrest.Behaviors.Utils;
 
 /**
  * Created by Tidjini on 09/11/2017.
@@ -15,12 +17,12 @@ public class Table {
 
 
     private String name;
-    private TableAdapter.State state;
+    private Utils.TableState state;
 
     public Table() {
     }
 
-    public Table(int id, int numero, int maxNumber, String remarque, String name, TableAdapter.State state) {
+    public Table(int id, int numero, int maxNumber, String remarque, String name, Utils.TableState  state) {
         this.id = id;
         this.numero = numero;
         this.maxNumber = maxNumber;
@@ -29,7 +31,7 @@ public class Table {
         this.state = state;
     }
 
-    public Table(int id, int numero, int maxNumber, String remarque, int orderOpenId, String name, TableAdapter.State state) {
+    public Table(int id, int numero, int maxNumber, String remarque, int orderOpenId, String name, Utils.TableState  state) {
         this.id = id;
         this.numero = numero;
         this.maxNumber = maxNumber;
@@ -46,11 +48,11 @@ public class Table {
     public void setOrderOpenId(int orderOpenId) {
         this.orderOpenId = orderOpenId;
     }
-    public TableAdapter.State getState() {
+    public Utils.TableState getState() {
         return state;
     }
 
-    public void setState(TableAdapter.State state) {
+    public void setState(Utils.TableState  state) {
         this.state = state;
     }
     public int getId() {

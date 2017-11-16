@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soft.big.bigrest.Model.DetailsOrder;
+import com.soft.big.bigrest.Model.Plat;
 import com.soft.big.bigrest.R;
 
 import java.util.List;
@@ -21,11 +22,22 @@ import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
     private Context mContext;
-    private List<DetailsOrder> mDetailsOrder;
+    private List<Plat> mPlats;
 
-    public MenuAdapter(Context context, List<DetailsOrder> detailsOrder) {
+    //Click handler
+    private final MenuAdapter.MenuClickHandler mClickHandler;
+    public interface MenuClickHandler{
+        /**
+         * when plat is selected from menu get ID and manage it in TableActivity
+         * @param idPlat
+         */
+        void onPlatSelected(int idPlat);
+    }
+
+    public MenuAdapter(Context context, List<Plat> plats, MenuClickHandler mClickHandler) {
         this.mContext = context;
-        this.mDetailsOrder = detailsOrder;
+        this.mPlats = plats;
+        this.mClickHandler = mClickHandler;
     }
 
     @Override
@@ -38,35 +50,31 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
 
-        holder.bind(mDetailsOrder.get(position).getPrice()+" DA",
-                mDetailsOrder.get(position).getPlatName(),
-                mDetailsOrder.get(position).getPlatDescription(),
-                "Total: "+mDetailsOrder.get(position).getTotal(),
-                "Price: "+mDetailsOrder.get(position).getTotalHt(),
-                mDetailsOrder.get(position).getImageId());
+        holder.bind(mPlats.get(position).getPrice()+" DA",
+                mPlats.get(position).getName(),
+                mPlats.get(position).getRemarque(),
+                mPlats.get(position).getFake_ImageResource());
     }
-
-
 
     @Override
     public int getItemCount() {
-        return mDetailsOrder.size();
+        return mPlats.size();
     }
 
-    public void refreshAdapter(List<DetailsOrder> list){
-        this.mDetailsOrder.clear();
-        this.mDetailsOrder.addAll(list);
+    public void refreshAdapter(List<Plat> list){
+        this.mPlats.clear();
+        this.mPlats.addAll(list);
         this.notifyDataSetChanged();
     }
 
-    public void refreshItemAdapter(int position, DetailsOrder detailsOrder){
+    public void refreshItemAdapter(int position, Plat plat){
         //this.mDetailsOrder.(position);
-        this.mDetailsOrder.set(position, detailsOrder);
+        this.mPlats.set(position, plat);
         this.notifyDataSetChanged();
     }
 
     class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView mPriceTextView, mNameTextView, mDescriptionTextView, mTotalTextView, mTotalPriceTextView;
+        TextView mPriceTextView, mNameTextView, mDescriptionTextView;
         ImageView mPlatImageView;
         public MenuViewHolder(View itemView) {
             super(itemView);
@@ -74,30 +82,20 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             mPriceTextView = itemView.findViewById(R.id.tv_price_menu);
             mNameTextView = itemView.findViewById(R.id.tv_plat_name_menu);
             mDescriptionTextView = itemView.findViewById(R.id.tv_plat_desc_menu);
-//            mTotalTextView = itemView.findViewById(R.id.tv_total_menu);
-//            mTotalPriceTextView =  itemView.findViewById(R.id.tv_total_price_menu);
             mPlatImageView =  itemView.findViewById(R.id.iv_plat_menu);
         }
-        public void bind(String price, String name, String description, String total, String totalPrice, int idImage){
+        public void bind(String price, String name, String description, int idImage){
             mPriceTextView.setText(price);
             mNameTextView.setText(name);
             mDescriptionTextView.setText(description);
-//            mTotalTextView.setText(total);
-//            mTotalPriceTextView.setText(totalPrice);
             mPlatImageView.setImageResource(idImage);
 
         }
-
-
         public void onClick(View view) {
-            DetailsOrder detailsOrder = mDetailsOrder.get(getPosition());
-            int total = detailsOrder.getTotal() + 1;
-            detailsOrder.setTotal(total);
-            refreshItemAdapter(getPosition(), detailsOrder);
-
+            int adapterPosition = getAdapterPosition();
+            int idPlat = mPlats.get(adapterPosition).getId();
+            mClickHandler.onPlatSelected(idPlat);
 
         }
-
-
     }
 }

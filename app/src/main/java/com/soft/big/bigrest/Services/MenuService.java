@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.soft.big.bigrest.Model.DetailsOrder;
 import com.soft.big.bigrest.Model.Order;
+import com.soft.big.bigrest.Model.Plat;
 import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
 
@@ -33,10 +34,16 @@ public class MenuService {
         return "select * from Plats";
     }
 
-    public static List<DetailsOrder> getDetails(Connection connection) {
+    private static String selectQueryWithIdBuilder(int id){
+        return "select * from Plats\n" +
+                "Where\n" +
+                "Id = '"+ Integer.toString(id) +"' ";
+    }
+
+    public static List<Plat> getPlats(Connection connection) {
         Statement statement;
-        List<DetailsOrder> details = new ArrayList<DetailsOrder>();
-        DetailsOrder detail;
+        List<Plat> plats = new ArrayList<Plat>();
+        Plat plat;
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(selectQueryBuilder());
@@ -49,15 +56,15 @@ public class MenuService {
                 String name = resultSet.getString("Name");
                 String remarque = resultSet.getString("Remarque");
                 double price = resultSet.getDouble("Price");
-                //todo int image = resultSet.g("Image");
-                //DetailsOrder(String platName, String platDescription, double price, int imageId, int total)
-                //TODO detail = new DetailsOrder(name,  remarque, price, fakeImage(i), 0  );
-                //fake image
+                //TODO as binary data not resources int image = resultSet.g("Image");
+                //Plat(int id, int idClass, Double price, String name, String remarque, int imageResource)
+                plat = new Plat(id,  idClass, price, name, remarque, fakeImage(i%8));
+                //for fake image
                 i++;
-                //TODO details.add(detail);
+                plats.add(plat);
             }
 
-            return details;
+            return plats;
         } catch (SQLException exception) {
             exception.printStackTrace();
             Log.e(TAG, exception.getMessage());
@@ -66,40 +73,36 @@ public class MenuService {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static int createOrder(Connection connection, Order order){
 
-        if (connection == null || order == null) return 0;
-
+    public static Plat getPlatById(Connection connection, int id) {
+        Statement statement;
+        Plat plat = new Plat();
         try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectQueryBuilder());
 
-            @SuppressLint("WrongConstant")
-            PreparedStatement statement = connection.prepareStatement(
-                            "insert into Cmd (IdUser, IdTable, TotalHt) " +
-                            "values ('"+order.getIdUser()+"', '"+order.getIdTable()+"', '"+order.getTotalHt()+"')"
-                            ,
-                    Statement.RETURN_GENERATED_KEYS);
+            //for fake image
+            int i = 0;
+            if (resultSet.next()){
+                int idClass = resultSet.getInt("IdClass");
+                String name = resultSet.getString("Name");
+                String remarque = resultSet.getString("Remarque");
+                double price = resultSet.getDouble("Price");
+                //TODO as binary data not resources int image = resultSet.g("Image");
+                //Plat(int id, int idClass, Double price, String name, String remarque, int imageResource)
+                plat = new Plat(id,  idClass, price, name, remarque, fakeImage(i%8));
+                //for fake image
 
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows == 0) {
-                return 0;
             }
 
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                }
-                else {
-                    return 0;
-                }
-            }
-        } catch (SQLException e) {
-            return 0;
+            return plat;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            Log.e(TAG, exception.getMessage());
+
+            return null;
         }
-
     }
-
 
     public static int fakeImage(int position){
         //note a single Random object is reused here

@@ -34,7 +34,7 @@ import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
 /**
  *
  */
-public class TablesFragment extends Fragment implements TableAdapter.TableAdapterOnClickHandler{
+public class TablesFragment extends Fragment implements TableAdapter.TablesClickHandler{
 
     private StaggeredGridLayoutManager mGridLayoutManager;
     private RecyclerView mTablesRecyclerView;

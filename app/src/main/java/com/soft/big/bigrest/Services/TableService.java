@@ -1,6 +1,6 @@
 package com.soft.big.bigrest.Services;
 
-import android.net.NetworkInfo;
+
 import android.util.Log;
 
 import com.soft.big.bigrest.Adapters.TableAdapter;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.soft.big.bigrest.Converters.TableStateConverter.stateConverter;
-import static com.soft.big.bigrest.Services.OrderService.getTableOpenOrderFromId;
+import static com.soft.big.bigrest.Services.OrderService.getTableOpenOrderById;
 
 /**
  * Created by Tidjini on 10/11/2017.
@@ -54,7 +54,7 @@ public class TableService {
         Map<TableAdapter.State, Integer> tableDictionary = new HashMap<TableAdapter.State, Integer>();
         //free state
         int state = 0, orderId = 0;
-        Order tableOpenOrder = getTableOpenOrderFromId(connection, idTable);
+        Order tableOpenOrder = getTableOpenOrderById(connection, idTable);
         if(tableOpenOrder != null)
         {
             orderId = tableOpenOrder.getId();

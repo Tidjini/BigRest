@@ -9,17 +9,26 @@ public class Plat {
     private Double price;
     private String Name, Remarque;
 
+    //TODO change the image str
+    int fake_ImageResource;
     public Plat() {
     }
 
-    public Plat(int id, int idClass, Double price, String name, String remarque) {
+    public Plat(int id, int idClass, Double price, String name, String remarque, int fake_ImageResource) {
         this.id = id;
         this.idClass = idClass;
         this.price = price;
         Name = name;
         Remarque = remarque;
+        this.fake_ImageResource = fake_ImageResource;
     }
 
+
+    public  int  getFake_ImageResource() {
+        return fake_ImageResource;
+    }public void setFake_ImageResource(int fake_ImageResource) {
+        this.fake_ImageResource = fake_ImageResource;
+    }
     public int getId() {
         return id;
     }

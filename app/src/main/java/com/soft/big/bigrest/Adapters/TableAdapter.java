@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soft.big.bigrest.Behaviors.Constants;
+import com.soft.big.bigrest.Behaviors.Utils;
 import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
@@ -30,20 +32,18 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<Table> mTables;
 
     //Click handler
-    private final TableAdapterOnClickHandler mClickHandler;
+    private final TablesClickHandler mClickHandler;
 
-    // COMPLETED (1) Add an interface called ForecastAdapterOnClickHandler
-    // COMPLETED (2) Within that interface, define a void method that access a String as a parameter
     /**
-     * The interface that receives onClick messages.
+     * click interface handler
      */
-    public interface TableAdapterOnClickHandler {
-        void onClick(int idTable);
+    public interface TablesClickHandler {
+        void onTableSelected(int idTable);
     }
 
 
 
-    public TableAdapter(Context mContext, List<Table> mTables, TableAdapterOnClickHandler clickHandler) {
+    public TableAdapter(Context mContext, List<Table> mTables, TablesClickHandler clickHandler) {
         this.mContext = mContext;
         this.mTables = mTables;
         this.mClickHandler = clickHandler;
@@ -52,6 +52,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        //TODO update this "not really necessary we use one Table type"
         View layoutView;
         switch (viewType){
             case 1:
@@ -82,7 +83,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        //TODO update this "not really necessary we use one Table type"
         switch (holder.getItemViewType()) {
             case 1:
                 BigTableViewHolder  bigTableViewHolder = (BigTableViewHolder) holder;
@@ -133,7 +134,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
 
-        public void bind(String number, String capacite ,State state){
+        public void bind(String number, String capacite ,Utils.TableState state){
             mTableCapaciteTextView.setText(capacite);
             mTableNumberTextView.setText(number);
             int iconStateVisibility = View.VISIBLE, stateIconDraw = R.mipmap.ic_get_app_black_24dp;
@@ -169,7 +170,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             int adapterPosition = getAdapterPosition();
             int idTable = mTables.get(adapterPosition).getId();
-            mClickHandler.onClick(idTable);
+            mClickHandler.onTableSelected(idTable);
         }
 
 
@@ -190,7 +191,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
 
-        public void bind(String number, String capacite ,State state){
+        public void bind(String number, String capacite ,Utils.TableState  state){
             mTableCapaciteTextView.setText(capacite);
             mTableNumberTextView.setText(number);
             int iconStateVisibility = View.VISIBLE, stateIconDraw = R.mipmap.ic_notifications_black_24dp;
@@ -230,12 +231,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 
-    public enum State{
-        FREE,
-        OCCUPIE,
-        SERVED
 
-    }
 
 
 

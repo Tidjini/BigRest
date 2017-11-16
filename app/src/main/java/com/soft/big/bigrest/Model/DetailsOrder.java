@@ -6,19 +6,54 @@ package com.soft.big.bigrest.Model;
 
 public class DetailsOrder {
 
+
+    int id, cmdId, platId;
     String platName, platDescription;
     double price;
     int total;
 
-    public DetailsOrder(String platName, String platDescription, double price, int total) {
+
+    public DetailsOrder(int id, String platName, int total, double price) {
         this.platName = platName;
-        this.platDescription = platDescription;
         this.price = price;
+        this.total = total;
+        this.id = id;
+    }
+
+    public DetailsOrder(int cmdId, int platId, int total) {
+        this.cmdId = cmdId;
+        this.platId = platId;
         this.total = total;
     }
 
     public DetailsOrder() {
     }
+
+
+    public int getCmdId() {
+        return cmdId;
+    }
+
+    public void setCmdId(int cmdId) {
+        this.cmdId = cmdId;
+    }
+
+    public int getPlatId() {
+        return platId;
+    }
+
+    public void setPlatId(int platId) {
+        this.platId = platId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        id = id;
+    }
+
 
     public String getPlatName() {
         return platName;
