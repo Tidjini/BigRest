@@ -1,7 +1,6 @@
 package com.soft.big.bigrest.Model;
 
-import com.soft.big.bigrest.Adapters.TableAdapter;
-import com.soft.big.bigrest.Behaviors.Constants;
+
 import com.soft.big.bigrest.Behaviors.Utils;
 
 /**

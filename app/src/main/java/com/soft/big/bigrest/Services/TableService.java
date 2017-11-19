@@ -3,7 +3,7 @@ package com.soft.big.bigrest.Services;
 
 import android.util.Log;
 
-import com.soft.big.bigrest.Adapters.TableAdapter;
+import com.soft.big.bigrest.Behaviors.Utils;
 import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Table;
 
@@ -49,9 +49,9 @@ public class TableService {
 
 
     //Map list => get just one entry Map.Entry<TableAdapter.State , Integer>
-    private static Map.Entry<TableAdapter.State , Integer> getTableState(Connection connection, int idTable){
+    private static Map.Entry<Utils.TableState, Integer> getTableState(Connection connection, int idTable){
         //dictionary to get <State, order_id> pair
-        Map<TableAdapter.State, Integer> tableDictionary = new HashMap<TableAdapter.State, Integer>();
+        Map<Utils.TableState, Integer> tableDictionary = new HashMap<>();
         //free state
         int state = 0, orderId = 0;
         Order tableOpenOrder = getTableOpenOrderById(connection, idTable);
@@ -91,7 +91,7 @@ public class TableService {
                 String remarque = resultSet.getString("Remarque");
                 int maxNumber = resultSet.getInt("MaxNumber");
                 //get table state form orders, open order id
-                Map.Entry<TableAdapter.State , Integer> tableDictionaryEntry  = getTableState(connection, id);
+                Map.Entry<Utils.TableState, Integer> tableDictionaryEntry  = getTableState(connection, id);
                 //set data of order in table
                 table = new Table(id,  number, maxNumber, remarque, tableDictionaryEntry.getValue(), name, tableDictionaryEntry.getKey());
                 tables.add(table);
@@ -123,7 +123,7 @@ public class TableService {
                 String remarque = resultSet.getString("Remarque");
                 int maxNumber = resultSet.getInt("MaxNumber");
                 //state; open order id
-                Map.Entry<TableAdapter.State , Integer> tableDictionaryEntry  = getTableState(connection, id);
+                Map.Entry<Utils.TableState , Integer> tableDictionaryEntry  = getTableState(connection, id);
                 //set data of order in table
                 table = new Table(id,  numero, maxNumber, remarque, tableDictionaryEntry.getValue(), name, tableDictionaryEntry.getKey());
 

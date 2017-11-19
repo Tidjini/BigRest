@@ -34,16 +34,15 @@ public class DetailsOrderService {
     public final static String TAG = "DetailsOrderService";
 
 
-    private static String selectDetailsOrderByOrderIdQueryBuilder(int idOrder){
-
-        return "select * from DetailsCmd Where " +
-                "IdCmd = '"+ Integer.toString(idOrder) +"' ";
+    private static String selectDetailsOrderByOrderIdQueryBuilder(){
+        return "SELECT * FROM DetailsCmd WHERE\n" +
+                "IdCmd = ?";
     }
 
-    private static String selectDetailsOrderByIdQueryBuilder(int id){
+    private static String selectDetailsOrderByIdQueryBuilder(){
 
         return "select * from DetailsCmd Where\n" +
-                "Id = '"+ Integer.toString(id) +"' ";
+                "Id = ?";
     }
 
     /**
@@ -54,12 +53,13 @@ public class DetailsOrderService {
      * @return
      */
     public static List<DetailsOrder> getDetailsOrderByOrderId(Connection connection, int idOrder){
-        Statement statement;
+        PreparedStatement statement;
         List<DetailsOrder> detailsOrders = new ArrayList<>();
         DetailsOrder detailOrder;
         try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(selectDetailsOrderByOrderIdQueryBuilder(idOrder));
+            statement = connection.prepareStatement(selectDetailsOrderByOrderIdQueryBuilder());
+            statement.setInt(1, idOrder);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 int id = resultSet.getInt("Id");
                 int idPlat = resultSet.getInt("IdPlat");
@@ -68,7 +68,7 @@ public class DetailsOrderService {
                 //get plat information
                 Plat plat = getPlatById(connection, idPlat);
                 //set information for custom constructor
-                detailOrder = new DetailsOrder(id, plat.getName(), total, plat.getPrice());
+                detailOrder = new DetailsOrder(id, plat.getId(), plat.getName(), total, plat.getPrice());
                 detailsOrders.add(detailOrder);
             }
 
@@ -88,11 +88,12 @@ public class DetailsOrderService {
      * @return
      */
     public static DetailsOrder getDetailsOrderById(Connection connection, int id){
-        Statement statement;
+        PreparedStatement statement;
         DetailsOrder detailOrder = new DetailsOrder();
         try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(selectDetailsOrderByIdQueryBuilder(id));
+            statement = connection.prepareStatement(selectDetailsOrderByIdQueryBuilder());
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
                 int idPlat = resultSet.getInt("IdPlat");
                 int total = resultSet.getInt("Total");
@@ -100,7 +101,7 @@ public class DetailsOrderService {
                 //get plat information
                 Plat plat = getPlatById(connection, idPlat);
                 //set information for custom constructor
-                detailOrder = new DetailsOrder(id, plat.getName(), total, plat.getPrice());
+                detailOrder = new DetailsOrder(id, plat.getId(), plat.getName(), total, plat.getPrice());
 
             }
 
@@ -130,11 +131,13 @@ public class DetailsOrderService {
 
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO DetailsCmd (IdCmd, IdPlat, Total, TotalPrice) " +
-                            "VALUES ('"+detailsOrder.getCmdId()+"', '"+detailsOrder.getPlatId()+"', '"+detailsOrder.getTotal()+"', '"+detailsOrder.getTotalHt()+"')"
-                    ,
+                    "INSERT INTO DetailsCmd (IdCmd, IdPlat, Total, TotalPrice)\n" +
+                            "VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
-
+            statement.setInt(1, detailsOrder.getCmdId());
+            statement.setInt(2, detailsOrder.getPlatId());
+            statement.setInt(3, detailsOrder.getTotal());
+            statement.setDouble(4, detailsOrder.getTotalHt());
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows == 0) {
@@ -168,21 +171,14 @@ public class DetailsOrderService {
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE DetailsCmd\n" +
-                            "SET Total = '"+detailsOrder.getTotal()+"',\n" +
-                            "    TotalPrice = '"+detailsOrder.getTotalHt()+"',\n" +
-                            "Where\n" +
-                            "Id = '"+ Integer.toString(detailsOrder.getId()) +"' "
+                            "SET [Total] = ?,\n" +
+                            "    [TotalPrice] = ?\n" +
+                            "WHERE\n" +
+                            "Id = ?"
                     );
-
-            //TODO create our java preparedstatement using a sql update query
-//            PreparedStatement ps = conn.prepareStatement(
-//                    "UPDATE Messages SET description = ?, author = ? WHERE id = ? AND seq_num = ?");
-//
-//            // set the preparedstatement parameters
-//            ps.setString(1,description);
-//            ps.setString(2,author);
-//            ps.setInt(3,id);
-//            ps.setInt(4,seqNum);
+            statement.setInt(1, detailsOrder.getTotal());
+            statement.setDouble(2, detailsOrder.getTotalHt());
+            statement.setInt(3, detailsOrder.getId());
             //Execute update request
             statement.executeUpdate();
             //get updated detail order
@@ -197,10 +193,9 @@ public class DetailsOrderService {
     /**
      * Delete details order from data base
      * @param connection
-     * @param detailsOrder
      * @return
      */
-    public static boolean deleteDetailsOrder(Connection connection, DetailsOrder detailsOrder){
+    public static DetailsOrder deleteDetailsOrder(Connection connection, DetailsOrder detailsOrder){
 
         try {
 
@@ -208,24 +203,14 @@ public class DetailsOrderService {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM DetailsCmd\n" +
                             "Where\n" +
-                            "Id = '"+ Integer.toString(detailsOrder.getId()) +"' "
+                            "Id = ?"
             );
-
-            //TODO create our java preparedstatement using a sql update query
-//            PreparedStatement ps = conn.prepareStatement(
-//                    "UPDATE Messages SET description = ?, author = ? WHERE id = ? AND seq_num = ?");
-//
-//            // set the preparedstatement parameters
-//            ps.setString(1,description);
-//            ps.setString(2,author);
-//            ps.setInt(3,id);
-//            ps.setInt(4,seqNum);
-
+            statement.setInt(1, detailsOrder.getId());
             //Execute Delete request
             statement.executeUpdate();
-            return true;
+            return detailsOrder;
         } catch (SQLException e) {
-            return false;
+            return null;
         }
     }
 

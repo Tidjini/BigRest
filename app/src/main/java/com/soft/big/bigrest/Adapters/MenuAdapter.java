@@ -1,6 +1,7 @@
 package com.soft.big.bigrest.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         holder.bind(mPlats.get(position).getPrice()+" DA",
                 mPlats.get(position).getName(),
                 mPlats.get(position).getRemarque(),
+                mPlats.get(position).getImage(),
                 mPlats.get(position).getFake_ImageResource());
     }
 
@@ -84,11 +86,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             mDescriptionTextView = itemView.findViewById(R.id.tv_plat_desc_menu);
             mPlatImageView =  itemView.findViewById(R.id.iv_plat_menu);
         }
-        public void bind(String price, String name, String description, int idImage){
+        public void bind(String price, String name, String description, Bitmap image, int idDefalutImage){
             mPriceTextView.setText(price);
             mNameTextView.setText(name);
             mDescriptionTextView.setText(description);
-            mPlatImageView.setImageResource(idImage);
+            //set a default plat image
+            mPlatImageView.setImageResource(idDefalutImage);
+            if(image != null)
+                mPlatImageView.setImageBitmap(image);
 
         }
         public void onClick(View view) {

@@ -1,39 +1,13 @@
 package com.soft.big.bigrest.UI;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.OrientationEventListener;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.Toast;
-
-import com.soft.big.bigrest.Adapters.MenuAdapter;
-import com.soft.big.bigrest.Adapters.TableAdapter;
-import com.soft.big.bigrest.Behaviors.DatabaseAccess;
-import com.soft.big.bigrest.Model.DetailsOrder;
-import com.soft.big.bigrest.Model.Order;
-import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
-import com.soft.big.bigrest.Services.MenuService;
-import com.soft.big.bigrest.Services.TableService;
-
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
-import static com.soft.big.bigrest.Services.MenuService.createOrder;
 
 public class OrderActivity extends AppCompatActivity {
 

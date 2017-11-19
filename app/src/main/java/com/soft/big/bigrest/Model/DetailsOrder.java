@@ -13,18 +13,22 @@ public class DetailsOrder {
     int total;
 
 
-    public DetailsOrder(int id, String platName, int total, double price) {
+    public DetailsOrder(int id, int idPlat, String platName, int total, double price) {
         this.platName = platName;
         this.price = price;
         this.total = total;
         this.id = id;
+        this.platId = idPlat;
     }
+
+
 
     public DetailsOrder(int cmdId, int platId, int total) {
         this.cmdId = cmdId;
         this.platId = platId;
         this.total = total;
     }
+
 
     public DetailsOrder() {
     }

@@ -25,14 +25,13 @@ public class OrderService {
 
     /**
      * Open Order means Close Field = false (0)
-     * @param idTable
      * @return
      */
-    private static String selectTableOpenOrderQueryBuilder(int idTable){
+    private static String selectTableOpenOrderQueryBuilder(){
 
-        return "select * from Cmd Where " +
-                "IdTable = '"+ Integer.toString(idTable) +"' And " +
-                "Close = '0'";
+        return "SELECT * FROM Cmd WHERE " +
+                "[IdTable] = ? AND " +
+                "[Close] = ?";
     }
 
     private static String selectOrderQueryBuilder(int id){
@@ -42,11 +41,13 @@ public class OrderService {
     }
 
     public static Order getTableOpenOrderById(Connection connection, int idTable){
-        Statement statement;
+        PreparedStatement statement;
         Order order = null;
         try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(selectTableOpenOrderQueryBuilder(idTable));
+            statement = connection.prepareStatement(selectTableOpenOrderQueryBuilder());
+            statement.setInt(1, idTable);
+            statement.setBoolean(2, false);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
                 int id = resultSet.getInt("Id");
                 int idUser = resultSet.getInt("IdUser");
@@ -133,22 +134,14 @@ public class OrderService {
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE Cmd\n" +
-                            "SET Effectuer = '"+order.isEffected()+"',\n" +
-                            "    Close = '"+order.isClose()+"',\n" +
+                            "SET [Effectuer] = ?,\n" +
+                            "    [Close] = ?\n" +
                             "Where\n" +
-                            "Id = '"+ Integer.toString(order.getId()) +"' "
+                            "Id = ?"
             );
-
-            //TODO create our java preparedstatement using a sql update query
-//            PreparedStatement ps = conn.prepareStatement(
-//                    "UPDATE Messages SET description = ?, author = ? WHERE id = ? AND seq_num = ?");
-//
-//            // set the preparedstatement parameters
-//            ps.setString(1,description);
-//            ps.setString(2,author);
-//            ps.setInt(3,id);
-//            ps.setInt(4,seqNum);
-
+            statement.setBoolean(1, order.isEffected());
+            statement.setBoolean(2, order.isClose());
+            statement.setInt(3, order.getId());
             //Execute update request
             statement.executeUpdate();
             //get updated order

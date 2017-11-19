@@ -1,26 +1,20 @@
 package com.soft.big.bigrest.Services;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.soft.big.bigrest.Model.DetailsOrder;
-import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Plat;
-import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
 
+import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static com.soft.big.bigrest.Behaviors.Constants.SQL_INSERT;
+import static com.soft.big.bigrest.Behaviors.ImageUtils.setImageViewWithByteArray;
 
 /**
  * Created by Tidjini on 11/11/2017.
@@ -56,9 +50,11 @@ public class MenuService {
                 String name = resultSet.getString("Name");
                 String remarque = resultSet.getString("Remarque");
                 double price = resultSet.getDouble("Price");
-                //TODO as binary data not resources int image = resultSet.g("Image");
-                //Plat(int id, int idClass, Double price, String name, String remarque, int imageResource)
-                plat = new Plat(id,  idClass, price, name, remarque, fakeImage(i%8));
+                Blob imageBlob = resultSet.getBlob("BImage");
+                Bitmap image = null;
+                if(imageBlob != null)
+                    image =  setImageViewWithByteArray(imageBlob);
+                plat = new Plat(id,  idClass, price, name, remarque, image, fakeImage(i%8));
                 //for fake image
                 i++;
                 plats.add(plat);
@@ -79,7 +75,7 @@ public class MenuService {
         Plat plat = new Plat();
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(selectQueryBuilder());
+            ResultSet resultSet = statement.executeQuery(selectQueryWithIdBuilder(id));
 
             //for fake image
             int i = 0;
@@ -88,9 +84,11 @@ public class MenuService {
                 String name = resultSet.getString("Name");
                 String remarque = resultSet.getString("Remarque");
                 double price = resultSet.getDouble("Price");
-                //TODO as binary data not resources int image = resultSet.g("Image");
-                //Plat(int id, int idClass, Double price, String name, String remarque, int imageResource)
-                plat = new Plat(id,  idClass, price, name, remarque, fakeImage(i%8));
+                Blob imageBlob = resultSet.getBlob("BImage");
+                Bitmap image = null;
+                if(imageBlob != null)
+                    image =  setImageViewWithByteArray(imageBlob);
+                plat = new Plat(id,  idClass, price, name, remarque, image, fakeImage(i%8));
                 //for fake image
 
             }

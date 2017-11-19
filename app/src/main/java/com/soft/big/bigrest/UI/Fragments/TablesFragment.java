@@ -16,13 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.soft.big.bigrest.Adapters.TableAdapter;
 import com.soft.big.bigrest.Behaviors.DatabaseAccess;
+import com.soft.big.bigrest.Behaviors.Utils;
 import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
 import com.soft.big.bigrest.Services.TableService;
 import com.soft.big.bigrest.UI.OrderActivity;
+import com.soft.big.bigrest.UI.TablesActivity;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -41,10 +44,12 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
     private TableAdapter mTableAdapter;
 
     private List<Table> mTables = new ArrayList<Table>();
-    private FrameLayout mProgressFrameLayout;
+    private ProgressBar mProgressBar;
 
 
     OnTableSelectedListener mCallback;
+
+
 
     // Container Activity must implement this interface
     public interface OnTableSelectedListener {
@@ -64,6 +69,8 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
                     + " must implement OnHeadlineSelectedListener");
         }
     }
+    TablesActivity mActivity;
+    int mTablesDisponibles = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,18 +89,21 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
         mTableAdapter = new TableAdapter(getActivity(), mTables, this);
         mTablesRecyclerView.setAdapter(mTableAdapter);
 
+
         return rootView;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         executeTask();
+
+
     }
 
     private void bindFragment(View container){
-        mProgressFrameLayout = container.findViewById(R.id.fl_tables_process);
-
+        mProgressBar = container.findViewById(R.id.progress_tables);
+        mActivity = (TablesActivity) getActivity();
 
         mTablesRecyclerView = container.findViewById(R.id.recycler_view);
         mTablesRecyclerView.setHasFixedSize(true);
@@ -119,7 +129,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
     }
 
 
-    private void executeTask()
+    public void executeTask()
     {
         AsyncTables asyncTables = new AsyncTables();
         asyncTables.execute();
@@ -128,7 +138,8 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
     }
 
     @Override
-    public void onClick(int idTable) {
+    public void onTableSelected(int idTable) {
+
         mCallback.onTableSelected(idTable);
         //TODO Intent intent = new Intent(getContext(), OrderActivity.class);
         //intent.putExtra(TABLE_ID_EXTRA_MESSAGE, idTable);
@@ -140,32 +151,32 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressFrameLayout.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected List<Table> doInBackground(String... strings) {
-            //TODO Connection connection = DatabaseAccess.databaseConnection();
-            //TODO return TableService.getTables(connection);
+            Connection connection = DatabaseAccess.databaseConnection();
+            return TableService.getTables(connection);
             //Fake
-            Table table;
+            /*Table table;
             ArrayList<Table> tables = new ArrayList<>();
             for(int i = 0;  i<10; i++){
-                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.FREE);
+                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  Utils.TableState.FREE);
                 tables.add(table);
 
             }
             for(int i = 10;  i<12; i++){
-                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.SERVED);
+                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  Utils.TableState.SERVED);
                 tables.add(table);
 
             }
             for(int i = 12;  i<100; i++){
-                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  TableAdapter.State.OCCUPIE);
+                table = new Table(i,  i, i, "Table "+ i, "Rmarque bien "+ i,  Utils.TableState.OCCUPIE);
                 tables.add(table);
 
             }
-            return tables;
+            return tables;*/
 
 
 
@@ -174,11 +185,23 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
         @Override
         protected void onPostExecute(List<Table> tables) {
             super.onPostExecute(tables);
-            mProgressFrameLayout.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
 
             if(tables == null) return;
             mTables = tables;
             mTableAdapter.refreshAdapter(mTables);
+            //update user interface
+            mTablesDisponibles = 0;
+            for(int i = 0; i < mTables.size(); i++)
+                if(mTables.get(i).getState() == Utils.TableState.FREE)
+                    mTablesDisponibles++;
+            mActivity.setTablesDisponible(mTablesDisponibles);
+
+            //select the first table in the list (init)
+            onTableSelected(mTables.get(0).getId());
+
+
+
 
         }
     }

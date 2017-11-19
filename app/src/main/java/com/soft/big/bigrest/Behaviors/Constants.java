@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class Constants {
 
     public static final String URL_PREFIX = "jdbc:jtds:sqlserver://";
-    public static final String SERVER_IP = "192.168.1.5";
+    public static final String SERVER_IP = "192.168.1.3";
     public static final String DATABASE_NAME= "BigRestaurent";
     public static final String DATABASE_USERNAME = "sa";
     public static final String DATABASE_PASSWORD = "hack3bar";

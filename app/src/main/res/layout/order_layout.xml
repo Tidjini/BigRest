@@ -38,17 +38,26 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="38dp"
-            android:text="Order"
+            android:text="save"
             android:textColor="#FFF"
             android:backgroundTint="@color/colorPrimary"
+            android:onClick="onSaveClicked"
             />
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="38dp"
-
+            android:text="Servie"
+            android:backgroundTint="@color/colorAccent"
+            android:onClick="onServieClicked"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="38dp"
             android:text="Close"
             android:backgroundTint="@color/colorAccent"
+            android:onClick="onCloseClicked"
             />
     </LinearLayout>
     <LinearLayout
