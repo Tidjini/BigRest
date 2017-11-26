@@ -17,8 +17,12 @@ import android.widget.TextView;
 
 import com.soft.big.bigrest.Behaviors.Constants;
 import com.soft.big.bigrest.R;
+import com.soft.big.bigrest.Services.TableService;
 import com.soft.big.bigrest.UI.Fragments.MenuFragment;
 import com.soft.big.bigrest.UI.Fragments.TablesFragment;
+
+import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
+import static com.soft.big.bigrest.Behaviors.Constants.USER_NAME_EXTRA_MESSAGE;
 
 
 public class TablesActivity extends AppCompatActivity implements TablesFragment.OnTableSelectedListener{
@@ -29,11 +33,12 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
 
-    private TextView mTableNumberTextView;
 
     private TablesFragment mTablesFragment;
 
+    private TextView mTableNumberTextView;
     private TextView mTableDisponiblesTextView;
+    private TextView mUsernameTextView;
     private TextView mServerAddressTextView;
 
     private Snackbar mSnackbar;
@@ -41,6 +46,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
 
 
+    private String mUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,9 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         if(mTablesFragment == null)
             mTablesFragment = (TablesFragment)
                     getSupportFragmentManager().findFragmentById(R.id.tables_fragment);
+
+        mUsername = getIntent().getStringExtra(Constants.USER_NAME_EXTRA_MESSAGE);
+
         bindActivity();
 
     }
@@ -71,6 +80,8 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         mTableNumberTextView = findViewById(R.id.table_name_number);
         mServerAddressTextView = findViewById(R.id.server_ip);
         mTableDisponiblesTextView = findViewById(R.id.tables_avaibles);
+        mUsernameTextView = findViewById(R.id.user_name);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.tables_title);
 
@@ -111,6 +122,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         super.onResume();
         //TODO update this when address come from config
         setServerAddress(Constants.SERVER_IP);
+        setUsername(mUsername);
     }
 
     /**
@@ -136,7 +148,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         //TODO get table number
         mTableNumberTextView.setText("Table n° " + idTable);
         //TODO get user id to set user name
-        mMenuFragment.setData(idTable, 1);
+        mMenuFragment.setData(idTable, mUsername);
     }
 
 
@@ -161,7 +173,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onServieClicked(View view){
 
         if(mSnackbar != null) mSnackbar.dismiss();
@@ -181,7 +193,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
         mSnackbar.show();
 
 
-    }
+    }*/
 
     public void onCloseClicked(View view){
 
@@ -209,5 +221,9 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
     public void setServerAddress(String serverAddress){
         mServerAddressTextView.setText(serverAddress);
+    }
+
+    public void setUsername(String username){
+        mUsernameTextView.setText(username);
     }
 }

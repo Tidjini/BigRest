@@ -22,7 +22,6 @@
             android:id="@+id/tv_total_price_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1 500,00 DA"
             android:textSize="18sp"/>
     </LinearLayout>
     <LinearLayout
@@ -43,14 +42,14 @@
             android:backgroundTint="@color/colorPrimary"
             android:onClick="onSaveClicked"
             />
-        <Button
+        <!--<Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="38dp"
             android:text="Servie"
             android:backgroundTint="@color/colorAccent"
             android:onClick="onServieClicked"
-            />
+            />-->
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"

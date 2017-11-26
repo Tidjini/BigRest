@@ -1,5 +1,7 @@
 package com.soft.big.bigrest.Model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Tidjini on 10/11/2017.
  */
@@ -7,91 +9,123 @@ package com.soft.big.bigrest.Model;
 public class DetailsOrder {
 
 
-    int id, cmdId, platId;
-    String platName, platDescription;
-    double price;
-    int total;
-
-
-    public DetailsOrder(int id, int idPlat, String platName, int total, double price) {
-        this.platName = platName;
-        this.price = price;
-        this.total = total;
-        this.id = id;
-        this.platId = idPlat;
-    }
-
-
-
-    public DetailsOrder(int cmdId, int platId, int total) {
-        this.cmdId = cmdId;
-        this.platId = platId;
-        this.total = total;
-    }
-
+    int NbrLigne;
+    String numCmd, codeProd, libeProd;
+    BigDecimal prixProd, qttProd, tvaArt,remArt;
+    String typPrd;
+    int idMag;
 
     public DetailsOrder() {
     }
 
-
-    public int getCmdId() {
-        return cmdId;
+    public int getNbrLigne() {
+        return NbrLigne;
     }
 
-    public void setCmdId(int cmdId) {
-        this.cmdId = cmdId;
+    public void setNbrLigne(int nbrLigne) {
+        NbrLigne = nbrLigne;
     }
 
-    public int getPlatId() {
-        return platId;
+    public String getNumCmd() {
+        return numCmd;
     }
 
-    public void setPlatId(int platId) {
-        this.platId = platId;
+    public void setNumCmd(String numCmd) {
+        this.numCmd = numCmd;
     }
 
-    public int getId() {
-        return id;
+    public String getCodeProd() {
+        return codeProd;
     }
 
-    public void setId(int id) {
-        id = id;
+    public void setCodeProd(String codeProd) {
+        this.codeProd = codeProd;
+    }
+
+    public String getLibeProd() {
+        return libeProd;
+    }
+
+    public void setLibeProd(String libeProd) {
+        this.libeProd = libeProd;
+    }
+
+    public BigDecimal getPrixProd() {
+        return prixProd;
+    }
+
+    public void setPrixProd(BigDecimal prixProd) {
+        this.prixProd = prixProd;
+    }
+
+    public BigDecimal getQttProd() {
+        return qttProd;
+    }
+
+    public void setQttProd(BigDecimal qttProd) {
+        this.qttProd = qttProd;
+    }
+
+    public BigDecimal getTvaArt() {
+        return tvaArt;
+    }
+
+    public void setTvaArt(BigDecimal tvaArt) {
+        this.tvaArt = tvaArt;
+    }
+
+    public BigDecimal getMttvaArt() {
+        BigDecimal tvaPercent = tvaArt.divide(BigDecimal.valueOf(100));
+        return tvaPercent.multiply(getMtnetArt());
     }
 
 
-    public String getPlatName() {
-        return platName;
+
+    public BigDecimal getRemArt() {
+        return remArt;
     }
 
-    public void setPlatName(String platName) {
-        this.platName = platName;
+    public void setRemArt(BigDecimal remArt) {
+        this.remArt = remArt;
     }
 
-    public String getPlatDescription() {
-        return platDescription;
+    public BigDecimal getMtremArt() {
+        return remArt.multiply(prixProd.multiply(qttProd));
     }
 
-    public void setPlatDescription(String platDescription) {
-        this.platDescription = platDescription;
+
+    public BigDecimal getMtnetArt() {
+        return qttProd.multiply(prixProd);
     }
 
-    public double getPrice() {
-        return price;
+
+    public String getTypPrd() {
+        return typPrd;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setTypPrd(String typPrd) {
+        this.typPrd = typPrd;
     }
 
-    public int getTotal() {
-        return total;
+    public int getIdMag() {
+        return idMag;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setIdMag(int idMag) {
+        this.idMag = idMag;
     }
 
-    public double getTotalHt(){
-        return this.total * this.price;
+    public DetailsOrder(int nbrLigne, String numCmd, String codeProd, String libeProd, BigDecimal prixProd, BigDecimal qttProd, BigDecimal tvaArt,  BigDecimal remArt, String typPrd, int idMag) {
+        NbrLigne = nbrLigne;
+        this.numCmd = numCmd;
+        this.codeProd = codeProd;
+        this.libeProd = libeProd;
+        this.prixProd = prixProd;
+        this.qttProd = qttProd;
+        this.tvaArt = tvaArt;
+        this.remArt = remArt;
+
+        this.typPrd = typPrd;
+        this.idMag = idMag;
     }
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.soft.big.bigrest.Behaviors.Utils;
 import com.soft.big.bigrest.Model.DetailsOrder;
 import com.soft.big.bigrest.Model.Plat;
 import com.soft.big.bigrest.R;
@@ -32,7 +33,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
          * when plat is selected from menu get ID and manage it in TableActivity
          * @param idPlat
          */
-        void onPlatSelected(int idPlat);
+        void onPlatSelected(String idPlat);
     }
 
     public MenuAdapter(Context context, List<Plat> plats, MenuClickHandler mClickHandler) {
@@ -51,11 +52,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
 
-        holder.bind(mPlats.get(position).getPrice()+" DA",
-                mPlats.get(position).getName(),
-                mPlats.get(position).getRemarque(),
-                mPlats.get(position).getImage(),
-                mPlats.get(position).getFake_ImageResource());
+        String platPrice = Utils.Formater.getBigDecimalFormat(mPlats.get(position).getPrixProdVente(), 2)+" DA";
+
+        holder.bind(
+                platPrice,
+                mPlats.get(position).getDésignProf(),
+                "", //remarque or description
+                mPlats.get(position).getImageProd());
     }
 
     @Override
@@ -86,19 +89,18 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             mDescriptionTextView = itemView.findViewById(R.id.tv_plat_desc_menu);
             mPlatImageView =  itemView.findViewById(R.id.iv_plat_menu);
         }
-        public void bind(String price, String name, String description, Bitmap image, int idDefalutImage){
+        public void bind(String price, String name, String description, Bitmap image){
             mPriceTextView.setText(price);
             mNameTextView.setText(name);
             mDescriptionTextView.setText(description);
             //set a default plat image
-            mPlatImageView.setImageResource(idDefalutImage);
             if(image != null)
                 mPlatImageView.setImageBitmap(image);
 
         }
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            int idPlat = mPlats.get(adapterPosition).getId();
+            String idPlat = mPlats.get(adapterPosition).getIdProd();
             mClickHandler.onPlatSelected(idPlat);
 
         }

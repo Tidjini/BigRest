@@ -2,80 +2,96 @@ package com.soft.big.bigrest.Model;
 
 import android.graphics.Bitmap;
 
+import net.sourceforge.jtds.jdbc.DateTime;
+
+import java.math.BigDecimal;
+
 /**
  * Created by Tidjini on 09/11/2017.
  */
 
 public class Plat {
-    private int id, idClass;
-    private Double price;
-    private String Name, Remarque;
-    private Bitmap image;
-    int fake_ImageResource;
+    String idProd, désignProf, refProd;
+
+    int famProd, typeProd;
+    BigDecimal tva, prixProdVente;
+    Bitmap imageProd;
+
     public Plat() {
     }
 
-    public Plat(int id, int idClass, Double price, String name, String remarque, Bitmap image, int fake_ImageResource) {
-        this.id = id;
-        this.idClass = idClass;
-        this.price = price;
-        Name = name;
-        Remarque = remarque;
-        this.image = image;
-        this.fake_ImageResource = fake_ImageResource;
+    public Plat(String idProd, String désignProf, String refProd, int famProd, int typeProd, BigDecimal tva, BigDecimal prixProdVente, Bitmap imageProd) {
+        this.idProd = idProd;
+        this.désignProf = désignProf;
+        this.refProd = refProd;
+        this.famProd = famProd;
+        this.typeProd = typeProd;
+        this.tva = tva;
+        this.prixProdVente = prixProdVente;
+        this.imageProd = imageProd;
     }
 
-
-    public Bitmap getImage() {
-        return image;
+    public String getIdProd() {
+        return idProd;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setIdProd(String idProd) {
+        this.idProd = idProd;
     }
 
-    public  int  getFake_ImageResource() {
-        return fake_ImageResource;
-    }public void setFake_ImageResource(int fake_ImageResource) {
-        this.fake_ImageResource = fake_ImageResource;
-    }
-    public int getId() {
-        return id;
+    public String getDésignProf() {
+        return désignProf;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDésignProf(String désignProf) {
+        this.désignProf = désignProf;
     }
 
-    public int getIdClass() {
-        return idClass;
+    public String getRefProd() {
+        return refProd;
     }
 
-    public void setIdClass(int idClass) {
-        this.idClass = idClass;
+    public void setRefProd(String refProd) {
+        this.refProd = refProd;
     }
 
-    public Double getPrice() {
-        return price;
+    public int getFamProd() {
+        return famProd;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setFamProd(int famProd) {
+        this.famProd = famProd;
     }
 
-    public String getName() {
-        return Name;
+    public int getTypeProd() {
+        return typeProd;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setTypeProd(int typeProd) {
+        this.typeProd = typeProd;
     }
 
-    public String getRemarque() {
-        return Remarque;
+    public BigDecimal getTva() {
+        return tva;
     }
 
-    public void setRemarque(String remarque) {
-        Remarque = remarque;
+    public void setTva(BigDecimal tva) {
+        this.tva = tva;
+    }
+
+    public BigDecimal getPrixProdVente() {
+        return prixProdVente;
+    }
+
+    public void setPrixProdVente(BigDecimal prixProdVente) {
+        this.prixProdVente = prixProdVente;
+    }
+
+    public Bitmap getImageProd() {
+        return imageProd;
+    }
+
+    public void setImageProd(Bitmap imageProd) {
+        this.imageProd = imageProd;
     }
 }

@@ -5,18 +5,9 @@ package com.soft.big.bigrest.Model;
  */
 
 public class User {
-    private int Id;
     private String userName, password;
 
     public User() {
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int id) {
-        Id = id;
     }
 
     public String getUserName() {
@@ -35,8 +26,7 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String userName, String password) {
-        Id = id;
+    public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }

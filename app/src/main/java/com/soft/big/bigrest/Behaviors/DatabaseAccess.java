@@ -48,5 +48,9 @@ public class DatabaseAccess {
                 ";user="+Constants.DATABASE_USERNAME +
                 ";password="+Constants.DATABASE_PASSWORD;
 
+       /* return Constants.URL_PREFIX +Constants.SERVER_IP +":1433"+"/"+Constants.DATABASE_NAME+";instanceName="+Constants.INSTANCE_NAME+
+                ";integratedSecurity="+integratedSecurity+
+                ";user="+Constants.DATABASE_USERNAME +
+                ";password="+Constants.DATABASE_PASSWORD;*/
     }
 }

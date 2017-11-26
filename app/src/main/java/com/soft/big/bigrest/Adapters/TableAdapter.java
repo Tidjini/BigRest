@@ -86,19 +86,19 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         //TODO update this "not really necessary we use one Table type"
         switch (holder.getItemViewType()) {
             case 1:
-                BigTableViewHolder  bigTableViewHolder = (BigTableViewHolder) holder;
-                bigTableViewHolder.bind(mTables.get(position).getNumero()+"",
+                /*BigTableViewHolder  bigTableViewHolder = (BigTableViewHolder) holder;
+                bigTableViewHolder.bind(mTables.get(position).getLibelle()+"",
                         mTables.get(position).getMaxNumber()+" Seates",
                         mTables.get(position).getState()
                 );
-
+*/
                 break;
 
             default:
                 TableViewHolder  tableViewHolder = (TableViewHolder) holder;
-                tableViewHolder.bind(mTables.get(position).getNumero()+"",
-                        mTables.get(position).getMaxNumber()+" Seates",
-                        mTables.get(position).getState()
+                tableViewHolder.bind(mTables.get(position).getLibelle()+"",
+
+                        mTables.get(position).getEtat()
                 );
                 break;
         }
@@ -130,12 +130,12 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mTableImageView = itemView.findViewById(R.id.iv_table_state_item);
             mTableStateIconImageView = itemView.findViewById(R.id.iv_table_state_item_icon);
             mTableNumberTextView = itemView.findViewById(R.id.tv_table_number_item);
-            mTableCapaciteTextView = itemView.findViewById(R.id.tv_capacite_item);
+            //mTableCapaciteTextView = itemView.findViewById(R.id.tv_capacite_item);
         }
 
 
-        public void bind(String number, String capacite ,Utils.TableState state){
-            mTableCapaciteTextView.setText(capacite);
+        public void bind(String number, Utils.TableState state){
+            //mTableCapaciteTextView.setText(capacite);
             mTableNumberTextView.setText(number);
             int iconStateVisibility = View.VISIBLE, stateIconDraw = R.mipmap.ic_get_app_black_24dp;
             int stateImage = R.drawable.free_table;
@@ -186,7 +186,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemView.setOnClickListener(this);
             mTableImageView = itemView.findViewById(R.id.iv_table_big_state_item);
             mTableStateIconImageView = itemView.findViewById(R.id.iv_table_big_state_item_icon);
-            mTableNumberTextView = itemView.findViewById(R.id.tv_table_big_number_item);
+           // mTableNumberTextView = itemView.findViewById(R.id.tv_table_big_number_item);
             mTableCapaciteTextView = itemView.findViewById(R.id.tv_big_capacite_item);
         }
 

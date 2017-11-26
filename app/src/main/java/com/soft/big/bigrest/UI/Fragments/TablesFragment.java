@@ -39,7 +39,6 @@ import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
  */
 public class TablesFragment extends Fragment implements TableAdapter.TablesClickHandler{
 
-    private StaggeredGridLayoutManager mGridLayoutManager;
     private RecyclerView mTablesRecyclerView;
     private TableAdapter mTableAdapter;
 
@@ -72,6 +71,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
     TablesActivity mActivity;
     int mTablesDisponibles = 0;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,24 +86,38 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
         bindFragment(rootView);
 
 
-        mTableAdapter = new TableAdapter(getActivity(), mTables, this);
-        mTablesRecyclerView.setAdapter(mTableAdapter);
+
+
+        executeTask();
 
 
         return rootView;
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+/*        mTables.clear();
+        mTableAdapter.notifyDataSetChanged();*/
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        executeTask();
-
 
     }
+
 
     private void bindFragment(View container){
         mProgressBar = container.findViewById(R.id.progress_tables);
         mActivity = (TablesActivity) getActivity();
+
+
 
         mTablesRecyclerView = container.findViewById(R.id.recycler_view);
         mTablesRecyclerView.setHasFixedSize(true);
@@ -123,11 +137,20 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
 //        }
 
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mTableAdapter = new TableAdapter(getActivity(), mTables, this);
+
+        mTablesRecyclerView.setAdapter(mTableAdapter);
+
         mTablesRecyclerView.setLayoutManager(mLinearLayoutManager);
 
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 
     public void executeTask()
     {
@@ -136,6 +159,8 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
 
 
     }
+
+
 
     @Override
     public void onTableSelected(int idTable) {
@@ -193,7 +218,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
             //update user interface
             mTablesDisponibles = 0;
             for(int i = 0; i < mTables.size(); i++)
-                if(mTables.get(i).getState() == Utils.TableState.FREE)
+                if(mTables.get(i).getEtat() == Utils.TableState.FREE)
                     mTablesDisponibles++;
             mActivity.setTablesDisponible(mTablesDisponibles);
 

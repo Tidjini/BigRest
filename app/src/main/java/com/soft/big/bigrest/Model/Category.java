@@ -8,15 +8,17 @@ public class Category {
 
     private int id;
     private String name;
-    private String remarque;
+    private int impCuis;
+    private int tFamille;
 
     public Category() {
     }
 
-    public Category(int id, String name, String remarque) {
+    public Category(int id, String name, int impCuis, int tFamille) {
         this.id = id;
         this.name = name;
-        this.remarque = remarque;
+        this.impCuis = impCuis;
+        this.tFamille = tFamille;
     }
 
     public int getId() {
@@ -35,11 +37,19 @@ public class Category {
         this.name = name;
     }
 
-    public String getRemarque() {
-        return remarque;
+    public int getImpCuis() {
+        return impCuis;
     }
 
-    public void setRemarque(String remarque) {
-        this.remarque = remarque;
+    public void setImpCuis(int impCuis) {
+        this.impCuis = impCuis;
+    }
+
+    public int gettFamille() {
+        return tFamille;
+    }
+
+    public void settFamille(int tFamille) {
+        this.tFamille = tFamille;
     }
 }

@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameEditText = findViewById(R.id.et_username_login);
         mPasswordEditText = findViewById(R.id.et_password_login);
-        mProgressFrameLayout = findViewById(R.id.fl_login_process);
+        //mProgressFrameLayout = findViewById(R.id.fl_login_process);
     }
 
 
@@ -47,16 +47,16 @@ public class LoginActivity extends AppCompatActivity {
         mUsername = mUsernameEditText.getText().toString();
         mPassword = mPasswordEditText.getText().toString();
 
-// TODO       AsyncLogin asyncLogin = new AsyncLogin();
-//        asyncLogin.execute(mUsername, mPassword);
-        goToTableActivity(1);
+
+        AsyncLogin asyncLogin = new AsyncLogin();
+        asyncLogin.execute(mUsername, mPassword);
     }
 
 
 
-    private void goToTableActivity(int userId){
+    private void goToTableActivity(String username){
         Intent intent = new Intent(this, TablesActivity.class);
-        intent.putExtra(userId+"", Constants.USER_ID_EXTRA_MESSAGE);
+        intent.putExtra(Constants.USER_NAME_EXTRA_MESSAGE, username);
         startActivity(intent);
     }
 
@@ -70,13 +70,13 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressFrameLayout.setVisibility(View.VISIBLE);
+            //mProgressFrameLayout.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
             String username = strings[0];
-            String password = strings[0];
+            String password = strings[1];
             Connection connection = DatabaseAccess.databaseConnection();
             return UserService.login(connection, username, password);
         }
@@ -84,11 +84,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean login) {
             super.onPostExecute(login);
-            mProgressFrameLayout.setVisibility(View.GONE);
+            //mProgressFrameLayout.setVisibility(View.GONE);
             //TODO go to main Activity
             if(login) {
                 //todo get user id
-                goToTableActivity(1);
+                goToTableActivity(mUsername);
             }else {
                 Toast.makeText(LoginActivity.this, "User Failed IN", Toast.LENGTH_LONG).show();
 

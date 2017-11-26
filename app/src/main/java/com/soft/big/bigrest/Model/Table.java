@@ -8,52 +8,22 @@ import com.soft.big.bigrest.Behaviors.Utils;
  */
 
 public class Table {
-    private int id, numero, maxNumber;
-    private String remarque;
+    private int id;
+    private String orderOpenId;
+    private String libelle;
+    private Utils.TableState etat;
 
-    private int orderOpenId;
-
-
-
-    private String name;
-    private Utils.TableState state;
 
     public Table() {
     }
 
-    public Table(int id, int numero, int maxNumber, String remarque, String name, Utils.TableState  state) {
+    public Table(int id, String orderOpenId, String libelle, Utils.TableState etat) {
         this.id = id;
-        this.numero = numero;
-        this.maxNumber = maxNumber;
-        this.remarque = remarque;
-        this.name = name;
-        this.state = state;
-    }
-
-    public Table(int id, int numero, int maxNumber, String remarque, int orderOpenId, String name, Utils.TableState  state) {
-        this.id = id;
-        this.numero = numero;
-        this.maxNumber = maxNumber;
-        this.remarque = remarque;
         this.orderOpenId = orderOpenId;
-        this.name = name;
-        this.state = state;
+        this.libelle = libelle;
+        this.etat = etat;
     }
 
-    public int getOrderOpenId() {
-        return orderOpenId;
-    }
-
-    public void setOrderOpenId(int orderOpenId) {
-        this.orderOpenId = orderOpenId;
-    }
-    public Utils.TableState getState() {
-        return state;
-    }
-
-    public void setState(Utils.TableState  state) {
-        this.state = state;
-    }
     public int getId() {
         return id;
     }
@@ -62,35 +32,27 @@ public class Table {
         this.id = id;
     }
 
-    public int getNumero() {
-        return numero;
+    public String  getOrderOpenId() {
+        return orderOpenId;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setOrderOpenId(String orderOpenId) {
+        this.orderOpenId = orderOpenId;
     }
 
-    public int getMaxNumber() {
-        return maxNumber;
+    public String getLibelle() {
+        return libelle;
     }
 
-    public void setMaxNumber(int maxNumber) {
-        this.maxNumber = maxNumber;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 
-    public String getRemarque() {
-        return remarque;
+    public Utils.TableState getEtat() {
+        return etat;
     }
 
-    public void setRemarque(String remarque) {
-        this.remarque = remarque;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setEtat(Utils.TableState etat) {
+        this.etat = etat;
     }
 }

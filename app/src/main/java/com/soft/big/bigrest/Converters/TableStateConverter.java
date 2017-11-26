@@ -14,4 +14,9 @@ public class TableStateConverter {
         if(state == 2) return Utils.TableState.SERVED;
         return Utils.TableState.FREE;
     }
+    public static int stateConverter(Utils.TableState  state){
+        if(state == Utils.TableState.OCCUPIE) return 2;
+
+        return 1;
+    }
 }

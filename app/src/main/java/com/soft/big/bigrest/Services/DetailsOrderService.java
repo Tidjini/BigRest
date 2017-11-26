@@ -11,6 +11,7 @@ import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Plat;
 import com.soft.big.bigrest.Model.Table;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.soft.big.bigrest.Behaviors.Constants.DETAILS_ORDER_TABLENAME;
 import static com.soft.big.bigrest.Services.MenuService.getPlatById;
 
 /**
@@ -35,14 +37,35 @@ public class DetailsOrderService {
 
 
     private static String selectDetailsOrderByOrderIdQueryBuilder(){
-        return "SELECT * FROM DetailsCmd WHERE\n" +
-                "IdCmd = ?";
+        return "SELECT * FROM "+ DETAILS_ORDER_TABLENAME +" WHERE\n" +
+                "NumCmd = ?";
     }
 
     private static String selectDetailsOrderByIdQueryBuilder(){
 
-        return "select * from DetailsCmd Where\n" +
-                "Id = ?";
+        return "select * from "+DETAILS_ORDER_TABLENAME+" Where\n" +
+                "NbrLigne = ?";
+    }
+
+    private static String createDetailsOrderQueryBuilder(){
+        return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
+                "(NumCmd, CodeProd, LibeProd, PrixProd, QttProd, TvaArt, MttvaArt,"+
+                " RemArt, MtremArt, MtnetArt, TypPrd, Idmag) " +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        /*return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
+                "(NumCmd, CodeProd, LibeProd,"+
+                " TypPrd, Idmag) " +
+                " VALUES (?, ?, ?, ?)";*/
+
+    }
+
+    private static String updateDetailsOrderQueryBuilder(){
+        return "UPDATE "+DETAILS_ORDER_TABLENAME+"\n" +
+                "SET [QttProd] = ?,\n" +
+                "    [MtnetArt] = ?\n" +
+                "WHERE\n" +
+                "NbrLigne = ?";
     }
 
     /**
@@ -52,23 +75,30 @@ public class DetailsOrderService {
      * @param idOrder order id
      * @return
      */
-    public static List<DetailsOrder> getDetailsOrderByOrderId(Connection connection, int idOrder){
+    public static List<DetailsOrder> getDetailsOrderByOrderId(Connection connection, String idOrder){
         PreparedStatement statement;
         List<DetailsOrder> detailsOrders = new ArrayList<>();
         DetailsOrder detailOrder;
         try {
             statement = connection.prepareStatement(selectDetailsOrderByOrderIdQueryBuilder());
-            statement.setInt(1, idOrder);
+            statement.setString(1, idOrder);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                int id = resultSet.getInt("Id");
-                int idPlat = resultSet.getInt("IdPlat");
-                int total = resultSet.getInt("Total");
+                int nbrLigne = resultSet.getInt("NbrLigne");
+                String numCmd = resultSet.getString("NumCmd");
+                String codeProd = resultSet.getString("CodeProd");
+                String libeProd = resultSet.getString("LibeProd");
+                BigDecimal prixProd = resultSet.getBigDecimal("PrixProd");
+                BigDecimal qttProd = resultSet.getBigDecimal("QttProd");
+                BigDecimal tvaArt = resultSet.getBigDecimal("TvaArt");
+                BigDecimal mttvaArt = resultSet.getBigDecimal("MttvaArt");
+                BigDecimal remArt = resultSet.getBigDecimal("RemArt");
+                BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
+                BigDecimal mtnetArt = resultSet.getBigDecimal("MtnetArt");
+                String typPrd = resultSet.getString("TypPrd");
+                int idmag = resultSet.getInt("Idmag");
 
-                //get plat information
-                Plat plat = getPlatById(connection, idPlat);
-                //set information for custom constructor
-                detailOrder = new DetailsOrder(id, plat.getId(), plat.getName(), total, plat.getPrice());
+                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt,typPrd, idmag);
                 detailsOrders.add(detailOrder);
             }
 
@@ -95,14 +125,21 @@ public class DetailsOrderService {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                int idPlat = resultSet.getInt("IdPlat");
-                int total = resultSet.getInt("Total");
+                int nbrLigne = resultSet.getInt("NbrLigne");
+                String numCmd = resultSet.getString("NumCmd");
+                String codeProd = resultSet.getString("CodeProd");
+                String libeProd = resultSet.getString("LibeProd");
+                BigDecimal prixProd = resultSet.getBigDecimal("PrixProd");
+                BigDecimal qttProd = resultSet.getBigDecimal("QttProd");
+                BigDecimal tvaArt = resultSet.getBigDecimal("TvaArt");
+                BigDecimal mttvaArt = resultSet.getBigDecimal("MttvaArt");
+                BigDecimal remArt = resultSet.getBigDecimal("RemArt");
+                BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
+                BigDecimal mtnetArt = resultSet.getBigDecimal("MtnetArt");
+                String typPrd = resultSet.getString("TypPrd");
+                int idmag = resultSet.getInt("Idmag");
 
-                //get plat information
-                Plat plat = getPlatById(connection, idPlat);
-                //set information for custom constructor
-                detailOrder = new DetailsOrder(id, plat.getId(), plat.getName(), total, plat.getPrice());
-
+                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, typPrd, idmag);
             }
 
             return detailOrder;
@@ -131,13 +168,21 @@ public class DetailsOrderService {
 
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO DetailsCmd (IdCmd, IdPlat, Total, TotalPrice)\n" +
-                            "VALUES (?, ?, ?, ?)",
+                    createDetailsOrderQueryBuilder()
+                    ,
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, detailsOrder.getCmdId());
-            statement.setInt(2, detailsOrder.getPlatId());
-            statement.setInt(3, detailsOrder.getTotal());
-            statement.setDouble(4, detailsOrder.getTotalHt());
+            statement.setString(1, detailsOrder.getNumCmd());
+            statement.setString(2, detailsOrder.getCodeProd());
+            statement.setString(3, detailsOrder.getLibeProd());
+            statement.setBigDecimal(4, detailsOrder.getPrixProd());
+            statement.setBigDecimal(5, detailsOrder.getQttProd());
+            statement.setBigDecimal(6, detailsOrder.getTvaArt());
+            statement.setBigDecimal(7, detailsOrder.getMttvaArt());
+            statement.setBigDecimal(8, detailsOrder.getRemArt());
+            statement.setBigDecimal(9, detailsOrder.getMtremArt());
+            statement.setBigDecimal(10, detailsOrder.getMtnetArt());
+            statement.setString(11, detailsOrder.getTypPrd());
+            statement.setInt(12, detailsOrder.getIdMag());
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows == 0) {
@@ -170,19 +215,15 @@ public class DetailsOrderService {
 
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE DetailsCmd\n" +
-                            "SET [Total] = ?,\n" +
-                            "    [TotalPrice] = ?\n" +
-                            "WHERE\n" +
-                            "Id = ?"
+                    updateDetailsOrderQueryBuilder()
                     );
-            statement.setInt(1, detailsOrder.getTotal());
-            statement.setDouble(2, detailsOrder.getTotalHt());
-            statement.setInt(3, detailsOrder.getId());
+            statement.setBigDecimal(1, detailsOrder.getQttProd());
+            statement.setBigDecimal(2, detailsOrder.getMtnetArt());
+            statement.setInt(3, detailsOrder.getNbrLigne());
             //Execute update request
             statement.executeUpdate();
             //get updated detail order
-            detailsOrderUpdated = getDetailsOrderById(connection, detailsOrder.getId());
+            detailsOrderUpdated = getDetailsOrderById(connection, detailsOrder.getNbrLigne());
             return detailsOrderUpdated;
         } catch (SQLException e) {
             return detailsOrderUpdated;
@@ -201,11 +242,11 @@ public class DetailsOrderService {
 
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM DetailsCmd\n" +
+                    "DELETE FROM "+DETAILS_ORDER_TABLENAME+"\n" +
                             "Where\n" +
-                            "Id = ?"
+                            "NbrLigne = ?"
             );
-            statement.setInt(1, detailsOrder.getId());
+            statement.setInt(1, detailsOrder.getNbrLigne());
             //Execute Delete request
             statement.executeUpdate();
             return detailsOrder;

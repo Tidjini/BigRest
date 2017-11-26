@@ -29,7 +29,7 @@
             android:layout_margin="8dp"
             android:orientation="vertical"
             android:gravity="center">
-            <TextView
+            <!--<TextView
                 android:id="@+id/tv_capacite_item"
                 android:layout_toRightOf="@id/tv_table_number_item"
                 android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
 
                 android:textColor="#FFF"
 
-                />
+                />-->
             <TextView
                 android:id="@+id/tv_table_number_item"
                 android:layout_width="wrap_content"
