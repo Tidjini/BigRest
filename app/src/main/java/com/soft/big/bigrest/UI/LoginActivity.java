@@ -87,4 +87,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    public void onConfigClicked(View view){
+        Intent intent = new Intent(this, ConfigurationActivity.class);
+        startActivity(intent);
+    }
 }

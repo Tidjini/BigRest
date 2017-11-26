@@ -1,5 +1,6 @@
 package com.soft.big.bigrest.UI;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -231,5 +232,10 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
     public void setUsername(String username){
         mUsernameTextView.setText(username);
+    }
+
+    public void onConfigClicked(View view){
+        Intent intent = new Intent(this, ConfigurationActivity.class);
+        startActivity(intent);
     }
 }

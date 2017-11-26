@@ -135,7 +135,7 @@
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="Config"
-
+                        android:onClick="onConfigClicked"
                         android:backgroundTint="@color/colorPrimary"
                         android:textColor="#FFF"/>
                     <Button

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:defaultValue="192.168.1.2"
+        android:key="ip_address"
+        android:title="Server ip address:"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        ></EditTextPreference>
+    <EditTextPreference
+        android:defaultValue="SQLEXPRESS"
+        android:key="instance_name"
+        android:title="Instance name"
+
+        ></EditTextPreference>
+    <EditTextPreference
+        android:defaultValue="PosSys_HAV_2017"
+        android:key="database_name"
+        android:title="Database name:"
+        ></EditTextPreference>
+    <EditTextPreference
+        android:defaultValue="sa"
+        android:key="database_username"
+        android:title="database username:"
+        ></EditTextPreference>
+    <EditTextPreference
+        android:defaultValue="hack3bar"
+        android:key="database_password"
+        android:title="database password:"
+        android:inputType="textPassword"
+        ></EditTextPreference>
+</PreferenceScreen>
