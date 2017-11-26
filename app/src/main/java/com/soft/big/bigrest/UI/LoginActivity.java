@@ -91,4 +91,34 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ConfigurationActivity.class);
         startActivity(intent);
     }
+
+    class AsyncLogin extends AsyncTask<String, String, Connection>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressFrameLayout.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Connection doInBackground(String... strings) {
+
+            return DatabaseAccess.databaseConnection(LoginActivity.this);
+
+        }
+
+        @Override
+        protected void onPostExecute(Connection connection) {
+            super.onPostExecute(connection);
+            mProgressFrameLayout.setVisibility(View.GONE);
+            if(connection == null) {
+                //todo display
+            }else {
+                Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+
+            }
+
+        }
+    }
+
 }
