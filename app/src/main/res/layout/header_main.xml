@@ -64,6 +64,7 @@
         android:backgroundTint="@color/colorAccent"
         android:text="Refresh"
         android:textAllCaps="false"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:onClick="onRefreshClicked"/>
 
 </LinearLayout>

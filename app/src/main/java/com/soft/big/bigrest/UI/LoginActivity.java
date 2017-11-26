@@ -8,16 +8,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
 import com.soft.big.bigrest.Behaviors.Constants;
 import com.soft.big.bigrest.Behaviors.DatabaseAccess;
 import com.soft.big.bigrest.R;
 import com.soft.big.bigrest.Services.UserService;
-
 import java.sql.Connection;
 
 public class LoginActivity extends AppCompatActivity {
-
 
     EditText mUsernameEditText, mPasswordEditText;
     FrameLayout mProgressFrameLayout;
@@ -36,11 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameEditText = findViewById(R.id.et_username_login);
         mPasswordEditText = findViewById(R.id.et_password_login);
-        //mProgressFrameLayout = findViewById(R.id.fl_login_process);
+        mProgressFrameLayout = findViewById(R.id.progress_login);
     }
-
-
-    //TODO make sure of user & password format
 
     public void connect(View view){
 
@@ -52,14 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         asyncLogin.execute(mUsername, mPassword);
     }
 
-
-
     private void goToTableActivity(String username){
         Intent intent = new Intent(this, TablesActivity.class);
         intent.putExtra(Constants.USER_NAME_EXTRA_MESSAGE, username);
         startActivity(intent);
     }
-
 
     /**
      * Connection in Async way to get the user more confeteble
@@ -70,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //mProgressFrameLayout.setVisibility(View.VISIBLE);
+            mProgressFrameLayout.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -84,13 +75,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean login) {
             super.onPostExecute(login);
-            //mProgressFrameLayout.setVisibility(View.GONE);
-            //TODO go to main Activity
+            mProgressFrameLayout.setVisibility(View.GONE);
             if(login) {
-                //todo get user id
-                goToTableActivity(mUsername);
+               goToTableActivity(mUsername);
             }else {
-                Toast.makeText(LoginActivity.this, "User Failed IN", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
 
             }
 

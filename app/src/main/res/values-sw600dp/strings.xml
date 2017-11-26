@@ -5,6 +5,12 @@
     <string name="tables_title">MOBILE RESTAURANT</string>
     <string name="table_title">TABLE</string>
 
+    <string name="application_name">MOBILE RESTAURANT\n APPLICATION</string>
+    <string name="application_short_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+
+    <string name="login_panel_header">Connect and have fun</string>
+    <string name="error_login">User Failed To Login, verify your credentials or switch to other server.</string>
+
     <string name="send_order">Send</string>
     <string name="notification">Notification</string>
 

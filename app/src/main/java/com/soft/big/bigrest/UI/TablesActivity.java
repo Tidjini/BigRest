@@ -173,6 +173,12 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
     }
 
+    public void onRefreshClicked(View view){
+        //refresh Tables
+        if(mTablesFragment == null) return;
+        mTablesFragment.executeTask();
+    }
+
     /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onServieClicked(View view){
 

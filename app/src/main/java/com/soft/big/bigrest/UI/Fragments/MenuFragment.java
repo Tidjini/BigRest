@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.soft.big.bigrest.Behaviors.Constants.TABLE_ID_EXTRA_MESSAGE;
+import static com.soft.big.bigrest.Behaviors.ImageUtils.unbindDrawables;
 import static com.soft.big.bigrest.Services.DetailsOrderService.createDetailsOrder;
 import static com.soft.big.bigrest.Services.DetailsOrderService.updateDetailsOrder;
 import static com.soft.big.bigrest.Services.OrderService.createOrder;
@@ -101,6 +102,12 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         return rootView;
     }
 
+    //Clear resources
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbindDrawables(mRootView);
+    }
 
     private void bindFragment(View container){
         //Menu
