@@ -379,7 +379,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
 
         @Override
         protected List<Plat> doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             return MenuService.getPlats(connection);
         }
 
@@ -409,7 +409,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         protected List<DetailsOrder> doInBackground(Integer... strings) {
             if(strings == null || strings.length <= 0) return null;
             int idTable = strings[0];
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             mOrder = OrderService.getTableOpenOrderById(connection, idTable);
             if(mOrder == null) {
                 isTableFree = true;
@@ -448,7 +448,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         protected DetailsOrder doInBackground(DetailsOrder... details) {
             if(details == null || details.length <= 0) return null;
             DetailsOrder detail = details[0];
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             return DetailsOrderService.deleteDetailsOrder(connection, detail);
 
         }
@@ -528,7 +528,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected Order doInBackground(String... detailsOrders) {
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             if(mOrder == null) {
                 //create order + order details
                 String idOrder = onCreateOrder(connection);
@@ -590,7 +590,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         }
         @Override
         protected Order doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             if(mOrder == null) return null;
             //update order close to true
             mOrder.setEtatCmd(2);

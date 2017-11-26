@@ -181,7 +181,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
 
         @Override
         protected List<Table> doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(TablesFragment.this.getActivity());
             return TableService.getTables(connection);
             //Fake
             /*Table table;

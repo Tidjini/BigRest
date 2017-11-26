@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... strings) {
             String username = strings[0];
             String password = strings[1];
-            Connection connection = DatabaseAccess.databaseConnection();
+            Connection connection = DatabaseAccess.databaseConnection(LoginActivity.this);
             return UserService.login(connection, username, password);
         }
 

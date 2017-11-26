@@ -1,5 +1,16 @@
 package com.soft.big.bigrest.Behaviors;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+
+import static com.soft.big.bigrest.Behaviors.Constants.DATABASE_NAME;
+import static com.soft.big.bigrest.Behaviors.Constants.DATABASE_PASSWORD;
+import static com.soft.big.bigrest.Behaviors.Constants.DATABASE_USERNAME;
+import static com.soft.big.bigrest.Behaviors.Constants.INSTANCE_NAME;
+import static com.soft.big.bigrest.Behaviors.Constants.INTEGRATED_SECURITY;
+import static com.soft.big.bigrest.Behaviors.Constants.SERVER_IP;
+
 /**
  * Created by Tidjini on 15/11/2017.
  */
@@ -7,56 +18,37 @@ package com.soft.big.bigrest.Behaviors;
 public class Configuration {
 
 
-    private String serverAddress;
-    private String databaseName;
-    private String databaseUsername;
-    private String databasePassword;
-    private String instance;
+    SharedPreferences sharedPreferences;
 
     /**
      * Configuration class : get server information to connect
      */
-    public Configuration() {
-    }
+    public Configuration(Activity activity) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
+    }
 
     public String getServerAddress() {
-        return serverAddress;
-    }
-
-    public void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
+        return sharedPreferences.getString("ip_address", SERVER_IP);
     }
 
     public String getDatabaseName() {
-        return databaseName;
-    }
-
-    public void setDatabaseName(String databaseName) {
-        this.databaseName = databaseName;
+        return sharedPreferences.getString("database_name", DATABASE_NAME);
     }
 
     public String getDatabaseUsername() {
-        return databaseUsername;
-    }
-
-    public void setDatabaseUsername(String databaseUsername) {
-        this.databaseUsername = databaseUsername;
+        return sharedPreferences.getString("database_username", DATABASE_USERNAME);
     }
 
     public String getDatabasePassword() {
-        return databasePassword;
-    }
-
-    public void setDatabasePassword(String databasePassword) {
-        this.databasePassword = databasePassword;
+        return sharedPreferences.getString("database_password", DATABASE_PASSWORD);
     }
 
     public String getInstance() {
-        return instance;
+        return sharedPreferences.getString("instance_name", INSTANCE_NAME);
+    }
+    public boolean getIntegratedSecurtity() {
+        return sharedPreferences.getBoolean("integrated_security", INTEGRATED_SECURITY);
     }
 
-    public void setInstance(String instance) {
-        this.instance = instance;
-    }
 }

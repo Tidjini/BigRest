@@ -3,7 +3,7 @@
     <EditTextPreference
         android:defaultValue="192.168.1.2"
         android:key="ip_address"
-        android:title="Server ip address:"
+        android:title="Server ip address"
         android:summaryOff="Hidden"
         android:summaryOn="Shown"
         ></EditTextPreference>
@@ -16,17 +16,24 @@
     <EditTextPreference
         android:defaultValue="PosSys_HAV_2017"
         android:key="database_name"
-        android:title="Database name:"
+        android:title="Database name"
         ></EditTextPreference>
     <EditTextPreference
         android:defaultValue="sa"
         android:key="database_username"
-        android:title="database username:"
+        android:title="database username"
         ></EditTextPreference>
     <EditTextPreference
         android:defaultValue="hack3bar"
         android:key="database_password"
-        android:title="database password:"
+        android:title="database password"
         android:inputType="textPassword"
         ></EditTextPreference>
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="integrated_security"
+        android:title="Integrated security"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        ></CheckBoxPreference>
 </PreferenceScreen>
