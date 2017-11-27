@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText mUsernameEditText, mPasswordEditText;
     FrameLayout mProgressFrameLayout;
-
+    FrameLayout mConnectionErrorFrame;
     String mUsername, mPassword;
 
     @Override
@@ -29,11 +29,24 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet_land);
+        if (tabletSize) {
+            // do something
+            AsyncConnectionTest asyncConnectionTest = new AsyncConnectionTest();
+            asyncConnectionTest.execute("");
+        }
+
+    }
+
     private void bindActivity(){
 
         mUsernameEditText = findViewById(R.id.et_username_login);
         mPasswordEditText = findViewById(R.id.et_password_login);
         mProgressFrameLayout = findViewById(R.id.progress_login);
+        mConnectionErrorFrame = findViewById(R.id.connection_error);
     }
 
     public void connect(View view){
@@ -92,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    class AsyncLogin extends AsyncTask<String, String, Connection>{
+    class AsyncConnectionTest extends AsyncTask<String, String, Connection>{
 
         @Override
         protected void onPreExecute() {
@@ -113,8 +126,11 @@ public class LoginActivity extends AppCompatActivity {
             mProgressFrameLayout.setVisibility(View.GONE);
             if(connection == null) {
                 //todo display
+                mConnectionErrorFrame.setVisibility(View.VISIBLE);
+
             }else {
-                Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+                mConnectionErrorFrame.setVisibility(View.GONE);
+
 
             }
 
