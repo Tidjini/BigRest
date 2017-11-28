@@ -15,20 +15,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.soft.big.bigrest.Adapters.DetailsOrderAdapter;
 import com.soft.big.bigrest.Adapters.MenuAdapter;
 import com.soft.big.bigrest.Behaviors.DatabaseAccess;
 import com.soft.big.bigrest.Behaviors.Utils;
+import com.soft.big.bigrest.Model.Category;
 import com.soft.big.bigrest.Model.DetailsOrder;
 import com.soft.big.bigrest.Model.Order;
 import com.soft.big.bigrest.Model.Plat;
 import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
 import com.soft.big.bigrest.Services.DetailsOrderService;
+import com.soft.big.bigrest.Services.FamillyService;
 import com.soft.big.bigrest.Services.MenuService;
 import com.soft.big.bigrest.Services.OrderService;
 import com.soft.big.bigrest.Services.TableService;
@@ -85,6 +89,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     private String mUsername;
     private boolean isTableFree;
 
+
+    private Spinner mSpinner;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +115,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         unbindDrawables(mRootView);
     }
 
+
+    ArrayAdapter<String> dataAdapter;
     private void bindFragment(View container){
         //Menu
         //click handler, use this
@@ -120,6 +128,11 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         mMenuRecyclerView.setLayoutManager(mMenuLinearLayoutManager);
         mMenuRecyclerView.setAdapter(mMenuAdapter);
 
+
+        mSpinner = container.findViewById(R.id.familly_chooser);
+
+        //TODO dataAdapter = new ArrayAdapter<String>(MenuFragment.this,
+         //       android.R.layout.simple_spinner_item, );
         //Details Order
         mTotalPriceTextView = container.findViewById(R.id.tv_total_price_order);
         mProgressDetailsOrder = container.findViewById(R.id.progress_details_order);
@@ -392,6 +405,34 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             mMenuAdapter.refreshAdapter(mPlats);
         }
     }
+
+    List<Category> fammillyList = new ArrayList<>();
+    /**
+     * Get Menu Data
+     */
+    class AsyncCategorie extends AsyncTask<String, String, List<Category>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Category> doInBackground(String... strings) {
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            return FamillyService.getFammillies(connection);
+        }
+
+        @Override
+        protected void onPostExecute(List<Category> categories) {
+            super.onPostExecute(categories);
+            if(categories == null) return;
+            fammillyList.addAll(categories);
+
+
+        }
+    }
+
 
     Order mOrder;
     /**

@@ -21,6 +21,9 @@ public class Category {
         this.tFamille = tFamille;
     }
 
+    public String getIdName(){
+        return id+" "+name;
+    }
     public int getId() {
         return id;
     }

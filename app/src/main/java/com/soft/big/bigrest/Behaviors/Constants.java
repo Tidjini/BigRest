@@ -31,6 +31,7 @@ public class Constants {
     public static final String ARTICLES_TABLENAME = "Produit";
     public static final String USERS_TABLENAME = "Users";
     public static final String ORDER_TABLENAME = "Commande";
+    public static final String FAMILLY_TABLENAME = "Famille";
     public static final String DETAILS_ORDER_TABLENAME = "CommandeLig";
 
 
