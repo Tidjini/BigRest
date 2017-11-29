@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -90,7 +91,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     private boolean isTableFree;
 
 
+    //spinner
     private Spinner mSpinner;
+    private ArrayList<String> mCategories = new ArrayList<>();
+    private ArrayList<Integer> mCategoriesId;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,8 +135,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
 
         mSpinner = container.findViewById(R.id.familly_chooser);
 
-        //TODO dataAdapter = new ArrayAdapter<String>(MenuFragment.this,
-         //       android.R.layout.simple_spinner_item, );
+
         //Details Order
         mTotalPriceTextView = container.findViewById(R.id.tv_total_price_order);
         mProgressDetailsOrder = container.findViewById(R.id.progress_details_order);
@@ -142,8 +145,26 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         mDetailsOrderLinearLayoutManager = new LinearLayoutManager(getContext());
         mDetailsOrderRecyclerView.setLayoutManager(mDetailsOrderLinearLayoutManager);
         mDetailsOrderRecyclerView.setAdapter(mDetailsOrderAdapter);
+
+        //
+       // getSpinnerListening();
     }
 
+
+    private void getSpinnerListening(){
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mMenuAdapter.getFilter().filter(mCategoriesId.get(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
     /**
      * Get data from activity (and Tables Fragment)
      */
@@ -162,6 +183,9 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     {
         MenuFragment.AsyncMenu asyncMenu = new MenuFragment.AsyncMenu();
         asyncMenu.execute();
+
+        MenuFragment.AsyncCategorie asyncCategorie = new MenuFragment.AsyncCategorie();
+        asyncCategorie.execute();
     }
 
     @Override
@@ -406,7 +430,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         }
     }
 
-    List<Category> fammillyList = new ArrayList<>();
     /**
      * Get Menu Data
      */
@@ -427,9 +450,22 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         protected void onPostExecute(List<Category> categories) {
             super.onPostExecute(categories);
             if(categories == null) return;
-            fammillyList.addAll(categories);
 
+            mCategories = new ArrayList<>();
+            mCategoriesId = new ArrayList<>();
+            mCategories.add("All");
+            mCategoriesId.add(0);
+            for(int i=0; i<categories.size(); i++){
+                mCategories.add(categories.get(i).getName());
+                mCategoriesId.add(categories.get(i).getId());
+            }
+            dataAdapter =new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    mCategories);
+            //dataAdapter.notifyDataSetChanged();
 
+            mSpinner.setAdapter(dataAdapter);
+            getSpinnerListening();
         }
     }
 
