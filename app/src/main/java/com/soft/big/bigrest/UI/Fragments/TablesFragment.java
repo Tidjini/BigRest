@@ -223,7 +223,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
             mActivity.setTablesDisponible(mTablesDisponibles);
 
             //select the first table in the list (init)
-            onTableSelected(mTables.get(0).getId());
+            //onTableSelected(mTables.get(0).getId());
 
 
 
