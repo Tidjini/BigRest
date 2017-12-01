@@ -10,8 +10,8 @@ import com.soft.big.bigrest.Behaviors.Utils;
 public class TableStateConverter {
 
     public static Utils.TableState stateConverter(int state){
-        if(state == 1) return Utils.TableState.OCCUPIE;
-        if(state == 2) return Utils.TableState.SERVED;
+        if(state == 1) return Utils.TableState.FREE;
+        if(state == 2) return Utils.TableState.OCCUPIE;
         return Utils.TableState.FREE;
     }
     public static int stateConverter(Utils.TableState  state){

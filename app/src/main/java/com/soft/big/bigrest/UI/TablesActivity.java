@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.soft.big.bigrest.Behaviors.Configuration;
 import com.soft.big.bigrest.Behaviors.Constants;
 import com.soft.big.bigrest.Behaviors.DatabaseAccess;
+import com.soft.big.bigrest.Model.Table;
 import com.soft.big.bigrest.R;
 import com.soft.big.bigrest.Services.TableService;
 import com.soft.big.bigrest.UI.Fragments.MenuFragment;
@@ -162,15 +163,13 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     MenuFragment mMenuFragment = null;
 
     @Override
-    public void onTableSelected(int idTable) {
+    public void onTableSelected(Table table) {
         // Get Fragment B
         if(mMenuFragment == null)
             mMenuFragment = (MenuFragment)
                 getSupportFragmentManager().findFragmentById(R.id.menu_fragment);
-        //TODO get table number
-        mTableNumberTextView.setText("Table N° " + idTable);
-        //TODO get user id to set user name
-        mMenuFragment.setData(idTable, mUsername);
+        mTableNumberTextView.setText(table.getLibelle().toUpperCase());
+        mMenuFragment.setData(table, mUsername);
     }
 
 
@@ -223,7 +222,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
     }*/
 
-    public void onCloseClicked(View view){
+    /*public void onCloseClicked(View view){
 
 
         mSnackbar = Snackbar
@@ -241,7 +240,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
         mSnackbar.show();
 
-    }
+    }*/
 
     public void setTablesDisponible(int tablesDisponible){
         mTableDisponiblesTextView.setText(tablesDisponible+ " Tables disponibles.");

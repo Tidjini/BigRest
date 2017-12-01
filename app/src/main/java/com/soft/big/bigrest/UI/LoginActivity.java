@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(connection);
             mProgressFrameLayout.setVisibility(View.GONE);
             if(connection == null) {
-                //todo display
+
                 mConnectionErrorFrame.setVisibility(View.VISIBLE);
 
             }else {

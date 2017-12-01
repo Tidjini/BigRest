@@ -43,6 +43,10 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         return familleFilter;
     }
 
+    public void setFilter(FamilleFilter filter){
+        this.familleFilter = filter;
+    }
+
 
     public class FamilleFilter extends Filter {
 
@@ -112,18 +116,18 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
 
-        String platPrice = Utils.Formater.getBigDecimalFormat(mPlats.get(position).getPrixProdVente(), 2)+" DA";
+        String platPrice = Utils.Formater.getBigDecimalFormat(mPlatsFiltred.get(position).getPrixProdVente(), 2)+" DA";
 
         holder.bind(
                 platPrice,
-                mPlats.get(position).getDésignProf(),
+                mPlatsFiltred.get(position).getDésignProf(),
                 "", //remarque or description
-                mPlats.get(position).getImageProd());
+                mPlatsFiltred.get(position).getImageProd());
     }
 
     @Override
     public int getItemCount() {
-        return mPlats.size();
+        return mPlatsFiltred.size();
     }
 
     public void refreshAdapter(List<Plat> list){

@@ -73,12 +73,12 @@ public class OrderService {
                 "IdCmd = ?";
     }
 
-    public static Order getTableOpenOrderById(Connection connection, Table table){
+    public static Order getTableOpenOrderById(Connection connection, int idTable){
         PreparedStatement statement;
         Order order = null;
         try {
             statement = connection.prepareStatement(selectTableOpenOrderQueryBuilder());
-            statement.setString(1, Integer.toString(table.getId()));
+            statement.setString(1, Integer.toString(idTable));
             //statement.setInt(2, 1); // state Open = 1 , Close = 2
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){

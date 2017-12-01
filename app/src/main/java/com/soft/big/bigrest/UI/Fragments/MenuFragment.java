@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -94,6 +95,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     private ArrayList<Integer> mCategoriesId;
     //family adapter
     ArrayAdapter<String> dataAdapter;
+    Filter mFamilleFilter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_menu, container);
+
         bindFragment(rootView);
         mRootView = rootView;
         executeMenuTask();
@@ -118,7 +121,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         super.onDestroy();
         unbindDrawables(mRootView);
     }
-
 
     //region bind ui
     private void bindFragment(View container){
@@ -150,7 +152,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         // getSpinnerListening();
     }
     //endregion
-
     //region spinner categories
     private void getSpinnerListening(){
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -158,7 +159,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 //todo in async way
-                mMenuAdapter.getFilter().filter(mCategoriesId.get(i).toString());
+               // mMenuAdapter.getFilter().filter(mCategoriesId.get(i).toString());
+                mFamilleFilter =  mMenuAdapter.getFilter();
+                AsyncFilter filter = new AsyncFilter();
+                filter.execute(mCategoriesId.get(i));
             }
 
             @Override
@@ -168,8 +172,31 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         });
     }
 
-    //endregion
+    class AsyncFilter extends AsyncTask<Integer, String, Filter> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressMenu.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Filter doInBackground(Integer... categories) {
+            if(categories == null || categories.length <= 0) return null;
+            mFamilleFilter.filter(categories[0].toString());
+            return mFamilleFilter;
+        }
+
+        @Override
+        protected void onPostExecute(Filter filter) {
+            super.onPostExecute(filter);
+            mProgressMenu.setVisibility(View.GONE);
+            if(filter == null) return;
+            mMenuAdapter.setFilter((MenuAdapter.FamilleFilter) filter);
+        }
+    }
+
+    //endregion
     /**
      * Get data from activity (and Tables Fragment)
      */
@@ -205,7 +232,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             if(table.getEtat() == Utils.TableState.FREE) return null;
 
             Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
-            mOrder = OrderService.getTableOpenOrderById(connection, table);
+            mOrder = OrderService.getTableOpenOrderById(connection, table.getId());
             if(mOrder == null) {
                 //isTableFree = true;
                 return null;
@@ -518,7 +545,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     }
     */
     //endregion
-
     //region Details Order function
     private boolean delete = false, modification = false;
     private BigDecimal detailOrderNumber = BigDecimal.valueOf(1);
@@ -702,9 +728,4 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     }
 
     //endregion
-
-
-
-
-
 }

@@ -38,7 +38,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
 
     // Container Activity must implement this interface
     public interface OnTableSelectedListener {
-        void onTableSelected(int position);
+        void onTableSelected(Table table);
     }
 
     @Override
@@ -132,8 +132,8 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
 
     //implement the on select method to get the selected table
     @Override
-    public void onTableSelected(int idTable) {
-        mCallback.onTableSelected(idTable);
+    public void onTableSelected(Table table) {
+        mCallback.onTableSelected(table);
     }
 
 
