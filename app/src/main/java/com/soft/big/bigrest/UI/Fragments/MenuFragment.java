@@ -82,19 +82,19 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     //endregion
 
     //table data
-    private int mIdTable;
     private Table mTable;
-
     private Connection mConnection;
-
     private String mUsername;
-    private boolean isTableFree;
+    //private boolean isTableFree;
 
 
     //spinner
     private Spinner mSpinner;
     private ArrayList<String> mCategories = new ArrayList<>();
     private ArrayList<Integer> mCategoriesId;
+    //family adapter
+    ArrayAdapter<String> dataAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +120,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     }
 
 
-    ArrayAdapter<String> dataAdapter;
+    //region bind ui
     private void bindFragment(View container){
         //Menu
         //click handler, use this
@@ -147,15 +147,17 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         mDetailsOrderRecyclerView.setAdapter(mDetailsOrderAdapter);
 
         //
-       // getSpinnerListening();
+        // getSpinnerListening();
     }
+    //endregion
 
-
+    //region spinner categories
     private void getSpinnerListening(){
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //todo in async way
                 mMenuAdapter.getFilter().filter(mCategoriesId.get(i).toString());
             }
 
@@ -165,20 +167,73 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             }
         });
     }
+
+    //endregion
+
     /**
      * Get data from activity (and Tables Fragment)
      */
-
-    public void setData(int idTable, String username){
-        mIdTable = idTable;
+    //region table selected
+    //set data of selected table
+    public void setData(Table table, String username){
+        mTable = table;
         mUsername = username;
         //Init to default value when change table (no save state gone)
         mDetailsOrderTemp = new ArrayList<>();
         mDetailsOrderAdapter.refreshAdapter(mDetailsOrder);
         MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
-        asyncOrder.execute(idTable);
+        asyncOrder.execute(mTable);
+    }
+    //selected table order if exist
+    Order mOrder;
+    /**
+     * Get Just if Order is open (no close)
+     * so the Table is still occupied
+     */
+    class AsyncOrder extends AsyncTask<Table, String, List<DetailsOrder>>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDetailsOrder.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected List<DetailsOrder> doInBackground(Table... tables) {
+            if(tables == null || tables.length <= 0) return null;
+            Table table = tables[0];
+            //if table is free don't get order
+            if(table.getEtat() == Utils.TableState.FREE) return null;
+
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            mOrder = OrderService.getTableOpenOrderById(connection, table);
+            if(mOrder == null) {
+                //isTableFree = true;
+                return null;
+            }
+            return DetailsOrderService.getDetailsOrderByOrderId(connection, mOrder.getIdCmd());
+        }
+
+        @Override
+        protected void onPostExecute(List<DetailsOrder> detailsOrders) {
+            super.onPostExecute(detailsOrders);
+            mProgressDetailsOrder.setVisibility(View.GONE);
+
+            if(detailsOrders != null) {
+                mDetailsOrderTemp = detailsOrders;
+                mDetailsOrderAdapter.refreshAdapter(mDetailsOrderTemp);
+            }
+            //Sum price
+            BigDecimal totalPrice = BigDecimal.valueOf(0);
+            for(int i = 0; i<mDetailsOrderTemp.size(); i++)
+                totalPrice  = totalPrice.add(mDetailsOrderTemp.get(i).getMtnetArt());
+            String totalPriceFormat = Utils.Formater.getBigDecimalFormat(totalPrice, 2) + " DA";
+            mTotalPriceTextView.setText(totalPriceFormat);
+
+        }
     }
 
+    //endregion
+    //region Menu
     private void executeMenuTask()
     {
         MenuFragment.AsyncMenu asyncMenu = new MenuFragment.AsyncMenu();
@@ -187,7 +242,74 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         MenuFragment.AsyncCategorie asyncCategorie = new MenuFragment.AsyncCategorie();
         asyncCategorie.execute();
     }
+    /**
+     * Get Menu Data
+     */
+    class AsyncMenu extends AsyncTask<String, String, List<Plat>> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressMenu.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected List<Plat> doInBackground(String... strings) {
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            return MenuService.getPlats(connection);
+        }
+
+        @Override
+        protected void onPostExecute(List<Plat> plats) {
+            super.onPostExecute(plats);
+            mProgressMenu.setVisibility(View.GONE);
+            if(plats == null) return;
+            mPlats = plats;
+            mMenuAdapter.refreshAdapter(mPlats);
+        }
+    }
+
+    /**
+     * Get Menu Categories
+     */
+    class AsyncCategorie extends AsyncTask<String, String, List<Category>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Category> doInBackground(String... strings) {
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            return FamillyService.getFammillies(connection);
+        }
+
+        @Override
+        protected void onPostExecute(List<Category> categories) {
+            super.onPostExecute(categories);
+            if(categories == null) return;
+
+            mCategories = new ArrayList<>();
+            mCategoriesId = new ArrayList<>();
+            mCategories.add("All");
+            mCategoriesId.add(0);
+            for(int i=0; i<categories.size(); i++){
+                mCategories.add(categories.get(i).getName());
+                mCategoriesId.add(categories.get(i).getId());
+            }
+            dataAdapter =new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    mCategories);
+            //dataAdapter.notifyDataSetChanged();
+
+            mSpinner.setAdapter(dataAdapter);
+            getSpinnerListening();
+        }
+    }
+
+    //endregion
+    //region Select Plat
     @Override
     public void onPlatSelected(String idPlat) {
         //if plat exist in list of order perform update operation
@@ -209,15 +331,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
                     platPosition = i;
             }
             DetailsOrder detailsOrder = new DetailsOrder(
-                0,
-                "",
+                    0,
+                    "",
                     idPlat,
                     mPlats.get(platPosition).getDésignProf(),
                     mPlats.get(platPosition).getPrixProdVente(),
                     BigDecimal.valueOf(1),
                     mPlats.get(platPosition).getTva(),
                     BigDecimal.valueOf(0),
-                "p",
+                    "p",
                     0
 
             );
@@ -232,17 +354,122 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         String totalPriceFormat = Utils.Formater.getBigDecimalFormat(totalPrice, 2) + " DA";
         mTotalPriceTextView.setText(totalPriceFormat);
     }
-
+    //endregion
+    //region save
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onSaveOrder(){
         MenuFragment.AsyncSave asyncSave = new MenuFragment.AsyncSave();
         asyncSave.execute("");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private String onCreateOrder(Connection connection){
+        if(mDetailsOrder.size() < 0) return null;
+        //date time = now
+        Date nowDate = new Date();
+        //get last order to increment new one
+        String lastOrderId = getLastOrder(connection);
+        if(lastOrderId == null) return null;
+
+        int orderId = Integer.parseInt(lastOrderId);
+        orderId ++;
+        String cmfId = String.format("%08d", orderId);
+
+        //get total ht, tva, ttc
+        BigDecimal ht, tva = new BigDecimal(0), ttc = new BigDecimal(0);
+        for(int i=0; i<mDetailsOrder.size(); i++){
+            tva = tva.add(mDetailsOrder.get(i).getMttvaArt());
+            ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
+        }
+        ht = ttc.subtract(tva);
+        Order order = new Order(cmfId, "0001", "Client Divers", nowDate, ht, tva, ttc,
+                BigDecimal.valueOf(0),1, mUsername, mUsername, Integer.toString(mTable.getId()), nowDate, mUsername, nowDate, mUsername,
+                BigDecimal.valueOf(0), 1);
+
+        return createOrder(connection, order);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private int onCreateDetailsOrder(Connection connection, String orderId, DetailsOrder detailsOrder){
+        detailsOrder.setNumCmd(orderId);
+        return createDetailsOrder(connection, detailsOrder);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private DetailsOrder onUpdateDetailsOrder(Connection connection, DetailsOrder detailsOrder){
+        return updateDetailsOrder(connection, detailsOrder);
+    }
+
+
+    class AsyncSave extends AsyncTask<String, String, Order>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDetailsOrder.setVisibility(View.VISIBLE);
+        }
+
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected Order doInBackground(String... detailsOrders) {
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            if(mOrder == null) {
+                //create order + order details
+                String idOrder = onCreateOrder(connection);
+                if (idOrder == null) return null;
+                for(int i = 0; i < mDetailsOrder.size(); i++)
+                    onCreateDetailsOrder(connection, idOrder, mDetailsOrder.get(i));
+            }else {
+                //update order ht, tva, ttc,
+                BigDecimal ht;
+                BigDecimal tva = BigDecimal.valueOf(0);
+                BigDecimal ttc = BigDecimal.valueOf(0);
+                //update details order + add details created (id == 0)
+                for(int i = 0; i < mDetailsOrder.size(); i++){
+                    if (mDetailsOrder.get(i).getNbrLigne() == 0){
+                        onCreateDetailsOrder(connection, mOrder.getIdCmd(), mDetailsOrder.get(i));
+                    }
+                    else {
+                        onUpdateDetailsOrder(connection, mDetailsOrder.get(i));
+                    }
+                    tva = tva.add(mDetailsOrder.get(i).getMttvaArt());
+                    ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
+                }
+
+                ht = ttc.subtract(tva);
+                mOrder.setHtCmd(ht);
+                mOrder.setTvaCmd(tva);
+                mOrder.setTtcCmd(ttc);
+                mOrder.setUserModification(mUsername);
+                //apply the update
+                updateOrderState(connection, mOrder);
+
+            }
+
+            //update table state
+            Table table = getTableFromId(connection, mTable.getId());
+            table.setEtat(Utils.TableState.OCCUPIE);
+            updateTableStatue(connection, table);
+            return mOrder;
+
+        }
+
+        @Override
+        protected void onPostExecute(Order order) {
+            super.onPostExecute(order);
+            mProgressDetailsOrder.setVisibility(View.GONE);
+            if(order == null) return;
+            //refresh details order panel
+            MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
+            asyncOrder.execute(mTable);
+        }
+    }
+    //endregion
     //region hidden
-    /*
-    TODO if we serve order statue
-    public void onServeOrder(){
+
+    //TODO if we serve order statue
+    /*public void onServeOrder(){
         Connection connection = DatabaseAccess.databaseConnection();
         if(mOrder == null) return;
         //update order served to true
@@ -251,58 +478,48 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         //refresh details order panel
         MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
         asyncOrder.execute(mIdTable);
-    }*/
-    //endregion
-
+    }
     public void onCloseOrder(){
         MenuFragment.AsyncClose asyncClose = new MenuFragment.AsyncClose();
         asyncClose.execute("");
     }
+    class AsyncClose extends AsyncTask<String, String, Order>{
 
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private String onCreateOrder(Connection connection){
-        if(mDetailsOrder.size() < 0) return null;
-
-        Date nowDate = new Date();
-        //TODO get last row
-
-        String lastOrderId = getLastOrder(connection);
-
-        if(lastOrderId == null) return null;
-
-        int orderId = Integer.parseInt(lastOrderId);
-        orderId ++;
-        String cmfId = String.format("%08d", orderId);
-        //Order BigDecimal restePaie, int idCaisse) {
-
-        //get total ht, tva, ttc
-        BigDecimal ht = new BigDecimal(0), tva = new BigDecimal(0), ttc = new BigDecimal(0);
-        for(int i=0; i<mDetailsOrder.size(); i++){
-            tva = tva.add(mDetailsOrder.get(i).getMttvaArt());
-            ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDetailsOrder.setVisibility(View.VISIBLE);
         }
-        ht = ttc.subtract(tva);
-        Order order = new Order(cmfId, "0001", "Client Divers", nowDate, ht, tva, ttc,
-                BigDecimal.valueOf(0),1, mUsername, mUsername, Integer.toString(mIdTable), nowDate, mUsername, nowDate, mUsername,
-                BigDecimal.valueOf(0), 1);
+        @Override
+        protected Order doInBackground(String... strings) {
+            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            if(mOrder == null) return null;
+            //update order close to true
+            mOrder.setEtatCmd(2);
+            updateOrderState(connection, mOrder);
+            //update table state
+            Table table = getTableFromId(connection, mIdTable);
+            table.setEtat(Utils.TableState.FREE);
+            updateTableStatue(connection, table);
+            return mOrder;
 
 
-        //todo update table statue
 
-        return createOrder(connection, order);
+        }
+        @Override
+        protected void onPostExecute(Order order) {
+            super.onPostExecute(order);
+            mProgressDetailsOrder.setVisibility(View.GONE);
+            if(order == null) return;
+            //refresh details order panel
+            MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
+            asyncOrder.execute(mIdTable);
+        }
     }
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    */
+    //endregion
 
-    private int onCreateDetailsOrder(Connection connection, String orderId, DetailsOrder detailsOrder){
-        detailsOrder.setNumCmd(orderId);
-        return createDetailsOrder(connection, detailsOrder);
-    }
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private DetailsOrder onUpdateDetailsOrder(Connection connection, DetailsOrder detailsOrder){
-        return updateDetailsOrder(connection, detailsOrder);
-    }
-
+    //region Details Order function
     private boolean delete = false, modification = false;
     private BigDecimal detailOrderNumber = BigDecimal.valueOf(1);
     private int detailIdToDelete;
@@ -348,10 +565,11 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             @Override
             public void onClick(View v) {
                 detailOrderNumber = detailOrderNumber.subtract(BigDecimal.valueOf(1));
-                if(detailOrderNumber.equals(BigDecimal.valueOf(0)))
+                String qte = Utils.Formater.getBigDecimalFormat(detailOrderNumber, 0);
+                if(qte.equals("0"))
                     detailOrderNumber = BigDecimal.valueOf(1);
                 modification = true;
-                String qte = Utils.Formater.getBigDecimalFormat(detailOrderNumber, 0);
+                qte = Utils.Formater.getBigDecimalFormat(detailOrderNumber, 0);
                 counter.setText(qte);
 
             }
@@ -401,116 +619,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
 
         editDialog.show();
 
-    }
-
-    /**
-     * Get Menu Data
-     */
-    class AsyncMenu extends AsyncTask<String, String, List<Plat>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressMenu.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<Plat> doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
-            return MenuService.getPlats(connection);
-        }
-
-        @Override
-        protected void onPostExecute(List<Plat> plats) {
-            super.onPostExecute(plats);
-            mProgressMenu.setVisibility(View.GONE);
-            if(plats == null) return;
-            mPlats = plats;
-            mMenuAdapter.refreshAdapter(mPlats);
-        }
-    }
-
-    /**
-     * Get Menu Data
-     */
-    class AsyncCategorie extends AsyncTask<String, String, List<Category>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<Category> doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
-            return FamillyService.getFammillies(connection);
-        }
-
-        @Override
-        protected void onPostExecute(List<Category> categories) {
-            super.onPostExecute(categories);
-            if(categories == null) return;
-
-            mCategories = new ArrayList<>();
-            mCategoriesId = new ArrayList<>();
-            mCategories.add("All");
-            mCategoriesId.add(0);
-            for(int i=0; i<categories.size(); i++){
-                mCategories.add(categories.get(i).getName());
-                mCategoriesId.add(categories.get(i).getId());
-            }
-            dataAdapter =new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    mCategories);
-            //dataAdapter.notifyDataSetChanged();
-
-            mSpinner.setAdapter(dataAdapter);
-            getSpinnerListening();
-        }
-    }
-
-
-    Order mOrder;
-    /**
-     * Get Just if Order is open (no close)
-     * so the Table is still occupied
-     */
-    class AsyncOrder extends AsyncTask<Integer, String, List<DetailsOrder>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDetailsOrder.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<DetailsOrder> doInBackground(Integer... strings) {
-            if(strings == null || strings.length <= 0) return null;
-            int idTable = strings[0];
-            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
-            mOrder = OrderService.getTableOpenOrderById(connection, idTable);
-            if(mOrder == null) {
-                isTableFree = true;
-                return null;
-            }
-            return DetailsOrderService.getDetailsOrderByOrderId(connection, mOrder.getIdCmd());
-        }
-
-        @Override
-        protected void onPostExecute(List<DetailsOrder> detailsOrders) {
-            super.onPostExecute(detailsOrders);
-            mProgressDetailsOrder.setVisibility(View.GONE);
-            if(detailsOrders != null) {
-                mDetailsOrderTemp = detailsOrders;
-                mDetailsOrderAdapter.refreshAdapter(mDetailsOrderTemp);
-            }
-            //Sum price
-            BigDecimal totalPrice = BigDecimal.valueOf(0);
-            for(int i = 0; i<mDetailsOrderTemp.size(); i++)
-                totalPrice  = totalPrice.add(mDetailsOrderTemp.get(i).getMtnetArt());
-            String totalPriceFormat = Utils.Formater.getBigDecimalFormat(totalPrice, 2) + " DA";
-            mTotalPriceTextView.setText(totalPriceFormat);
-
-        }
     }
 
     class AsyncDelete extends AsyncTask<DetailsOrder, String, DetailsOrder>{
@@ -593,103 +701,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         }
     }
 
-    class AsyncSave extends AsyncTask<String, String, Order>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDetailsOrder.setVisibility(View.VISIBLE);
-        }
-
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected Order doInBackground(String... detailsOrders) {
-            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
-            if(mOrder == null) {
-                //create order + order details
-                String idOrder = onCreateOrder(connection);
-                if (idOrder == null) return null;
-                for(int i = 0; i < mDetailsOrder.size(); i++)
-                    onCreateDetailsOrder(connection, idOrder, mDetailsOrder.get(i));
-            }else {
-                //update order ht, tva, ttc,
-                BigDecimal ht;
-                BigDecimal tva = BigDecimal.valueOf(0);
-                BigDecimal ttc = BigDecimal.valueOf(0);
-                //update details order + add details created (id == 0)
-                for(int i = 0; i < mDetailsOrder.size(); i++){
-                    if (mDetailsOrder.get(i).getNbrLigne() == 0){
-                        onCreateDetailsOrder(connection, mOrder.getIdCmd(), mDetailsOrder.get(i));
-                    }
-                    else {
-                        onUpdateDetailsOrder(connection, mDetailsOrder.get(i));
-                    }
-                    tva = tva.add(mDetailsOrder.get(i).getMttvaArt());
-                    ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
-                }
-
-                ht = ttc.subtract(tva);
-                mOrder.setHtCmd(ht);
-                mOrder.setTvaCmd(tva);
-                mOrder.setTtcCmd(ttc);
-                mOrder.setUserModification(mUsername);
-                //apply the update
-                updateOrderState(connection, mOrder);
-
-            }
-
-            //update table state
-            Table table = getTableFromId(connection, mIdTable);
-            table.setEtat(Utils.TableState.OCCUPIE);
-            updateTableStatue(connection, table);
-            return mOrder;
-
-        }
-
-        @Override
-        protected void onPostExecute(Order order) {
-            super.onPostExecute(order);
-            mProgressDetailsOrder.setVisibility(View.GONE);
-            if(order == null) return;
-            //refresh details order panel
-            MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
-            asyncOrder.execute(mIdTable);
-        }
-    }
-
-    class AsyncClose extends AsyncTask<String, String, Order>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDetailsOrder.setVisibility(View.VISIBLE);
-        }
-        @Override
-        protected Order doInBackground(String... strings) {
-            Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
-            if(mOrder == null) return null;
-            //update order close to true
-            mOrder.setEtatCmd(2);
-            updateOrderState(connection, mOrder);
-            //update table state
-            Table table = getTableFromId(connection, mIdTable);
-            table.setEtat(Utils.TableState.FREE);
-            updateTableStatue(connection, table);
-            return mOrder;
+    //endregion
 
 
 
-        }
-        @Override
-        protected void onPostExecute(Order order) {
-            super.onPostExecute(order);
-            mProgressDetailsOrder.setVisibility(View.GONE);
-            if(order == null) return;
-            //refresh details order panel
-            MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
-            asyncOrder.execute(mIdTable);
-        }
-    }
+
 
 }

@@ -184,7 +184,6 @@ public class DetailsOrderService {
             statement.setString(11, detailsOrder.getTypPrd());
             statement.setInt(12, detailsOrder.getIdMag());
             int affectedRows = statement.executeUpdate();
-
             if (affectedRows == 0) {
                 return 0;
             }

@@ -16,7 +16,6 @@ public class TableStateConverter {
     }
     public static int stateConverter(Utils.TableState  state){
         if(state == Utils.TableState.OCCUPIE) return 2;
-
         return 1;
     }
 }
