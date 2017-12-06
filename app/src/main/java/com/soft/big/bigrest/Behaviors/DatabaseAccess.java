@@ -33,8 +33,10 @@ public class DatabaseAccess {
             connection  = DriverManager.getConnection(connectionUrl);
         }catch (SQLException exception){
             Log.e(TAG, exception.getMessage());
+            return null;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
 
         return connection;

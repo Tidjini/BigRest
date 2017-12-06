@@ -18,6 +18,7 @@ public class Constants {
     public static final String DATABASE_PASSWORD = "hack3bar";
     public static final String INSTANCE_NAME = "SQLEXPRESS";
     public static final boolean INTEGRATED_SECURITY = true;
+    public static final boolean CONNECT = false;
 
 
 

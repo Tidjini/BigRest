@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             // do something
             AsyncConnectionTest asyncConnectionTest = new AsyncConnectionTest();
             asyncConnectionTest.execute("");
+
         }
 
     }
@@ -55,8 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = mPasswordEditText.getText().toString();
 
 
-        AsyncLogin asyncLogin = new AsyncLogin();
-        asyncLogin.execute(mUsername, mPassword);
+        if(mConnectionErrorFrame.getVisibility() == View.GONE){
+            AsyncLogin asyncLogin = new AsyncLogin();
+            asyncLogin.execute(mUsername, mPassword);
+        }
+
     }
 
     private void goToTableActivity(String username){
@@ -82,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = strings[0];
             String password = strings[1];
             Connection connection = DatabaseAccess.databaseConnection(LoginActivity.this);
+            if(connection == null) return null;
             return UserService.login(connection, username, password);
         }
 
@@ -89,12 +94,16 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean login) {
             super.onPostExecute(login);
             mProgressFrameLayout.setVisibility(View.GONE);
-            if(login) {
-               goToTableActivity(mUsername);
-            }else {
-                Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
+            if(login == null)  mConnectionErrorFrame.setVisibility(View.VISIBLE);
+            else {
+                if(login) {
+                    goToTableActivity(mUsername);
+                }else {
+                    Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
 
+                }
             }
+
 
         }
     }
@@ -110,6 +119,8 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mUsernameEditText.setEnabled(false);
+            mPasswordEditText.setEnabled(false);
             mProgressFrameLayout.setVisibility(View.VISIBLE);
         }
 
@@ -125,13 +136,12 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(connection);
             mProgressFrameLayout.setVisibility(View.GONE);
             if(connection == null) {
-
                 mConnectionErrorFrame.setVisibility(View.VISIBLE);
 
             }else {
                 mConnectionErrorFrame.setVisibility(View.GONE);
-
-
+                mUsernameEditText.setEnabled(true);
+                mPasswordEditText.setEnabled(true);
             }
 
         }

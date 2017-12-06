@@ -104,6 +104,7 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
         @Override
         protected List<Table> doInBackground(String... strings) {
             Connection connection = DatabaseAccess.databaseConnection(TablesFragment.this.getActivity());
+            if(connection == null) return null;
             return TableService.getTables(connection);
          }
 
@@ -112,7 +113,11 @@ public class TablesFragment extends Fragment implements TableAdapter.TablesClick
             super.onPostExecute(tables);
             mProgressBar.setVisibility(View.GONE);
 
-            if(tables == null) return;
+            if(tables == null) {
+                ((TablesActivity) getActivity()).setConnectionError(true);
+                return;
+            }
+            ((TablesActivity) getActivity()).setConnectionError(false);
             mTables = tables;
             mTableAdapter.refreshAdapter(mTables);
             //update user interface

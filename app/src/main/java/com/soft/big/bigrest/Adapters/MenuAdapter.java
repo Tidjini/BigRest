@@ -138,7 +138,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     public void refreshItemAdapter(int position, Plat plat){
         //this.mDetailsOrder.(position);
-        this.mPlats.set(position, plat);
+        this.mPlatsFiltred.set(position, plat);
         this.notifyDataSetChanged();
     }
 
@@ -164,7 +164,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         }
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            String idPlat = mPlats.get(adapterPosition).getIdProd();
+            String idPlat = mPlatsFiltred.get(adapterPosition).getIdProd();
             mClickHandler.onPlatSelected(idPlat);
 
         }

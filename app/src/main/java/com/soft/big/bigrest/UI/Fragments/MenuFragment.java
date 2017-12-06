@@ -38,6 +38,7 @@ import com.soft.big.bigrest.Services.FamillyService;
 import com.soft.big.bigrest.Services.MenuService;
 import com.soft.big.bigrest.Services.OrderService;
 import com.soft.big.bigrest.Services.TableService;
+import com.soft.big.bigrest.UI.TablesActivity;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -217,6 +218,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
      * Get Just if Order is open (no close)
      * so the Table is still occupied
      */
+    boolean mConnectionError = false;
     class AsyncOrder extends AsyncTask<Table, String, List<DetailsOrder>>{
         @Override
         protected void onPreExecute() {
@@ -232,6 +234,13 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             if(table.getEtat() == Utils.TableState.FREE) return null;
 
             Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            if(connection == null) {
+                mConnectionError = true;
+                return null;
+            }else{
+                mConnectionError = false;
+            }
+
             mOrder = OrderService.getTableOpenOrderById(connection, table.getId());
             if(mOrder == null) {
                 //isTableFree = true;
@@ -245,7 +254,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             super.onPostExecute(detailsOrders);
             mProgressDetailsOrder.setVisibility(View.GONE);
 
-            if(detailsOrders != null) {
+            ((TablesActivity) getActivity()).setConnectionError(mConnectionError);
+
+
+            if(detailsOrders != null){
                 mDetailsOrderTemp = detailsOrders;
                 mDetailsOrderAdapter.refreshAdapter(mDetailsOrderTemp);
             }
@@ -426,8 +438,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     private DetailsOrder onUpdateDetailsOrder(Connection connection, DetailsOrder detailsOrder){
         return updateDetailsOrder(connection, detailsOrder);
     }
-
-
     class AsyncSave extends AsyncTask<String, String, Order>{
 
         @Override
@@ -441,6 +451,13 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         @Override
         protected Order doInBackground(String... detailsOrders) {
             Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
+            if(connection == null) {
+                mConnectionError = true;
+                return null;
+            }else {
+                mConnectionError = false;
+            }
+
             if(mOrder == null) {
                 //create order + order details
                 String idOrder = onCreateOrder(connection);
@@ -486,7 +503,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         protected void onPostExecute(Order order) {
             super.onPostExecute(order);
             mProgressDetailsOrder.setVisibility(View.GONE);
+            ((TablesActivity) getActivity()).setConnectionError(mConnectionError);
+
             if(order == null) return;
+
             //refresh details order panel
             MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
             asyncOrder.execute(mTable);
@@ -564,19 +584,19 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         // custom dialog
         editDialog = new Dialog(getContext());
         editDialog.setContentView(R.layout.row_dialog);
-        editDialog.setTitle("Edit detail order ID:" + idDetailOrder);
+        editDialog.setTitle("Edit "+ detailOrder.getLibeProd());
         // set the custom dialog components - text, image and button
-        TextView articleName = editDialog.findViewById(R.id.tv_article_name_dialog);
+        //TextView articleName = editDialog.findViewById(R.id.tv_article_name_dialog);
 
-        articleName.setText(detailOrder.getLibeProd());
+        //articleName.setText(detailOrder.getLibeProd());
         final TextView counter = editDialog.findViewById(R.id.tv_article_number_dialog);
         String qte = Utils.Formater.getBigDecimalFormat(detailOrder.getQttProd(), 0);
         counter.setText(qte);
 
         Button minusBtn = editDialog.findViewById(R.id.btn_minus_counter);
         Button plusBtn = editDialog.findViewById(R.id.btn_plus_counter);
-        Button deleteBtn = editDialog.findViewById(R.id.btn_delete_dialog);
-        Button okBtn = editDialog.findViewById(R.id.btn_confirmation_dialog);
+        TextView deleteBtn = editDialog.findViewById(R.id.btn_delete_dialog);
+        TextView okBtn = editDialog.findViewById(R.id.btn_confirmation_dialog);
         Button cancelBtn = editDialog.findViewById(R.id.btn_cancel_dialog);
 
         //init

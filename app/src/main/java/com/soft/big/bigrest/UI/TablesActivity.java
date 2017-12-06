@@ -108,6 +108,12 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     }
 
 
+    public void setConnectionError(boolean connectionError){
+        if(connectionError)
+            mConnectionErrorFrame.setVisibility(View.VISIBLE);
+        else
+            mConnectionErrorFrame.setVisibility(View.GONE);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -173,24 +179,27 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     }
 
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onSaveClicked(View view){
 
-        if(mSnackbar != null) mSnackbar.dismiss();
-        mSnackbar = Snackbar
+        if(mMenuFragment == null) return;
+        mMenuFragment.onSaveOrder();
+        //refresh Tables
+        if(mTablesFragment == null) return;
+        mTablesFragment.executeTask();
+       // if(mSnackbar != null) mSnackbar.dismiss();
+       /* mSnackbar = Snackbar
                 .make(view, "Really want to save order.", Snackbar.LENGTH_LONG)
                 .setAction("SAVE", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(mMenuFragment == null) return;
-                        mMenuFragment.onSaveOrder();
-                        //refresh Tables
-                        if(mTablesFragment == null) return;
-                        mTablesFragment.executeTask();
+
                     }
                 });
 
-        mSnackbar.show();
+        mSnackbar.show();*/
 
     }
 

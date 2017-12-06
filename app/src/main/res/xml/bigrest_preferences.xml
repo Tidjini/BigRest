@@ -35,5 +35,14 @@
         android:title="Integrated security"
         android:summaryOff="Hidden"
         android:summaryOn="Shown"
+
+        ></CheckBoxPreference>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="connect"
+        android:title="connect"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        android:visibility="gone"
         ></CheckBoxPreference>
 </PreferenceScreen>
