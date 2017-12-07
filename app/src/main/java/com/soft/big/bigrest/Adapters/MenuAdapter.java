@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,8 @@ import com.soft.big.bigrest.Model.DetailsOrder;
 import com.soft.big.bigrest.Model.Plat;
 import com.soft.big.bigrest.R;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -22,12 +26,71 @@ import java.util.List;
  * Created by Tidjini on 10/11/2017.
  */
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
+
+
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> implements Filterable {
     private Context mContext;
     private List<Plat> mPlats;
-
+    private List<Plat> mPlatsFiltred;
+    private FamilleFilter familleFilter;
     //Click handler
     private final MenuAdapter.MenuClickHandler mClickHandler;
+
+    @Override
+    public Filter getFilter() {
+        if(familleFilter == null)
+            familleFilter = new FamilleFilter(this, mPlats);
+        return familleFilter;
+    }
+
+    public void setFilter(FamilleFilter filter){
+        this.familleFilter = filter;
+    }
+
+
+    public class FamilleFilter extends Filter {
+
+        private final MenuAdapter menuAdapter;
+        private final List<Plat> mPlats;
+        private final List<Plat> mPlatsFiltred;
+
+        public FamilleFilter(MenuAdapter menuAdapter, List<Plat> mPlats) {
+            super();
+            this.menuAdapter = menuAdapter;
+            this.mPlats = mPlats;
+            this.mPlatsFiltred = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            mPlatsFiltred.clear();
+            final FilterResults results = new FilterResults();
+
+            if (constraint.length() == 0 || Integer.valueOf((String) constraint) == 0) {
+                mPlatsFiltred.addAll(mPlats);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (final Plat plat : mPlats) {
+                    if (plat.getFamProd() == Integer.valueOf((String) constraint)) {
+                        mPlatsFiltred.add(plat);
+                    }
+                }
+            }
+            results.values = mPlatsFiltred;
+            results.count = mPlatsFiltred.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            menuAdapter.mPlatsFiltred.clear();
+            menuAdapter.mPlatsFiltred.addAll((ArrayList<Plat>) filterResults.values);
+            menuAdapter.notifyDataSetChanged();
+        }
+    }
+
+
     public interface MenuClickHandler{
         /**
          * when plat is selected from menu get ID and manage it in TableActivity
@@ -38,8 +101,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     public MenuAdapter(Context context, List<Plat> plats, MenuClickHandler mClickHandler) {
         this.mContext = context;
-        this.mPlats = plats;
+        this.mPlats = new LinkedList<>(plats);
         this.mClickHandler = mClickHandler;
+        this.mPlatsFiltred = new ArrayList<>();
     }
 
     @Override
@@ -52,18 +116,18 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
 
-        String platPrice = Utils.Formater.getBigDecimalFormat(mPlats.get(position).getPrixProdVente(), 2)+" DA";
+        String platPrice = Utils.Formater.getBigDecimalFormat(mPlatsFiltred.get(position).getPrixProdVente(), 2)+" DA";
 
         holder.bind(
                 platPrice,
-                mPlats.get(position).getDésignProf(),
+                mPlatsFiltred.get(position).getDésignProf(),
                 "", //remarque or description
-                mPlats.get(position).getImageProd());
+                mPlatsFiltred.get(position).getImageProd());
     }
 
     @Override
     public int getItemCount() {
-        return mPlats.size();
+        return mPlatsFiltred.size();
     }
 
     public void refreshAdapter(List<Plat> list){
@@ -74,7 +138,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     public void refreshItemAdapter(int position, Plat plat){
         //this.mDetailsOrder.(position);
-        this.mPlats.set(position, plat);
+        this.mPlatsFiltred.set(position, plat);
         this.notifyDataSetChanged();
     }
 
@@ -100,7 +164,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         }
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            String idPlat = mPlats.get(adapterPosition).getIdProd();
+            String idPlat = mPlatsFiltred.get(adapterPosition).getIdProd();
             mClickHandler.onPlatSelected(idPlat);
 
         }

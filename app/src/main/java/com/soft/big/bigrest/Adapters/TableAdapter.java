@@ -38,7 +38,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
      * click interface handler
      */
     public interface TablesClickHandler {
-        void onTableSelected(int idTable);
+        void onTableSelected(Table table);
     }
 
 
@@ -169,8 +169,7 @@ public class TableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void onClick(View view) {
 
             int adapterPosition = getAdapterPosition();
-            int idTable = mTables.get(adapterPosition).getId();
-            mClickHandler.onTableSelected(idTable);
+            mClickHandler.onTableSelected(mTables.get(adapterPosition));
         }
 
 

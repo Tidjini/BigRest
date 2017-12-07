@@ -5,105 +5,28 @@
     android:layout_height="match_parent"
     tools:context="com.soft.big.bigrest.UI.LoginActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/big_rest_login_background"
-        android:scaleType="fitXY"
-        />
-
-    <LinearLayout
-        android:paddingTop="32dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:paddingBottom="14dp"
-        android:background="@drawable/login_background_gradient"
-        >
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="BIG Mobile Restaurent \nBook Your Table "
-                android:textColor="#0E0E0E"
-                android:textSize="22sp"
-
-                />
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
-                />
-        </LinearLayout>
-        <TextView
-
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="Nemo quaeso miretur, si post exsudatos labores itinerum longos congestosque adfatim commeatus fiducia vestri ductante barbaricos"
-            />
-        <EditText
-            android:id="@+id/et_username_login"
-            android:layout_marginTop="14dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            />
-        <EditText
-            android:id="@+id/et_password_login"
-            android:layout_marginTop="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            />
-
-        <LinearLayout
-            android:layout_marginTop="18dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="Info"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="#FFF"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="#FFF"
-                android:text="Connexion"
-                android:onClick="connect"/>
-        </LinearLayout>
-    </LinearLayout>
     <FrameLayout
-        android:id="@+id/progress_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#88000000"
-        android:visibility="gone"
+        android:background="#AA000000"
         >
-        <ProgressBar
-
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            />
+            android:padding="24dp"
+            android:background="#242423"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_phone"
+                android:textColor="#FFF"/>
+
+        </LinearLayout>
     </FrameLayout>
+
 
 </RelativeLayout>

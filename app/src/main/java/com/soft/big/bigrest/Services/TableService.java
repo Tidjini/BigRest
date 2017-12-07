@@ -107,7 +107,7 @@ public class TableService {
                 //set data of order in table
                 //the value of table dictionnary is the id of the opened command
                 //the key is the table state
-                table = new Table(id, tableDictionaryEntry.getValue(), name, tableDictionaryEntry.getKey());
+                table = new Table(id, tableDictionaryEntry.getValue(), name, stateConverter(etat));
                 tables.add(table);
             }
 
@@ -139,7 +139,7 @@ public class TableService {
                 //set data of order in table
                 //the value of table dictionnary is the id of the opened command
                 //the key is the table state
-                table = new Table(id, tableDictionaryEntry.getValue(), name, tableDictionaryEntry.getKey());
+                table = new Table(id, tableDictionaryEntry.getValue(), name, stateConverter(state));
 
             }
 

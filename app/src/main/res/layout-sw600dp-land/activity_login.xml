@@ -74,7 +74,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/colorPrimary"
+                        android:background="@color/colorPrimary"
                         android:textColor="#FFF"
                         android:text="About"
                         android:onClick="connect"/>
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textAlignment="center"
-                    android:text="@string/login_panel_header"
+                    android:text= "@string/login_panel_header"
                     android:textColor="@color/colorPrimary"
                     android:layout_alignTop="@+id/linearLayout"
                     android:layout_alignEnd="@+id/linearLayout" />
@@ -113,8 +113,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Username"
+                    android:inputType="textPersonName"
                     android:textColor="#FFF"
                     android:textColorHint="#88FFFFFF"
+
                     />
                 <EditText
                     android:id="@+id/et_password_login"
@@ -136,13 +138,13 @@
                         android:layout_height="wrap_content"
                         android:text="Config"
                         android:onClick="onConfigClicked"
-                        android:backgroundTint="@color/colorPrimary"
+                        android:background="@color/colorPrimary"
                         android:textColor="#FFF"/>
                     <Button
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/colorPrimary"
+                        android:background="@color/colorAccent"
                         android:textColor="#FFF"
                         android:text="Connexion"
                         android:onClick="connect"/>
@@ -169,7 +171,7 @@
         android:id="@+id/connection_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#AA000000"
+        android:background="#DD000000"
         android:visibility="gone"
         >
       <LinearLayout
@@ -190,7 +192,7 @@
               android:layout_marginTop="14dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:backgroundTint="@color/colorPrimary"
+              android:background="@color/colorPrimary"
               android:textColor="#FFF"
               android:text="Configuration"
               android:onClick="onConfigClicked"/>

@@ -22,15 +22,18 @@
             android:id="@+id/tv_total_price_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/commande_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:gravity="center"
+        android:layout_marginBottom="14dp"
         >
 
         <Button
@@ -39,8 +42,11 @@
             android:layout_height="38dp"
             android:text="save"
             android:textColor="#FFF"
-            android:backgroundTint="@color/colorPrimary"
+            android:background="@color/colorPrimary"
             android:onClick="onSaveClicked"
+            android:padding="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             />
         <!--<Button
             android:layout_width="0dp"
@@ -49,15 +55,18 @@
             android:text="Servie"
             android:backgroundTint="@color/colorAccent"
             android:onClick="onServieClicked"
-            />-->
+            />
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="38dp"
-            android:text="Close"
-            android:backgroundTint="@color/colorAccent"
+            android:text="Delete"
+            android:textColor="#FFF"
+            android:background="#EE0000"
             android:onClick="onCloseClicked"
-            />
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            />-->
     </LinearLayout>
     <LinearLayout
         android:id="@+id/commande_grid_header"

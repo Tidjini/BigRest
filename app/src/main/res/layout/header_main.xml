@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:text="Server Username"
-        android:textSize="16sp"/>
+        android:textSize="18sp"
+        android:textAllCaps="true"/>
 
     <ImageView
         android:layout_marginLeft="24dp"
@@ -33,7 +34,7 @@
         android:layout_marginLeft="8dp"
         android:textColor="@color/colorPrimaryDark"
         android:text="7 Tables Disponible"
-        android:textSize="16sp"/>
+        android:textSize="18sp"/>
     <ImageView
         android:layout_marginLeft="24dp"
 
@@ -56,14 +57,14 @@
         android:layout_marginLeft="8dp"
         android:textColor="@color/colorPrimary"
 
-        android:textSize="16sp"/>
+        android:textSize="18sp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:backgroundTint="@color/colorAccent"
+        android:background="@color/colorAccent"
         android:text="Refresh"
-        android:textAllCaps="false"
+        android:textColor="#FFF"
         android:layout_marginLeft="8dp"
         android:onClick="onRefreshClicked"/>
 

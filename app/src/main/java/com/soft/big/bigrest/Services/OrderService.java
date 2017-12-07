@@ -35,9 +35,10 @@ public class OrderService {
      */
     private static String selectTableOpenOrderQueryBuilder(){
 
-        return "SELECT * FROM "+ ORDER_TABLENAME +" WHERE " +
-                "[TableNum] = ? AND " +
-                "[EtatCmd] = ?";
+        return "SELECT TOP 1 * FROM "+ ORDER_TABLENAME +" WHERE " +
+                "[TableNum] = ? " +
+                "ORDER BY idCmd DESC"
+                ;
     }
 
     private static String selectOrderQueryBuilder(String id){
@@ -78,7 +79,7 @@ public class OrderService {
         try {
             statement = connection.prepareStatement(selectTableOpenOrderQueryBuilder());
             statement.setString(1, Integer.toString(idTable));
-            statement.setInt(2, 1); // state Open = 1 , Close = 2
+            //statement.setInt(2, 1); // state Open = 1 , Close = 2
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
                 String idCmd = resultSet.getString("idCmd");

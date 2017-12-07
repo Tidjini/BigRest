@@ -8,10 +8,9 @@
     <string name="application_name">MOBILE RESTAURANT\n APPLICATION</string>
     <string name="application_short_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
 
-    <string name="login_panel_header">Connect and have fun</string>
+    <string name="login_panel_header">Connect and have fun with CODEPUSH</string>
     <string name="error_login">User Failed To Login, verify your credentials or switch to other server.</string>
     <string name="server_connection_error">Verify your server address and edit in settings.</string>
-    <string name="error_phone">sorry this app runs only on tablet in landscape mode</string>
 
     <string name="send_order">Send</string>
     <string name="notification">Notification</string>
@@ -19,7 +18,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <bool name="isTablet">true</bool>
-    <bool name="isTablet_land">false</bool>
+    <bool name="isTablet_land">true</bool>
+
     <bool name="portrait_only">false</bool>
 
 </resources>

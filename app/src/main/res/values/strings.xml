@@ -3,6 +3,7 @@
     <string name="tables_title">MOBILES RESTAURANT</string>
     <string name="table_title">TABLE</string>
     <string name="error_login">User Failed To Login, verify your credentials or switch to other server.</string>
+    <string name="error_phone">sorry this app runs only on tablet in landscape mode</string>
 
     <string name="send_order">Send</string>
     <string name="notification">Notification</string>
@@ -10,6 +11,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <bool name="isTablet">false</bool>
+    <bool name="isTablet_land">false</bool>
+
     <bool name="portrait_only">true</bool>
 
 </resources>

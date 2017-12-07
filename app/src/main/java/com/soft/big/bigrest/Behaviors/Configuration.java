@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
+import static com.soft.big.bigrest.Behaviors.Constants.CONNECT;
 import static com.soft.big.bigrest.Behaviors.Constants.DATABASE_NAME;
 import static com.soft.big.bigrest.Behaviors.Constants.DATABASE_PASSWORD;
 import static com.soft.big.bigrest.Behaviors.Constants.DATABASE_USERNAME;
