@@ -76,13 +76,13 @@ public class DetailsOrderService {
      * @param idOrder order id
      * @return
      */
-    public static List<DetailsOrder> getDetailsOrderByOrderId(Connection connection, String idOrder){
+    public static List<DetailsOrder> getDetailsOrderByOrderId(Connection connection, int idOrder){
         PreparedStatement statement;
         List<DetailsOrder> detailsOrders = new ArrayList<>();
         DetailsOrder detailOrder;
         try {
             statement = connection.prepareStatement(selectDetailsOrderByOrderIdQueryBuilder());
-            statement.setString(1, idOrder);
+            statement.setInt(1, idOrder);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 int nbrLigne = resultSet.getInt("Id");

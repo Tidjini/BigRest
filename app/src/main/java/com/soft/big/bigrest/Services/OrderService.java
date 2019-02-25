@@ -41,7 +41,7 @@ public class OrderService {
                 ;
     }
 
-    private static String selectOrderQueryBuilder(String id){
+    private static String selectOrderQueryBuilder(int id){
 
         return "select * from "+ ORDER_TABLENAME +" Where " +
                 "idCmd = '"+ id +"' ";
@@ -82,7 +82,7 @@ public class OrderService {
             //statement.setInt(2, 1); // state Open = 1 , Close = 2
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                String idCmd = resultSet.getString("idCmd");
+                int idCmd = resultSet.getInt("idCmd");
                 String codeClient = resultSet.getString("CodeClient");
                 String nomClient = resultSet.getString("NomClient");
                 Date dateCmd = resultSet.getDate("DateCmd");
@@ -112,7 +112,7 @@ public class OrderService {
         }
     }
 
-    public static Order getOrderById(Connection connection, String id){
+    public static Order getOrderById(Connection connection, int id){
         Statement statement;
         Order order = new Order();
         try {
@@ -120,7 +120,7 @@ public class OrderService {
             ResultSet resultSet = statement.executeQuery(selectOrderQueryBuilder(id));
             if (resultSet.next()){
 
-                String idCmd = resultSet.getString("idCmd");
+                int idCmd = resultSet.getInt("idCmd");
                 String codeClient = resultSet.getString("CodeClient");
                 String nomClient = resultSet.getString("NomClient");
                 Date dateCmd = resultSet.getDate("DateCmd");
@@ -152,9 +152,9 @@ public class OrderService {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static String createOrder(Connection connection, Order order){
+    public static int createOrder(Connection connection, Order order){
 
-        if (connection == null || order == null) return null;
+        if (connection == null || order == null) return 0;
 
         try {
 
@@ -163,7 +163,7 @@ public class OrderService {
                     createOrederBuilder(),
                     Statement.RETURN_GENERATED_KEYS);
 
-            statement.setString(1, order.getIdCmd());
+            statement.setInt(1, order.getIdCmd());
             statement.setString(2, order.getCodeClient());
             statement.setString(3, order.getNomClient());
             statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
@@ -185,11 +185,11 @@ public class OrderService {
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows == 0) {
-                return null;
+                return 0;
             }
             return order.getIdCmd();
         } catch (SQLException e) {
-            return null;
+            return 0;
         }
 
     }
@@ -210,7 +210,7 @@ public class OrderService {
             statement.setBigDecimal(5, order.getPaymentCmd());
             statement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
             statement.setString(7, order.getUserModification());
-            statement.setString(8, order.getIdCmd());
+            statement.setInt(8, order.getIdCmd());
             //Execute update request
             statement.executeUpdate();
             //get updated order

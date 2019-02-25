@@ -96,7 +96,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
          * when plat is selected from menu get ID and manage it in TableActivity
          * @param idPlat
          */
-        void onPlatSelected(String idPlat);
+        void onPlatSelected(int idPlat);
     }
 
     public MenuAdapter(Context context, List<Plat> plats, MenuClickHandler mClickHandler) {
@@ -164,7 +164,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         }
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            String idPlat = mPlatsFiltred.get(adapterPosition).getIdProd();
+            int idPlat = mPlatsFiltred.get(adapterPosition).getIdProd();
             mClickHandler.onPlatSelected(idPlat);
 
         }

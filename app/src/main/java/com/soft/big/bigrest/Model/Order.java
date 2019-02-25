@@ -13,10 +13,10 @@ import java.util.Date;
  */
 public class Order {
 
-    String idCmd, codeClient, nomClient; //code & nom client = 001, Client diveres,
+    String  codeClient, nomClient; //code & nom client = 001, Client diveres,
     Date dateCommande;
     BigDecimal htCmd, tvaCmd, ttcCmd, paymentCmd, restePaie;
-    int etatCmd;
+    int idCmd, etatCmd;
     String serverCode, serverName;//user name, user name
     String table;
     Date dateCreation;
@@ -29,7 +29,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String idCmd, String codeClient, String nomClient, Date dateCommande, BigDecimal htCmd, BigDecimal tvaCmd, BigDecimal ttcCmd, BigDecimal paymentCmd, int etatCmd, String serverCode, String serverName, String table, Date dateCreation, String userCreator, Date dateModification, String userModification, BigDecimal restePaie, int idCaisse) {
+    public Order(int idCmd, String codeClient, String nomClient, Date dateCommande, BigDecimal htCmd, BigDecimal tvaCmd, BigDecimal ttcCmd, BigDecimal paymentCmd, int etatCmd, String serverCode, String serverName, String table, Date dateCreation, String userCreator, Date dateModification, String userModification, BigDecimal restePaie, int idCaisse) {
         this.idCmd = idCmd;
         this.codeClient = codeClient;
         this.nomClient = nomClient;
@@ -68,11 +68,11 @@ public class Order {
         this.idCaisse = idCaisse;
     }
 
-    public String getIdCmd() {
+    public int getIdCmd() {
         return idCmd;
     }
 
-    public void setIdCmd(String idCmd) {
+    public void setIdCmd(int idCmd) {
         this.idCmd = idCmd;
     }
 

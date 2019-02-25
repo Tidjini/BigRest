@@ -2,8 +2,6 @@ package com.soft.big.bigrest.Model;
 
 import android.graphics.Bitmap;
 
-import net.sourceforge.jtds.jdbc.DateTime;
-
 import java.math.BigDecimal;
 
 /**
@@ -11,16 +9,16 @@ import java.math.BigDecimal;
  */
 
 public class Plat {
-    String idProd, désignProf, refProd;
+    String désignProf, refProd;
 
-    int famProd, typeProd;
+    int idProd, famProd, typeProd;
     BigDecimal tva, prixProdVente;
     Bitmap imageProd;
 
     public Plat() {
     }
 
-    public Plat(String idProd, String désignProf, String refProd, int famProd, int typeProd, BigDecimal tva, BigDecimal prixProdVente, Bitmap imageProd) {
+    public Plat(int idProd, String désignProf, String refProd, int famProd, int typeProd, BigDecimal tva, BigDecimal prixProdVente, Bitmap imageProd) {
         this.idProd = idProd;
         this.désignProf = désignProf;
         this.refProd = refProd;
@@ -31,11 +29,11 @@ public class Plat {
         this.imageProd = imageProd;
     }
 
-    public String getIdProd() {
+    public int getIdProd() {
         return idProd;
     }
 
-    public void setIdProd(String idProd) {
+    public void setIdProd(int idProd) {
         this.idProd = idProd;
     }
 

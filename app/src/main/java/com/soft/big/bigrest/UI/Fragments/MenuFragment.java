@@ -350,11 +350,11 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     //endregion
     //region Select Plat
     @Override
-    public void onPlatSelected(String idPlat) {
+    public void onPlatSelected(int idPlat) {
         //if plat exist in list of order perform update operation
         boolean update = false;
         for (int j = 0; j < mDetailsOrder.size(); j++){
-            if(mDetailsOrder.get(j).getCodeProd().equals(idPlat)){
+            if(mDetailsOrder.get(j).getCodeProd() == (idPlat)){
                 BigDecimal total = mDetailsOrder.get(j).getQttProd().add(BigDecimal.valueOf(1));
                 DetailsOrder detailOrder =  mDetailsOrder.get(j);
                 detailOrder.setQttProd(total);
@@ -371,15 +371,14 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             }
             DetailsOrder detailsOrder = new DetailsOrder(
                     0,
-                    "",
+                    0,
                     idPlat,
                     mPlats.get(platPosition).getDésignProf(),
                     mPlats.get(platPosition).getPrixProdVente(),
                     BigDecimal.valueOf(1),
                     mPlats.get(platPosition).getTva(),
                     BigDecimal.valueOf(0),
-                    "p",
-                    0
+                   0
 
             );
             mDetailsOrderTemp.add(detailsOrder);
@@ -402,17 +401,17 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private String onCreateOrder(Connection connection){
-        if(mDetailsOrder.size() < 0) return null;
+    private int onCreateOrder(Connection connection){
+        if(mDetailsOrder.size() < 0) return 0;
         //date time = now
         Date nowDate = new Date();
         //get last order to increment new one
         String lastOrderId = getLastOrder(connection);
-        if(lastOrderId == null) return null;
+        if(lastOrderId == null) return 0;
 
         int orderId = Integer.parseInt(lastOrderId);
         orderId ++;
-        String cmfId = String.format("%08d", orderId);
+        //int cmfId = String.format(orderId);
 
         //get total ht, tva, ttc
         BigDecimal ht, tva = new BigDecimal(0), ttc = new BigDecimal(0);
@@ -421,7 +420,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
         }
         ht = ttc.subtract(tva);
-        Order order = new Order(cmfId, "0001", "Client Divers", nowDate, ht, tva, ttc,
+        Order order = new Order(orderId, "0001", "Client Divers", nowDate, ht, tva, ttc,
                 BigDecimal.valueOf(0),1, mUsername, mUsername, Integer.toString(mTable.getId()), nowDate, mUsername, nowDate, mUsername,
                 BigDecimal.valueOf(0), 1);
 
@@ -429,7 +428,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private int onCreateDetailsOrder(Connection connection, String orderId, DetailsOrder detailsOrder){
+    private int onCreateDetailsOrder(Connection connection, int orderId, DetailsOrder detailsOrder){
         detailsOrder.setNumCmd(orderId);
         return createDetailsOrder(connection, detailsOrder);
     }
@@ -460,8 +459,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
 
             if(mOrder == null) {
                 //create order + order details
-                String idOrder = onCreateOrder(connection);
-                if (idOrder == null) return null;
+                int idOrder = onCreateOrder(connection);
+                if (idOrder == 0) return null;
                 for(int i = 0; i < mDetailsOrder.size(); i++)
                     onCreateDetailsOrder(connection, idOrder, mDetailsOrder.get(i));
             }else {

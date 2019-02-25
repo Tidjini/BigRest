@@ -30,7 +30,7 @@ public class MenuService {
         return "select * from "+ARTICLES_TABLENAME;
     }
 
-    private static String selectQueryWithIdBuilder(String id){
+    private static String selectQueryWithIdBuilder(int id){
         return "select * from "+ARTICLES_TABLENAME+"\n" +
                 "Where\n" +
                 "IdProd = '"+ id +"' ";
@@ -46,7 +46,7 @@ public class MenuService {
 
             //for fake image
             while (resultSet.next()){
-                String id = resultSet.getString("idProd");
+                int id = resultSet.getInt("idProd");
                 int famProd = resultSet.getInt("FamProd");
                 int typeProd = resultSet.getInt("TypeProd");
                 String name = resultSet.getString("DésignProf");
@@ -73,7 +73,7 @@ public class MenuService {
     }
 
 
-    public static Plat getPlatById(Connection connection, String id) {
+    public static Plat getPlatById(Connection connection, int id) {
         Statement statement;
         Plat plat = new Plat();
         try {

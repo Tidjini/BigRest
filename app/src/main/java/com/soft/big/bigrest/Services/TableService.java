@@ -67,7 +67,7 @@ public class TableService {
         Map<Utils.TableState, String> tableDictionary = new HashMap<>();
         //free state
         int state = 0;
-        String orderId = "";
+        int orderId = 0;
         Order tableOpenOrder = getTableOpenOrderById(connection, idTable);
         if(tableOpenOrder != null)
         {
@@ -81,9 +81,11 @@ public class TableService {
 
         }
         //put data
-        tableDictionary.put(stateConverter(state), orderId);
+        tableDictionary.put(stateConverter(state), Integer.toString(orderId));
         return  tableDictionary.entrySet().iterator().next();
     }
+
+
 
 
     /**
@@ -103,7 +105,7 @@ public class TableService {
                 String name = resultSet.getString("Libelle");
                 int etat = resultSet.getInt("Etat");
                 //get table state form orders, open order id
-                Map.Entry<Utils.TableState, String> tableDictionaryEntry  = getTableState(connection, id);
+                Map.Entry<Utils.TableState, String> tableDictionaryEntry  =  getTableState(connection, id);
                 //set data of order in table
                 //the value of table dictionnary is the id of the opened command
                 //the key is the table state
