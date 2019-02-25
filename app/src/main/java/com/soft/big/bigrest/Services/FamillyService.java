@@ -39,13 +39,14 @@ public class FamillyService {
             ResultSet resultSet = statement.executeQuery(selectQueryBuilder());
 
             while (resultSet.next()){
-                int id = resultSet.getInt("IdFam");
-                String libelle = resultSet.getString("LibFam");
-                int impCuis = resultSet.getInt("ImpCuis");
-                int tFam = resultSet.getInt("TFam");
+                int id = resultSet.getInt("Id");
+                String libelle = resultSet.getString("LibFamille");
+                int impCuis = resultSet.getInt("ImprimeCuisine");
+                String imprimante = resultSet.getString("Imprimante");
+                int tFam = resultSet.getInt("TFamille");
 
 
-                category = new Category(id, libelle, impCuis, tFam);
+                category = new Category(id, libelle, impCuis, tFam, imprimante);
                 categories.add(category);
             }
 

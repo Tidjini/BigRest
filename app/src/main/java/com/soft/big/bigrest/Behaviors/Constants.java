@@ -32,7 +32,7 @@ public class Constants {
     public static final String ARTICLES_TABLENAME = "Produits";
     public static final String USERS_TABLENAME = "Utilisateurs";
     public static final String ORDER_TABLENAME = "Bons";
-    public static final String FAMILLY_TABLENAME = "Famille";
+    public static final String FAMILLY_TABLENAME = "Familles";
     public static final String DETAILS_ORDER_TABLENAME = "DetailsBons";
 
 

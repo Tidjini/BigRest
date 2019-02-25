@@ -7,18 +7,19 @@ package com.soft.big.bigrest.Model;
 public class Category {
 
     private int id;
-    private String name;
+    private String name, imprimante;
     private int impCuis;
     private int tFamille;
 
     public Category() {
     }
 
-    public Category(int id, String name, int impCuis, int tFamille) {
+    public Category(int id, String name, int impCuis, int tFamille, String imprimante) {
         this.id = id;
         this.name = name;
         this.impCuis = impCuis;
         this.tFamille = tFamille;
+        this.imprimante = imprimante;
     }
 
     public String getIdName(){
@@ -38,6 +39,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImprimante() {
+        return imprimante;
+    }
+
+    public void setImprimante(String imprimante) {
+        this.imprimante = imprimante;
     }
 
     public int getImpCuis() {
