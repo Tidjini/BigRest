@@ -53,24 +53,28 @@ public class OrderService {
     }
 
     private static String createOrederBuilder(){
-        return "insert into "+ORDER_TABLENAME+" (Id, DateModification, DateCreation, CreerPar, HtCmd, TvaCmd, TtcCmd, " +
-                "EtatCmd, PayementCmd, ServeurCode, ServeurNom, TableNum, dateCreation, UserCreation, " +
-                "DateModif, UserModif, Restepaie, IdCaisse) " +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return "insert into "+ORDER_TABLENAME+" (Id, DateModification, DateCreation, CreerPar, NumBon, Date, Service, " +
+                "Etat, EtatPayement, CodeCient, NomClient, MTRemise, MTHT, MTTVA, " +
+                "MTTTC, MtTimbre, ExoTimbre, ModePaiement, ModeReglement, FactureNum, RefPaiement, TableNum, NbrCouvert, NumChambre, NumSejour, " +
+                "IdClient, IdTable, IdChambre, IdSejour, ImprimePayment, ImprimantCaisse, ImprimantCaisseCmd, ImprimeCmdTicket, Type, MontantTotalPaye) " +
+                "values (?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     private static String updateOrderBuilder(){
         return "UPDATE "+ORDER_TABLENAME+"\n" +
                 //"SET [Effectuer] = ?,\n" + For serve or not
-                "SET [EtatCmd] = ?," +
-                " [HtCmd] = ?,"+
-                " [TvaCmd] = ?,"+
-                " [TtcCmd] = ?,"+
-                " [PayementCmd] = ?,"+
-                " [DateModif] = ?,"+
-                " [UserModif] = ?\n"+
+                "SET [Etat] = ?," +
+                " [MTHT] = ?,"+
+                " [MTTVA] = ?,"+
+                " [MTTTC] = ?,"+
+                " [EtatPayement] = ?,"+
+                " [DateModification] = ?,"+
+                " [CreerPar] = ?\n"+
                 "Where\n" +
-                "IdCmd = ?";
+                "Id = ?";
     }
 
     public static Order getTableOpenOrderById(Connection connection, int idTable){
@@ -82,26 +86,22 @@ public class OrderService {
             //statement.setInt(2, 1); // state Open = 1 , Close = 2
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                int idCmd = resultSet.getInt("idCmd");
-                String codeClient = resultSet.getString("CodeClient");
+                int idCmd = resultSet.getInt("Id");
+                int codeClient = resultSet.getInt("IdClient");
                 String nomClient = resultSet.getString("NomClient");
-                Date dateCmd = resultSet.getDate("DateCmd");
-                int etatCmd = resultSet.getInt("EtatCmd");
-                BigDecimal htCmd = resultSet.getBigDecimal("HtCmd");
-                BigDecimal tvaCmd = resultSet.getBigDecimal("TvaCmd");
-                BigDecimal ttcCmd = resultSet.getBigDecimal("TtcCmd");
-                BigDecimal payementCmd = resultSet.getBigDecimal("PayementCmd");
-                String codeServer = resultSet.getString("ServeurCode");
-                String serveurNom = resultSet.getString("ServeurNom");
-                String tableNum = resultSet.getString("TableNum");
-                Date dateCreation = resultSet.getDate("dateCreation");
-                String userCreation = resultSet.getString("UserCreation");
-                Date dateModif = resultSet.getDate("DateModif");
-                String userModif = resultSet.getString("UserModif");
-                BigDecimal restePaie = resultSet.getBigDecimal("Restepaie");
-                int idCaisse = resultSet.getInt("IdCaisse");
+                Date dateCmd = resultSet.getDate("Date");
+                int etatCmd = resultSet.getInt("Etat");
+                BigDecimal htCmd = resultSet.getBigDecimal("MTHT");
+                BigDecimal tvaCmd = resultSet.getBigDecimal("MTTVA");
+                BigDecimal ttcCmd = resultSet.getBigDecimal("MTTTC");
+                boolean payementEtat = resultSet.getBoolean("EtatPayement");
+                int idUser = resultSet.getInt("CreerPar");
+                int tableNum = resultSet.getInt("IdTable");
+                Date dateCreation = resultSet.getDate("DateCreation");
+                int userCreation = resultSet.getInt("CreerPar");
+                Date dateModif = resultSet.getDate("DateModification");
 
-                order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd, payementCmd, etatCmd, codeServer, serveurNom, tableNum, dateCreation, userCreation, dateModif, userModif, restePaie, idCaisse);
+                order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd, payementEtat, etatCmd, idUser, tableNum, dateCreation, userCreation, dateModif, idUser);
             }
 
             return order;
@@ -120,24 +120,20 @@ public class OrderService {
             ResultSet resultSet = statement.executeQuery(selectOrderQueryBuilder(id));
             if (resultSet.next()){
 
-                int idCmd = resultSet.getInt("idCmd");
-                String codeClient = resultSet.getString("CodeClient");
+                int idCmd = resultSet.getInt("Id");
+                int codeClient = resultSet.getInt("IdClient");
                 String nomClient = resultSet.getString("NomClient");
-                Date dateCmd = resultSet.getDate("DateCmd");
-                int etatCmd = resultSet.getInt("EtatCmd");
-                BigDecimal htCmd = resultSet.getBigDecimal("HtCmd");
-                BigDecimal tvaCmd = resultSet.getBigDecimal("TvaCmd");
-                BigDecimal ttcCmd = resultSet.getBigDecimal("TtcCmd");
-                BigDecimal payementCmd = resultSet.getBigDecimal("PayementCmd");
-                String codeServer = resultSet.getString("ServeurCode");
-                String serveurNom = resultSet.getString("ServeurNom");
-                String tableNum = resultSet.getString("TableNum");
-                Date dateCreation = resultSet.getDate("dateCreation");
-                String userCreation = resultSet.getString("UserCreation");
-                Date dateModif = resultSet.getDate("DateModif");
-                String userModif = resultSet.getString("UserModif");
-                BigDecimal restePaie = resultSet.getBigDecimal("Restepaie");
-                int idCaisse = resultSet.getInt("IdCaisse");
+                Date dateCmd = resultSet.getDate("Date");
+                int etatCmd = resultSet.getInt("Etat");
+                BigDecimal htCmd = resultSet.getBigDecimal("MTHT");
+                BigDecimal tvaCmd = resultSet.getBigDecimal("MTTVA");
+                BigDecimal ttcCmd = resultSet.getBigDecimal("MTTTC");
+                boolean payementEtat = resultSet.getBoolean("EtatPayement");
+                int idUser = resultSet.getInt("CreerPar");
+                int tableNum = resultSet.getInt("IdTable");
+                Date dateCreation = resultSet.getDate("DateCreation");
+                int userCreation = resultSet.getInt("CreerPar");
+                Date dateModif = resultSet.getDate("DateModification");
 
                 order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd, payementCmd, etatCmd, codeServer, serveurNom, tableNum, dateCreation, userCreation, dateModif, userModif, restePaie, idCaisse);
 

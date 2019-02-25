@@ -13,25 +13,24 @@ import java.util.Date;
  */
 public class Order {
 
-    String  codeClient, nomClient; //code & nom client = 001, Client diveres,
+    String  nomClient; //code & nom client = 001, Client diveres,
     Date dateCommande;
     BigDecimal htCmd, tvaCmd, ttcCmd, paymentCmd, restePaie;
-    int idCmd, etatCmd;
+    int  userCreator, userModification,  codeClient, idCmd, etatCmd;
     String serverCode, serverName;//user name, user name
-    String table;
+    int table;
     Date dateCreation;
-    String userCreator;
     Date dateModification;
-    String userModification;
 
     int idCaisse;
 
     public Order() {
     }
 
-    public Order(int idCmd, String codeClient, String nomClient, Date dateCommande, BigDecimal htCmd, BigDecimal tvaCmd, BigDecimal ttcCmd, BigDecimal paymentCmd, int etatCmd, String serverCode, String serverName, String table, Date dateCreation, String userCreator, Date dateModification, String userModification, BigDecimal restePaie, int idCaisse) {
+    public Order(int idCmd, int codeClient,int idClient, String nomClient, Date dateCommande, BigDecimal htCmd, BigDecimal tvaCmd, BigDecimal ttcCmd, BigDecimal paymentCmd, int etatCmd, String serverCode, String serverName, int table, Date dateCreation, int userCreator, Date dateModification, int userModification) {
         this.idCmd = idCmd;
         this.codeClient = codeClient;
+
         this.nomClient = nomClient;
         this.dateCommande = dateCommande;
         this.htCmd = htCmd;
@@ -47,8 +46,6 @@ public class Order {
         this.dateModification = dateModification;
         this.userModification = userModification;
 
-        this.idCaisse  = idCaisse;
-        this.restePaie = restePaie;
     }
 
 
@@ -76,11 +73,11 @@ public class Order {
         this.idCmd = idCmd;
     }
 
-    public String getCodeClient() {
+    public int getCodeClient() {
         return codeClient;
     }
 
-    public void setCodeClient(String codeClient) {
+    public void setCodeClient(int codeClient) {
         this.codeClient = codeClient;
     }
 
@@ -156,11 +153,11 @@ public class Order {
         this.serverName = serverName;
     }
 
-    public String getTable() {
+    public int getTable() {
         return table;
     }
 
-    public void setTable(String table) {
+    public void setTable(int table) {
         this.table = table;
     }
 
@@ -172,11 +169,11 @@ public class Order {
         this.dateCreation = dateCreation;
     }
 
-    public String getUserCreator() {
+    public int getUserCreator() {
         return userCreator;
     }
 
-    public void setUserCreator(String userCreator) {
+    public void setUserCreator(int userCreator) {
         this.userCreator = userCreator;
     }
 
@@ -188,11 +185,11 @@ public class Order {
         this.dateModification = dateModification;
     }
 
-    public String getUserModification() {
+    public int getUserModification() {
         return userModification;
     }
 
-    public void setUserModification(String userModification) {
+    public void setUserModification(int userModification) {
         this.userModification = userModification;
     }
 }

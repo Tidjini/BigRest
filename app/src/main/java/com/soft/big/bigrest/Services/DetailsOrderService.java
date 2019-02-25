@@ -52,7 +52,7 @@ public class DetailsOrderService {
         return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(Id, DateModification, DateCreation, CreerPar, IdProduit, IdBon, ProduitDesignation, TvaProduit,"+
                 " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified) " +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         /*return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(NumCmd, CodeProd, LibeProd,"+
@@ -172,7 +172,7 @@ public class DetailsOrderService {
                     createDetailsOrderQueryBuilder()
                     ,
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, detailsOrder.getNumCmd());
+            statement.setInt(1, detailsOrder.getNbrLigne());
             statement.setDate(2, new Date(System.currentTimeMillis()));
             statement.setDate(3, new Date(System.currentTimeMillis()));
             //set user id
