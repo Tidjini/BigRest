@@ -2,6 +2,9 @@ package com.soft.big.bigrest.Services;
 
 import android.util.Log;
 
+import com.soft.big.bigrest.Behaviors.DatabaseAccess;
+import com.soft.big.bigrest.UI.LoginActivity;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +22,9 @@ public class UserService {
 
     private static String selectQueryBuilder(String username, String password){
         return "select * from "+ USERS_TABLENAME +" Where " +
-                "Utilisateur = '"+ username +"' and " +
-                "Motpass = '"+ password +"'";
+                "Operateur = '"+ username +"'";
+                //and " +
+                //"Active = '"+ password +"'";
     }
 
 
@@ -29,6 +33,10 @@ public class UserService {
         Statement statement;
         try {
             statement = connection.createStatement();
+
+            ///create connection to configdb
+            Connection configConnection = DatabaseAccess.configDbConnection();
+            statement = configConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(selectQueryBuilder(username, password));
             return resultSet.next();
         } catch (SQLException exception) {

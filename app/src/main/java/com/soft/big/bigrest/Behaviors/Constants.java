@@ -12,10 +12,10 @@ public class Constants {
 
 
     public static final String URL_PREFIX = "jdbc:jtds:sqlserver://";
-    public static final String SERVER_IP = "192.168.1.5";
-    public static final String DATABASE_NAME= "PosSys_HAV_2017";
-    public static final String DATABASE_USERNAME = "sa";
-    public static final String DATABASE_PASSWORD = "hack3bar";
+    public static final String SERVER_IP = "192.168.1.4";
+    public static final String DATABASE_NAME= "HotelManagementSystem";
+    public static final String DATABASE_USERNAME = "Tijini";
+    public static final String DATABASE_PASSWORD = "oralog31";
     public static final String INSTANCE_NAME = "SQLEXPRESS";
     public static final boolean INTEGRATED_SECURITY = true;
     public static final boolean CONNECT = false;
@@ -29,11 +29,11 @@ public class Constants {
 
 
     public static final String TABLES_TABLENAME = "Tables";
-    public static final String ARTICLES_TABLENAME = "Produit";
-    public static final String USERS_TABLENAME = "Users";
-    public static final String ORDER_TABLENAME = "Commande";
+    public static final String ARTICLES_TABLENAME = "Produits";
+    public static final String USERS_TABLENAME = "Utilisateurs";
+    public static final String ORDER_TABLENAME = "Bons";
     public static final String FAMILLY_TABLENAME = "Famille";
-    public static final String DETAILS_ORDER_TABLENAME = "CommandeLig";
+    public static final String DETAILS_ORDER_TABLENAME = "DetailsBons";
 
 
 

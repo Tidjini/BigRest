@@ -13,6 +13,7 @@ import com.soft.big.bigrest.Model.Table;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,20 +39,20 @@ public class DetailsOrderService {
 
     private static String selectDetailsOrderByOrderIdQueryBuilder(){
         return "SELECT * FROM "+ DETAILS_ORDER_TABLENAME +" WHERE\n" +
-                "NumCmd = ?";
+                "IdBon = ?";
     }
 
     private static String selectDetailsOrderByIdQueryBuilder(){
 
         return "select * from "+DETAILS_ORDER_TABLENAME+" Where\n" +
-                "NbrLigne = ?";
+                "Id = ?";
     }
 
     private static String createDetailsOrderQueryBuilder(){
         return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
-                "(NumCmd, CodeProd, LibeProd, PrixProd, QttProd, TvaArt, MttvaArt,"+
-                " RemArt, MtremArt, MtnetArt, TypPrd, Idmag) " +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "(DateModification, DateCreation, CreerPar, IdProduit, IdBon, ProduitDesignation, TvaProduit,"+
+                " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified) " +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         /*return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(NumCmd, CodeProd, LibeProd,"+
@@ -62,10 +63,10 @@ public class DetailsOrderService {
 
     private static String updateDetailsOrderQueryBuilder(){
         return "UPDATE "+DETAILS_ORDER_TABLENAME+"\n" +
-                "SET [QttProd] = ?,\n" +
-                "    [MtnetArt] = ?\n" +
+                "SET [Qte] = ?,\n" +
+                "    [MtTotal] = ?\n" +
                 "WHERE\n" +
-                "NbrLigne = ?";
+                "Id = ?";
     }
 
     /**
@@ -84,21 +85,21 @@ public class DetailsOrderService {
             statement.setString(1, idOrder);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                int nbrLigne = resultSet.getInt("NbrLigne");
-                String numCmd = resultSet.getString("NumCmd");
-                String codeProd = resultSet.getString("CodeProd");
-                String libeProd = resultSet.getString("LibeProd");
-                BigDecimal prixProd = resultSet.getBigDecimal("PrixProd");
-                BigDecimal qttProd = resultSet.getBigDecimal("QttProd");
-                BigDecimal tvaArt = resultSet.getBigDecimal("TvaArt");
-                BigDecimal mttvaArt = resultSet.getBigDecimal("MttvaArt");
-                BigDecimal remArt = resultSet.getBigDecimal("RemArt");
-                BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
-                BigDecimal mtnetArt = resultSet.getBigDecimal("MtnetArt");
-                String typPrd = resultSet.getString("TypPrd");
-                int idmag = resultSet.getInt("Idmag");
+                int nbrLigne = resultSet.getInt("Id");
+                String numCmd = resultSet.getString("IdBon");
+                int codeProd = resultSet.getInt("IdProduit");
+                String libeProd = resultSet.getString("ProduitDesignation");
+                BigDecimal prixProd = resultSet.getBigDecimal("PrixVProduit");
+                BigDecimal qttProd = resultSet.getBigDecimal("Qte");
+                BigDecimal tvaArt = resultSet.getBigDecimal("TvaProduit");
+                BigDecimal mttvaArt = resultSet.getBigDecimal("MtTotal");
+                BigDecimal remArt = resultSet.getBigDecimal("Remise");
+               // BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
+                BigDecimal mtnetArt = resultSet.getBigDecimal("MtTotal");
+                //String typPrd = resultSet.getString("TypPrd");
+                //int idmag = resultSet.getInt("Idmag");
 
-                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt,typPrd, idmag);
+                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd);
                 detailsOrders.add(detailOrder);
             }
 
@@ -125,21 +126,21 @@ public class DetailsOrderService {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                int nbrLigne = resultSet.getInt("NbrLigne");
-                String numCmd = resultSet.getString("NumCmd");
-                String codeProd = resultSet.getString("CodeProd");
-                String libeProd = resultSet.getString("LibeProd");
-                BigDecimal prixProd = resultSet.getBigDecimal("PrixProd");
-                BigDecimal qttProd = resultSet.getBigDecimal("QttProd");
-                BigDecimal tvaArt = resultSet.getBigDecimal("TvaArt");
-                BigDecimal mttvaArt = resultSet.getBigDecimal("MttvaArt");
-                BigDecimal remArt = resultSet.getBigDecimal("RemArt");
-                BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
-                BigDecimal mtnetArt = resultSet.getBigDecimal("MtnetArt");
-                String typPrd = resultSet.getString("TypPrd");
-                int idmag = resultSet.getInt("Idmag");
+                int nbrLigne = resultSet.getInt("Id");
+                String numCmd = resultSet.getString("IdBon");
+                int codeProd = resultSet.getInt("IdProduit");
+                String libeProd = resultSet.getString("ProduitDesignation");
+                BigDecimal prixProd = resultSet.getBigDecimal("PrixVProduit");
+                BigDecimal qttProd = resultSet.getBigDecimal("Qte");
+                BigDecimal tvaArt = resultSet.getBigDecimal("TvaProduit");
+                BigDecimal mttvaArt = resultSet.getBigDecimal("MtTotal");
+                BigDecimal remArt = resultSet.getBigDecimal("Remise");
+                // BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
+                BigDecimal mtnetArt = resultSet.getBigDecimal("MtTotal");
+                //String typPrd = resultSet.getString("TypPrd");
+                //int idmag = resultSet.getInt("Idmag");
 
-                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, typPrd, idmag);
+                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd);
             }
 
             return detailOrder;
@@ -171,8 +172,11 @@ public class DetailsOrderService {
                     createDetailsOrderQueryBuilder()
                     ,
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, detailsOrder.getNumCmd());
-            statement.setString(2, detailsOrder.getCodeProd());
+            statement.setDate(1, new Date(System.currentTimeMillis()));
+            statement.setDate(2, new Date(System.currentTimeMillis()));
+            //set user id
+            statement.setInt(3, 0);
+            statement.setInt(2, detailsOrder.getCodeProd());
             statement.setString(3, detailsOrder.getLibeProd());
             statement.setBigDecimal(4, detailsOrder.getPrixProd());
             statement.setBigDecimal(5, detailsOrder.getQttProd());

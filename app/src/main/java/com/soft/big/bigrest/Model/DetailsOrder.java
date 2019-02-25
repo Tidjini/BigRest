@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 public class DetailsOrder {
 
 
-    int NbrLigne;
-    String numCmd, codeProd, libeProd;
+    int NbrLigne, codeProd;
+    String numCmd,  libeProd;
     BigDecimal prixProd, qttProd, tvaArt,remArt;
     String typPrd;
     int idMag;
@@ -34,11 +34,11 @@ public class DetailsOrder {
         this.numCmd = numCmd;
     }
 
-    public String getCodeProd() {
+    public int getCodeProd() {
         return codeProd;
     }
 
-    public void setCodeProd(String codeProd) {
+    public void setCodeProd(int codeProd) {
         this.codeProd = codeProd;
     }
 
@@ -115,7 +115,7 @@ public class DetailsOrder {
         this.idMag = idMag;
     }
 
-    public DetailsOrder(int nbrLigne, String numCmd, String codeProd, String libeProd, BigDecimal prixProd, BigDecimal qttProd, BigDecimal tvaArt,  BigDecimal remArt, String typPrd, int idMag) {
+    public DetailsOrder(int nbrLigne, String numCmd, int codeProd, String libeProd, BigDecimal prixProd, BigDecimal qttProd, BigDecimal tvaArt,  BigDecimal remArt, int idMag) {
         NbrLigne = nbrLigne;
         this.numCmd = numCmd;
         this.codeProd = codeProd;
@@ -125,7 +125,7 @@ public class DetailsOrder {
         this.tvaArt = tvaArt;
         this.remArt = remArt;
 
-        this.typPrd = typPrd;
+        //this.typPrd = typPrd;
         this.idMag = idMag;
     }
 }
