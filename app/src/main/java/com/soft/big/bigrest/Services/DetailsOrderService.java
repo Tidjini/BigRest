@@ -86,7 +86,7 @@ public class DetailsOrderService {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 int nbrLigne = resultSet.getInt("Id");
-                String numCmd = resultSet.getString("IdBon");
+                int numCmd = resultSet.getInt("IdBon");
                 int codeProd = resultSet.getInt("IdProduit");
                 String libeProd = resultSet.getString("ProduitDesignation");
                 BigDecimal prixProd = resultSet.getBigDecimal("PrixVProduit");
@@ -127,7 +127,7 @@ public class DetailsOrderService {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
                 int nbrLigne = resultSet.getInt("Id");
-                String numCmd = resultSet.getString("IdBon");
+                int numCmd = resultSet.getInt("IdBon");
                 int codeProd = resultSet.getInt("IdProduit");
                 String libeProd = resultSet.getString("ProduitDesignation");
                 BigDecimal prixProd = resultSet.getBigDecimal("PrixVProduit");
@@ -176,17 +176,21 @@ public class DetailsOrderService {
             statement.setDate(2, new Date(System.currentTimeMillis()));
             //set user id
             statement.setInt(3, 0);
-            statement.setInt(2, detailsOrder.getCodeProd());
-            statement.setString(3, detailsOrder.getLibeProd());
-            statement.setBigDecimal(4, detailsOrder.getPrixProd());
-            statement.setBigDecimal(5, detailsOrder.getQttProd());
-            statement.setBigDecimal(6, detailsOrder.getTvaArt());
-            statement.setBigDecimal(7, detailsOrder.getMttvaArt());
-            statement.setBigDecimal(8, detailsOrder.getRemArt());
-            statement.setBigDecimal(9, detailsOrder.getMtremArt());
-            statement.setBigDecimal(10, detailsOrder.getMtnetArt());
-            statement.setString(11, detailsOrder.getTypPrd());
-            statement.setInt(12, detailsOrder.getIdMag());
+            statement.setInt(4, detailsOrder.getCodeProd());
+            statement.setInt(5, detailsOrder.getNumCmd());
+            statement.setString(6, detailsOrder.getLibeProd());
+            statement.setBigDecimal(7, detailsOrder.getTvaArt());
+            statement.setBigDecimal(8, detailsOrder.getPrixProd());
+            statement.setBigDecimal(9, detailsOrder.getQttProd());
+            statement.setBigDecimal(10, detailsOrder.getQttProd());
+            statement.setBigDecimal(11, detailsOrder.getRemArt());
+            statement.setString(12, detailsOrder.getLibeProd());
+            statement.setBigDecimal(13, detailsOrder.getMtnetArt());
+            statement.setBigDecimal(14, new BigDecimal(0));
+            statement.setString(15, detailsOrder.getLibeProd());
+            statement.setBoolean(16, false);
+            statement.setBoolean(17, false);
+
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 return 0;
