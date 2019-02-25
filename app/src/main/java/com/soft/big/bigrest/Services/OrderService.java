@@ -52,30 +52,9 @@ public class OrderService {
         return "SELECT TOP 1 * FROM "+ ORDER_TABLENAME +" ORDER BY Id DESC ";
     }
 
-    private static String createOrederBuilder(){
-        return "insert into "+ORDER_TABLENAME+" (Id, DateModification, DateCreation, CreerPar, NumBon, Date, Service, " +
-                "Etat, EtatPayement, CodeCient, NomClient, MTRemise, MTHT, MTTVA, " +
-                "MTTTC, MtTimbre, ExoTimbre, ModePaiement, ModeReglement, FactureNum, RefPaiement, TableNum, NbrCouvert, NumChambre, NumSejour, " +
-                "IdClient, IdTable, IdChambre, IdSejour, ImprimePayment, ImprimantCaisse, ImprimantCaisseCmd, ImprimeCmdTicket, Type, MontantTotalPaye) " +
-                "values (?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    }
 
-    private static String updateOrderBuilder(){
-        return "UPDATE "+ORDER_TABLENAME+"\n" +
-                //"SET [Effectuer] = ?,\n" + For serve or not
-                "SET [Etat] = ?," +
-                " [MTHT] = ?,"+
-                " [MTTVA] = ?,"+
-                " [MTTTC] = ?,"+
-                " [EtatPayement] = ?,"+
-                " [DateModification] = ?,"+
-                " [CreerPar] = ?\n"+
-                "Where\n" +
-                "Id = ?";
-    }
+
+
 
     public static Order getTableOpenOrderById(Connection connection, int idTable){
         PreparedStatement statement;
@@ -101,7 +80,8 @@ public class OrderService {
                 int userCreation = resultSet.getInt("CreerPar");
                 Date dateModif = resultSet.getDate("DateModification");
 
-                order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd, payementEtat, etatCmd, idUser, tableNum, dateCreation, userCreation, dateModif, idUser);
+                order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd,
+                        payementEtat, etatCmd, idUser, tableNum, dateCreation, userCreation, dateModif, idUser);
             }
 
             return order;
@@ -111,6 +91,8 @@ public class OrderService {
             return null;
         }
     }
+
+
 
     public static Order getOrderById(Connection connection, int id){
         Statement statement;
@@ -135,8 +117,8 @@ public class OrderService {
                 int userCreation = resultSet.getInt("CreerPar");
                 Date dateModif = resultSet.getDate("DateModification");
 
-                order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd, payementCmd, etatCmd, codeServer, serveurNom, tableNum, dateCreation, userCreation, dateModif, userModif, restePaie, idCaisse);
-
+                order = new Order(idCmd, codeClient, nomClient, dateCmd, htCmd, tvaCmd, ttcCmd,
+                        payementEtat, etatCmd, idUser, tableNum, dateCreation, userCreation, dateModif, idUser);
             }
 
             return order;
@@ -145,6 +127,19 @@ public class OrderService {
             Log.e(TAG, exception.getMessage());
             return null;
         }
+    }
+
+
+
+    private static String createOrederBuilder(){
+        return "insert into "+ORDER_TABLENAME+" (Id, DateModification, DateCreation, CreerPar, NumBon, Date, Service, " +
+                "Etat, EtatPayement, CodeCient, NomClient, MTRemise, MTHT, MTTVA, " +
+                "MTTTC, MtTimbre, ExoTimbre, ModePaiement, ModeReglement, FactureNum, RefPaiement, TableNum, NbrCouvert, NumChambre, NumSejour, " +
+                "IdClient, IdTable, IdChambre, IdSejour, ImprimePayment, ImprimantCaisse, ImprimantCaisseCmd, ImprimeCmdTicket, Type, MontantTotalPaye) " +
+                "values (?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -160,23 +155,43 @@ public class OrderService {
                     Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, order.getIdCmd());
-            statement.setString(2, order.getCodeClient());
-            statement.setString(3, order.getNomClient());
-            statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            statement.setDate(2, new Date(System.currentTimeMillis()));
+            statement.setDate(3, new Date(System.currentTimeMillis()));
+            statement.setInt(4, order.getUserCreator());
+
+            //TODO Make it
+            statement.setString(5, order.getNomClient());
+            statement.setDate(6, new Date(System.currentTimeMillis()));
+            statement.setInt(7, 1);
+
             statement.setBigDecimal(5, order.getHtCmd());
             statement.setBigDecimal(6, order.getTvaCmd());
             statement.setBigDecimal(7, order.getTtcCmd());
             statement.setInt(8, order.getEtatCmd());
-            statement.setBigDecimal(9, order.getPaymentCmd());
-            statement.setString(10, order.getServerCode());
-            statement.setString(11, order.getServerName());
-            statement.setString(12, order.getTable());
-            statement.setTimestamp(13, new Timestamp(System.currentTimeMillis()));
-            statement.setString(14, order.getUserCreator());
-            statement.setTimestamp(15, new Timestamp(System.currentTimeMillis()));
-            statement.setString(16, order.getUserModification());
-            statement.setBigDecimal(17, order.getRestePaie());
-            statement.setInt(18, order.getIdCaisse());
+            statement.setInt(9, order.getEtatCmd());
+            statement.setBoolean(10, order.getPaymentCmd());
+            statement.setInt(11, order.getCodeClient());
+            statement.setString(12, order.getNomClient());
+            statement.setBigDecimal(13, new BigDecimal(0));
+            statement.setBigDecimal(14, order.getHtCmd());
+            statement.setBigDecimal(15, order.getTvaCmd());
+            statement.setBigDecimal(16, order.getTtcCmd());
+            statement.setBigDecimal(17, new BigDecimal(0));
+            statement.setBoolean(18, false);
+            statement.setInt(19, 0);
+            statement.setInt(20, 0);
+            statement.setString(21, "FA/00");
+            statement.setString(22, "REF/PAY/00");
+            statement.setString(23, "TREF° "+ order.getTable());
+            statement.setInt(24, 1);
+            statement.setString(25, "CH° "+ order.getTable());
+            statement.setString(26, "SEJ° "+ order.getTable());
+            statement.setInt(27, order.getCodeClient());
+            statement.setInt(28, order.getTable());
+            //statement.setInt(29, null);
+
+            statement.setBigDecimal(36, order.getRestePaie());
+            //statement.setInt(18, order.getIdCaisse());
 
             int affectedRows = statement.executeUpdate();
 
@@ -188,6 +203,21 @@ public class OrderService {
             return 0;
         }
 
+    }
+
+
+    private static String updateOrderBuilder(){
+        return "UPDATE "+ORDER_TABLENAME+"\n" +
+                //"SET [Effectuer] = ?,\n" + For serve or not
+                "SET [Etat] = ?," +
+                " [MTHT] = ?,"+
+                " [MTTVA] = ?,"+
+                " [MTTTC] = ?,"+
+                " [EtatPayement] = ?,"+
+                " [DateModification] = ?,"+
+                " [CreerPar] = ?\n"+
+                "Where\n" +
+                "Id = ?";
     }
 
     public static Order updateOrderState(Connection connection, Order order){
@@ -203,9 +233,9 @@ public class OrderService {
             statement.setBigDecimal(2, order.getHtCmd());
             statement.setBigDecimal(3, order.getTvaCmd());
             statement.setBigDecimal(4, order.getTtcCmd());
-            statement.setBigDecimal(5, order.getPaymentCmd());
+            statement.setBoolean(5, order.getPaymentCmd());
             statement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-            statement.setString(7, order.getUserModification());
+            statement.setInt(7, order.getServerCode());
             statement.setInt(8, order.getIdCmd());
             //Execute update request
             statement.executeUpdate();
@@ -219,7 +249,7 @@ public class OrderService {
 
     }
 
-    public static String getLastOrder(Connection connection){
+    public static int getLastOrder(Connection connection){
 
         Statement statement;
         try {
@@ -227,15 +257,15 @@ public class OrderService {
             ResultSet resultSet = statement.executeQuery(selectAllOrderQueryBuilder());
             if (resultSet.next()){
 
-                return resultSet.getString("idCmd");
+                return resultSet.getInt("Id");
 
             }
 
-            return null;
+            return 0;
         } catch (SQLException exception) {
             exception.printStackTrace();
             Log.e(TAG, exception.getMessage());
-            return null;
+            return 0;
         }
 
     }

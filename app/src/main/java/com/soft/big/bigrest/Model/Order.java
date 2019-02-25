@@ -15,31 +15,34 @@ public class Order {
 
     String  nomClient; //code & nom client = 001, Client diveres,
     Date dateCommande;
-    BigDecimal htCmd, tvaCmd, ttcCmd, paymentCmd, restePaie;
-    int  userCreator, userModification,  codeClient, idCmd, etatCmd;
-    String serverCode, serverName;//user name, user name
+    BigDecimal htCmd, tvaCmd, ttcCmd,  restePaie;
+    int serverCode, userCreator, userModification,  codeClient, idCmd, etatCmd;
+    String  serverName;//user name, user name
     int table;
     Date dateCreation;
     Date dateModification;
-
+    boolean paymentEtat;
     int idCaisse;
 
     public Order() {
     }
 
-    public Order(int idCmd, int codeClient,int idClient, String nomClient, Date dateCommande, BigDecimal htCmd, BigDecimal tvaCmd, BigDecimal ttcCmd, BigDecimal paymentCmd, int etatCmd, String serverCode, String serverName, int table, Date dateCreation, int userCreator, Date dateModification, int userModification) {
+    public Order(int idCmd, int codeClient, String nomClient,
+                 Date dateCommande, BigDecimal htCmd, BigDecimal tvaCmd,
+                 BigDecimal ttcCmd, boolean paymentEtat, int etatCmd, int serverCode,
+                 int table, Date dateCreation, int userCreator, Date dateModification,
+                 int userModification)
+    {
         this.idCmd = idCmd;
         this.codeClient = codeClient;
-
         this.nomClient = nomClient;
         this.dateCommande = dateCommande;
         this.htCmd = htCmd;
         this.tvaCmd = tvaCmd;
         this.ttcCmd = ttcCmd;
-        this.paymentCmd = paymentCmd;
+        this.paymentEtat = paymentEtat;
         this.etatCmd = etatCmd;
         this.serverCode = serverCode;
-        this.serverName = serverName;
         this.table = table;
         this.dateCreation = dateCreation;
         this.userCreator = userCreator;
@@ -121,12 +124,12 @@ public class Order {
         this.ttcCmd = ttcCmd;
     }
 
-    public BigDecimal getPaymentCmd() {
-        return paymentCmd;
+    public boolean getPaymentCmd() {
+        return paymentEtat;
     }
 
-    public void setPaymentCmd(BigDecimal paymentCmd) {
-        this.paymentCmd = paymentCmd;
+    public void setPaymentCmd(boolean paymentEtat) {
+        this.paymentEtat = paymentEtat;
     }
 
     public int getEtatCmd() {
@@ -137,11 +140,11 @@ public class Order {
         this.etatCmd = etatCmd;
     }
 
-    public String getServerCode() {
+    public int getServerCode() {
         return serverCode;
     }
 
-    public void setServerCode(String serverCode) {
+    public void setServerCode(int serverCode) {
         this.serverCode = serverCode;
     }
 

@@ -406,10 +406,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         //date time = now
         Date nowDate = new Date();
         //get last order to increment new one
-        String lastOrderId = getLastOrder(connection);
-        if(lastOrderId == null) return 0;
+        int lastOrderId = getLastOrder(connection);
+        if(lastOrderId == 0) return 0;
 
-        int orderId = Integer.parseInt(lastOrderId);
+        int orderId = lastOrderId;
         orderId ++;
         //int cmfId = String.format(orderId);
 
@@ -420,9 +420,9 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
         }
         ht = ttc.subtract(tva);
-        Order order = new Order(orderId, "0001", "Client Divers", nowDate, ht, tva, ttc,
-                BigDecimal.valueOf(0),1, mUsername, mUsername, Integer.toString(mTable.getId()), nowDate, mUsername, nowDate, mUsername,
-                BigDecimal.valueOf(0), 1);
+        Order order = new Order(orderId, 1, "Client Divers", nowDate, ht, tva, ttc,
+                false, 1, 1, mTable.getId(), nowDate, 1, nowDate, 1);
+
 
         return createOrder(connection, order);
     }
@@ -484,7 +484,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
                 mOrder.setHtCmd(ht);
                 mOrder.setTvaCmd(tva);
                 mOrder.setTtcCmd(ttc);
-                mOrder.setUserModification(mUsername);
+                mOrder.setUserModification(1);
+                //mOrder.setUserModification(mUsername);
                 //apply the update
                 updateOrderState(connection, mOrder);
 
