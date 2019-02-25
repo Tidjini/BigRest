@@ -50,7 +50,7 @@ public class DetailsOrderService {
 
     private static String createDetailsOrderQueryBuilder(){
         return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
-                "(DateModification, DateCreation, CreerPar, IdProduit, IdBon, ProduitDesignation, TvaProduit,"+
+                "(Id, DateModification, DateCreation, CreerPar, IdProduit, IdBon, ProduitDesignation, TvaProduit,"+
                 " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified) " +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -172,24 +172,25 @@ public class DetailsOrderService {
                     createDetailsOrderQueryBuilder()
                     ,
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setDate(1, new Date(System.currentTimeMillis()));
+            statement.setInt(1, detailsOrder.getNumCmd());
             statement.setDate(2, new Date(System.currentTimeMillis()));
+            statement.setDate(3, new Date(System.currentTimeMillis()));
             //set user id
-            statement.setInt(3, 0);
-            statement.setInt(4, detailsOrder.getCodeProd());
-            statement.setInt(5, detailsOrder.getNumCmd());
-            statement.setString(6, detailsOrder.getLibeProd());
-            statement.setBigDecimal(7, detailsOrder.getTvaArt());
-            statement.setBigDecimal(8, detailsOrder.getPrixProd());
-            statement.setBigDecimal(9, detailsOrder.getQttProd());
+            statement.setInt(4, 0);
+            statement.setInt(5, detailsOrder.getCodeProd());
+            statement.setInt(6, detailsOrder.getNumCmd());
+            statement.setString(7, detailsOrder.getLibeProd());
+            statement.setBigDecimal(8, detailsOrder.getTvaArt());
+            statement.setBigDecimal(9, detailsOrder.getPrixProd());
             statement.setBigDecimal(10, detailsOrder.getQttProd());
-            statement.setBigDecimal(11, detailsOrder.getRemArt());
-            statement.setString(12, detailsOrder.getLibeProd());
-            statement.setBigDecimal(13, detailsOrder.getMtnetArt());
-            statement.setBigDecimal(14, new BigDecimal(0));
-            statement.setString(15, detailsOrder.getLibeProd());
-            statement.setBoolean(16, false);
+            statement.setBigDecimal(11, detailsOrder.getQttProd());
+            statement.setBigDecimal(12, detailsOrder.getRemArt());
+            statement.setString(13, detailsOrder.getLibeProd());
+            statement.setBigDecimal(14, detailsOrder.getMtnetArt());
+            statement.setBigDecimal(15, new BigDecimal(0));
+            statement.setString(16, detailsOrder.getLibeProd());
             statement.setBoolean(17, false);
+            statement.setBoolean(18, false);
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {

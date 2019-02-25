@@ -24,7 +24,7 @@ import static com.soft.big.bigrest.Behaviors.ImageUtils.setImageViewWithByteArra
 
 public class MenuService {
 
-    public final static String TAG = "UserService";
+    public final static String TAG = "MenuService";
 
     private static String selectQueryBuilder(){
         return "select * from "+ARTICLES_TABLENAME;
@@ -33,7 +33,7 @@ public class MenuService {
     private static String selectQueryWithIdBuilder(int id){
         return "select * from "+ARTICLES_TABLENAME+"\n" +
                 "Where\n" +
-                "IdProd = '"+ id +"' ";
+                "Id = '"+ id +"' ";
     }
 
     public static List<Plat> getPlats(Connection connection) {

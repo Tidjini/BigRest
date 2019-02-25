@@ -37,23 +37,23 @@ public class OrderService {
 
         return "SELECT TOP 1 * FROM "+ ORDER_TABLENAME +" WHERE " +
                 "[TableNum] = ? " +
-                "ORDER BY idCmd DESC"
+                "ORDER BY Id DESC"
                 ;
     }
 
     private static String selectOrderQueryBuilder(int id){
 
         return "select * from "+ ORDER_TABLENAME +" Where " +
-                "idCmd = '"+ id +"' ";
+                "Id = '"+ id +"' ";
     }
 
     private static String selectAllOrderQueryBuilder(){
 
-        return "SELECT TOP 1 * FROM "+ ORDER_TABLENAME +" ORDER BY idCmd DESC ";
+        return "SELECT TOP 1 * FROM "+ ORDER_TABLENAME +" ORDER BY Id DESC ";
     }
 
     private static String createOrederBuilder(){
-        return "insert into "+ORDER_TABLENAME+" (idCmd, CodeClient, NomClient, DateCmd, HtCmd, TvaCmd, TtcCmd, " +
+        return "insert into "+ORDER_TABLENAME+" (Id, DateModification, DateCreation, CreerPar, HtCmd, TvaCmd, TtcCmd, " +
                 "EtatCmd, PayementCmd, ServeurCode, ServeurNom, TableNum, dateCreation, UserCreation, " +
                 "DateModif, UserModif, Restepaie, IdCaisse) " +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
