@@ -46,14 +46,15 @@ public class MenuService {
 
             //for fake image
             while (resultSet.next()){
-                int id = resultSet.getInt("idProd");
-                int famProd = resultSet.getInt("FamProd");
-                int typeProd = resultSet.getInt("TypeProd");
-                String name = resultSet.getString("DésignProf");
-                String refProd = resultSet.getString("RefProd");
-                BigDecimal tva = resultSet.getBigDecimal("TVA");
-                BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVProd");
-                Blob imageBlob = resultSet.getBlob("ImageProd");
+                int id = resultSet.getInt("Id");
+                int famProd = resultSet.getInt("IdFamille");
+                int typeProd = resultSet.getInt("Tprod");
+                String name = resultSet.getString("Designation");
+                String refProd = resultSet.getString("RefProduit");
+                String famProduit = resultSet.getString("FamProd");
+                BigDecimal tva = resultSet.getBigDecimal("TvaValue");
+                BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVprod");
+                Blob imageBlob = resultSet.getBlob("Image");
                 Bitmap image = null;
                 if(imageBlob != null)
                     image =  setImageViewWithByteArray(imageBlob);
@@ -83,13 +84,15 @@ public class MenuService {
             //for fake image
             int i = 0;
             if (resultSet.next()){
-                int famProd = resultSet.getInt("FamProd");
-                int typeProd = resultSet.getInt("TypeProd");
-                String name = resultSet.getString("DésignProf");
-                String refProd = resultSet.getString("RefProd");
-                BigDecimal tva = resultSet.getBigDecimal("TVA");
-                BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVProd");
-                Blob imageBlob = resultSet.getBlob("ImageProd");
+                //int id = resultSet.getInt("Id");
+                int famProd = resultSet.getInt("IdFamille");
+                int typeProd = resultSet.getInt("Tprod");
+                String name = resultSet.getString("Designation");
+                String refProd = resultSet.getString("RefProduit");
+                String famProduit = resultSet.getString("FamProd");
+                BigDecimal tva = resultSet.getBigDecimal("TvaValue");
+                BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVprod");
+                Blob imageBlob = resultSet.getBlob("Image");
                 Bitmap image = null;
                 if(imageBlob != null)
                     image =  setImageViewWithByteArray(imageBlob);
