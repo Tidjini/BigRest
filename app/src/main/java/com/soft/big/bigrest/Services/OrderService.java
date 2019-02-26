@@ -132,14 +132,13 @@ public class OrderService {
 
 
     private static String createOrederBuilder(){
-        return "insert into "+ORDER_TABLENAME+" (Id, DateModification, DateCreation, CreerPar, NumBon, Date, Service, " +
+        return "insert into "+ORDER_TABLENAME+" (DateModification, DateCreation, CreerPar, NumBon, Date, Service, " +
                 "Etat, EtatPayement, CodeCient, NomClient, MTRemise, MTHT, MTTVA, " +
-                "MTTTC, MtTimbre, ExoTimbre, ModePaiement, ModeReglement, FactureNum, RefPaiement, TableNum, NbrCouvert, NumChambre, NumSejour, " +
-                "IdClient, IdTable, IdChambre, IdSejour, ImprimePayment, ImprimantCaisse, ImprimantCaisseCmd, ImprimeCmdTicket, Type, MontantTotalPaye) " +
-                "values (?, ?, ?, ?, ?, ?, ?, " +
+                "MTTTC, MtTimbre, TableNum, NbrCouvert, NumChambre, NumSejour, " +
+                "IdClient, IdTable, MontantTotalPaye, ExoTimbre, ModePaiement, ModeReglement) " +
+                "values (?, ?, ?, ?, ?, ?, " +
                 "?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '1', '1')";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -154,43 +153,35 @@ public class OrderService {
                     createOrederBuilder(),
                     Statement.RETURN_GENERATED_KEYS);
 
-            statement.setInt(1, order.getIdCmd());
+            //statement.setInt(1, order.getIdCmd());
+            statement.setDate(1, new Date(System.currentTimeMillis()));
             statement.setDate(2, new Date(System.currentTimeMillis()));
-            statement.setDate(3, new Date(System.currentTimeMillis()));
-            statement.setInt(4, order.getUserCreator());
+            statement.setInt(3, order.getUserCreator());
 
             //TODO Make it
-            statement.setString(5, order.getNomClient());
-            statement.setDate(6, new Date(System.currentTimeMillis()));
-            statement.setInt(7, 1);
+            statement.setString(4, "Bons from tablet");
+            statement.setDate(5, new Date(System.currentTimeMillis()));
+            statement.setInt(6, 1);
+            statement.setInt(7, order.getEtatCmd());
+            statement.setBoolean(8, order.getPaymentCmd());
+            statement.setString(9, "CODE CLI/"+order.getCodeClient());
+            statement.setString(10, order.getNomClient());
+            statement.setBigDecimal(11, new BigDecimal(0));
+            statement.setBigDecimal(12, order.getHtCmd());
+            statement.setBigDecimal(13, order.getTvaCmd());
+            statement.setBigDecimal(14, order.getTtcCmd());
+            statement.setBigDecimal(15, new BigDecimal(0));
+            statement.setString(16, "TABLE ID/"+order.getTable());
+            statement.setInt(17, 1);
+            statement.setString(18, "Chambre ID/"+order.getTable());
+            statement.setString(19, "Sejour ID/"+order.getTable());
 
-            statement.setBigDecimal(5, order.getHtCmd());
-            statement.setBigDecimal(6, order.getTvaCmd());
-            statement.setBigDecimal(7, order.getTtcCmd());
-            statement.setInt(8, order.getEtatCmd());
-            statement.setInt(9, order.getEtatCmd());
-            statement.setBoolean(10, order.getPaymentCmd());
-            statement.setInt(11, order.getCodeClient());
-            statement.setString(12, order.getNomClient());
-            statement.setBigDecimal(13, new BigDecimal(0));
-            statement.setBigDecimal(14, order.getHtCmd());
-            statement.setBigDecimal(15, order.getTvaCmd());
-            statement.setBigDecimal(16, order.getTtcCmd());
-            statement.setBigDecimal(17, new BigDecimal(0));
-            statement.setBoolean(18, false);
-            statement.setInt(19, 0);
-            statement.setInt(20, 0);
-            statement.setString(21, "FA/00");
-            statement.setString(22, "REF/PAY/00");
-            statement.setString(23, "TREF° "+ order.getTable());
-            statement.setInt(24, 1);
-            statement.setString(25, "CH° "+ order.getTable());
-            statement.setString(26, "SEJ° "+ order.getTable());
-            statement.setInt(27, order.getCodeClient());
-            statement.setInt(28, order.getTable());
+
+            statement.setInt(20, order.getCodeClient());
+            statement.setInt(21, order.getTable());
             //statement.setInt(29, null);
-
-            statement.setBigDecimal(36, order.getRestePaie());
+            statement.setBigDecimal(22, new BigDecimal(0));
+            statement.setBoolean(23, false);
             //statement.setInt(18, order.getIdCaisse());
 
             int affectedRows = statement.executeUpdate();
@@ -200,6 +191,7 @@ public class OrderService {
             }
             return order.getIdCmd();
         } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
             return 0;
         }
 

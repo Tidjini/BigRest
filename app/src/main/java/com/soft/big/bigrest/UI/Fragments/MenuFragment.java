@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -396,12 +397,16 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     //region save
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onSaveOrder(){
+
         MenuFragment.AsyncSave asyncSave = new MenuFragment.AsyncSave();
+
         asyncSave.execute("");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private int onCreateOrder(Connection connection){
+        Log.e("CREATE ORDER", "onCreateOrder ....");
+
         if(mDetailsOrder.size() < 0) return 0;
         //date time = now
         Date nowDate = new Date();
@@ -409,12 +414,14 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         int lastOrderId = getLastOrder(connection);
         if(lastOrderId == 0) return 0;
 
-        int orderId = lastOrderId;
-        orderId ++;
+        int orderId = lastOrderId + 1;
         //int cmfId = String.format(orderId);
 
         //get total ht, tva, ttc
-        BigDecimal ht, tva = new BigDecimal(0), ttc = new BigDecimal(0);
+        BigDecimal ht;
+        BigDecimal tva = new BigDecimal(0);
+        BigDecimal ttc = new BigDecimal(0);
+
         for(int i=0; i<mDetailsOrder.size(); i++){
             tva = tva.add(mDetailsOrder.get(i).getMttvaArt());
             ttc = ttc.add(mDetailsOrder.get(i).getMtnetArt());
@@ -449,20 +456,27 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected Order doInBackground(String... detailsOrders) {
+
+
             Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             if(connection == null) {
                 mConnectionError = true;
+                Log.e("CREATE ORDER", "connection == null....");
                 return null;
             }else {
                 mConnectionError = false;
+                Log.e("CREATE ORDER", "connection != null....");
             }
 
             if(mOrder == null) {
                 //create order + order details
                 int idOrder = onCreateOrder(connection);
                 if (idOrder == 0) return null;
-                for(int i = 0; i < mDetailsOrder.size(); i++)
+                for(int i = 0; i < mDetailsOrder.size(); i++){
                     onCreateDetailsOrder(connection, idOrder, mDetailsOrder.get(i));
+
+                    Log.e("CREATE DETAILS ORDER", "creating order ....");
+                }
             }else {
                 //update order ht, tva, ttc,
                 BigDecimal ht;
