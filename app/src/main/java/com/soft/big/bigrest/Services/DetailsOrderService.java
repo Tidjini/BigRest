@@ -37,10 +37,7 @@ public class DetailsOrderService {
     public final static String TAG = "DetailsOrderService";
 
 
-    private static String selectDetailsOrderByOrderIdQueryBuilder(){
-        return "SELECT * FROM "+ DETAILS_ORDER_TABLENAME +" WHERE\n" +
-                "IdBon = ?";
-    }
+
 
     private static String selectDetailsOrderByIdQueryBuilder(){
 
@@ -58,6 +55,11 @@ public class DetailsOrderService {
                 "Id = ?";
     }
 
+
+    private static String selectDetailsOrderByOrderIdQueryBuilder(){
+        return "SELECT * FROM "+ DETAILS_ORDER_TABLENAME +" WHERE\n" +
+                "[IdBon] = ?";
+    }
     /**
      * get details list of given order
      * used when select table with open order
@@ -89,6 +91,8 @@ public class DetailsOrderService {
                 //int idmag = resultSet.getInt("Idmag");
 
                 detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd);
+
+                detailOrder.getCodeProd();
                 detailsOrders.add(detailOrder);
             }
 

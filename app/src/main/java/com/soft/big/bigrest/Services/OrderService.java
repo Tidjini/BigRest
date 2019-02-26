@@ -36,7 +36,7 @@ public class OrderService {
     private static String selectTableOpenOrderQueryBuilder(){
 
         return "SELECT TOP 1 * FROM "+ ORDER_TABLENAME +" WHERE " +
-                "[IdTable] = ? " +
+                "IdTable = ? And Etat = 0" +
                 "ORDER BY Id DESC"
                 ;
     }
@@ -162,7 +162,7 @@ public class OrderService {
             statement.setString(4, "Bons from tablet");
             statement.setDate(5, new Date(System.currentTimeMillis()));
             statement.setInt(6, 1);
-            statement.setInt(7, order.getEtatCmd());
+            statement.setInt(7, 0);
             statement.setBoolean(8, order.getPaymentCmd());
             statement.setString(9, "CODE CLI/"+order.getCodeClient());
             statement.setString(10, order.getNomClient());
@@ -221,7 +221,7 @@ public class OrderService {
                     updateOrderBuilder()
             );
 
-            statement.setInt(1, order.getEtatCmd());
+            statement.setInt(1, 0);
             statement.setBigDecimal(2, order.getHtCmd());
             statement.setBigDecimal(3, order.getTvaCmd());
             statement.setBigDecimal(4, order.getTtcCmd());
