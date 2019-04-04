@@ -24,6 +24,7 @@ public class Constants {
 
     public static final String USER_NAME_EXTRA_MESSAGE = "user_name";
     public static final String TABLE_ID_EXTRA_MESSAGE = "table_id";
+    public static final String USER_ID_EXTRA_MESSAGE = "user_id";
 
     public static final String SQL_INSERT = "sql_insert";
 

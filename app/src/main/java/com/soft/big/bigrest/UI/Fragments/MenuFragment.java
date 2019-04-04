@@ -396,15 +396,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
     //endregion
     //region save
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void onSaveOrder(){
+    public void onSaveOrder(int userId){
 
         MenuFragment.AsyncSave asyncSave = new MenuFragment.AsyncSave();
 
-        asyncSave.execute("");
+        asyncSave.execute(userId);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private int onCreateOrder(Connection connection){
+    private int onCreateOrder(Connection connection, int userId){
         Log.e("CREATE ORDER", "onCreateOrder ....");
 
         if(mDetailsOrder.size() < 0) return 0;
@@ -428,23 +428,23 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         }
         ht = ttc.subtract(tva);
         Order order = new Order(orderId, 1, "Client Divers", nowDate, ht, tva, ttc,
-                false, 1, 1, mTable.getId(), nowDate, 1, nowDate, 1);
+                false, 1, 1, mTable.getId(), nowDate, userId, nowDate, userId);
 
 
         return createOrder(connection, order);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private int onCreateDetailsOrder(Connection connection, int orderId, DetailsOrder detailsOrder){
+    private int onCreateDetailsOrder(Connection connection, int orderId, DetailsOrder detailsOrder, int userId){
         detailsOrder.setNumCmd(orderId);
-        return createDetailsOrder(connection, detailsOrder);
+        return createDetailsOrder(connection, detailsOrder, userId);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private DetailsOrder onUpdateDetailsOrder(Connection connection, DetailsOrder detailsOrder){
         return updateDetailsOrder(connection, detailsOrder);
     }
-    class AsyncSave extends AsyncTask<String, String, Order>{
+    class AsyncSave extends AsyncTask<Integer, String, Order>{
 
         @Override
         protected void onPreExecute() {
@@ -455,7 +455,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected Order doInBackground(String... detailsOrders) {
+        protected Order doInBackground(Integer... userId) {
 
 
             Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
@@ -470,10 +470,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
 
             if(mOrder == null) {
                 //create order + order details
-                int idOrder = onCreateOrder(connection);
+                int idOrder = onCreateOrder(connection, userId[0]);
                 if (idOrder == 0) return null;
                 for(int i = 0; i < mDetailsOrder.size(); i++){
-                    onCreateDetailsOrder(connection, idOrder, mDetailsOrder.get(i));
+                    onCreateDetailsOrder(connection, idOrder, mDetailsOrder.get(i), userId[0]);
 
                     Log.e("CREATE DETAILS ORDER", "creating order ....");
                 }
@@ -485,7 +485,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
                 //update details order + add details created (id == 0)
                 for(int i = 0; i < mDetailsOrder.size(); i++){
                     if (mDetailsOrder.get(i).getNbrLigne() == 0){
-                        onCreateDetailsOrder(connection, mOrder.getIdCmd(), mDetailsOrder.get(i));
+                        onCreateDetailsOrder(connection, mOrder.getIdCmd(), mDetailsOrder.get(i), userId[0]);
                     }
                     else {
                         onUpdateDetailsOrder(connection, mDetailsOrder.get(i));

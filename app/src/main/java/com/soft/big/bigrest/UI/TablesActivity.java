@@ -58,6 +58,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
 
 
     private String mUsername;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
                     getSupportFragmentManager().findFragmentById(R.id.tables_fragment);
 
         mUsername = getIntent().getStringExtra(Constants.USER_NAME_EXTRA_MESSAGE);
+        mUserId = getIntent().getIntExtra(Constants.USER_ID_EXTRA_MESSAGE, 0);
 
         bindActivity();
 
@@ -185,7 +187,7 @@ public class TablesActivity extends AppCompatActivity implements TablesFragment.
     public void onSaveClicked(View view){
 
         if(mMenuFragment == null) return;
-        mMenuFragment.onSaveOrder();
+        mMenuFragment.onSaveOrder(mUserId);
         //refresh Tables
         if(mTablesFragment == null) return;
         mTablesFragment.executeTask();

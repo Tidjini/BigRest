@@ -29,7 +29,7 @@ public class UserService {
 
 
 
-    public static boolean login(Connection connection, String username, String password) {
+    public static int login(Connection connection, String username, String password) {
         Statement statement;
         try {
             statement = connection.createStatement();
@@ -38,12 +38,14 @@ public class UserService {
             Connection configConnection = DatabaseAccess.configDbConnection();
             statement = configConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(selectQueryBuilder(username, password));
-            return resultSet.next();
+            int id = 0;
+            if(resultSet.next())
+                id = resultSet.getInt("Id");
+            return id;
         } catch (SQLException exception) {
             exception.printStackTrace();
             Log.e(TAG, exception.getMessage());
-
-            return false;
+            return 0;
         }
     }
     public static String getUserName(Connection connection, String username, String password) {
@@ -62,6 +64,7 @@ public class UserService {
             return "";
         }
     }
+
 
 
 }

@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     FrameLayout mProgressFrameLayout;
     FrameLayout mConnectionErrorFrame;
     String mUsername, mPassword;
+    int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void goToTableActivity(String username){
+    private void goToTableActivity(String username, int userId){
         Intent intent = new Intent(this, TablesActivity.class);
         intent.putExtra(Constants.USER_NAME_EXTRA_MESSAGE, username);
+        intent.putExtra(Constants.USER_ID_EXTRA_MESSAGE, userId);
         startActivity(intent);
     }
 
@@ -73,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
      * Connection in Async way to get the user more confeteble
      */
 
-    class AsyncLogin extends AsyncTask<String, String, Boolean>{
+    class AsyncLogin extends AsyncTask<String, String, Integer>{
 
         @Override
         protected void onPreExecute() {
@@ -82,22 +84,22 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Integer doInBackground(String... strings) {
             String username = strings[0];
             String password = strings[1];
             Connection connection = DatabaseAccess.databaseConnection(LoginActivity.this);
-            if(connection == null) return null;
+            if(connection == null) return 0;
             return UserService.login(connection, username, password);
         }
 
         @Override
-        protected void onPostExecute(Boolean login) {
-            super.onPostExecute(login);
+        protected void onPostExecute(Integer id) {
+            super.onPostExecute(id);
             mProgressFrameLayout.setVisibility(View.GONE);
-            if(login == null)  mConnectionErrorFrame.setVisibility(View.VISIBLE);
+            if(id == 0)  mConnectionErrorFrame.setVisibility(View.VISIBLE);
             else {
-                if(login) {
-                    goToTableActivity(mUsername);
+                if(id != 0) {
+                    goToTableActivity(mUsername, id);
                 }else {
                     Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_LONG).show();
 

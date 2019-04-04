@@ -151,8 +151,8 @@ public class DetailsOrderService {
     private static String createDetailsOrderQueryBuilder(){
         return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(DateModification, DateCreation, CreerPar, IdProduit, IdBon, ProduitDesignation, TvaProduit,"+
-                " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified) " +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+                " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified, ModifierPar) " +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
         /*return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(NumCmd, CodeProd, LibeProd,"+
@@ -168,7 +168,7 @@ public class DetailsOrderService {
      * @return
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static int createDetailsOrder(Connection connection, DetailsOrder detailsOrder){
+    public static int createDetailsOrder(Connection connection, DetailsOrder detailsOrder, int userId){
 
         if (connection == null || detailsOrder == null) return 0;
 
@@ -183,7 +183,7 @@ public class DetailsOrderService {
             statement.setDate(1, new Date(System.currentTimeMillis()));
             statement.setDate(2, new Date(System.currentTimeMillis()));
             //set user id
-            statement.setInt(3, 0);
+            statement.setInt(3, userId);
             statement.setInt(4, detailsOrder.getCodeProd());
             statement.setInt(5, detailsOrder.getNumCmd());
             statement.setString(6, detailsOrder.getLibeProd());
@@ -198,6 +198,7 @@ public class DetailsOrderService {
             statement.setString(15, "Imprimante");
             statement.setBoolean(16, false);
             statement.setBoolean(17, false);
+            statement.setInt(18, userId);
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
