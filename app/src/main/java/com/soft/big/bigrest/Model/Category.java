@@ -4,64 +4,65 @@ package com.soft.big.bigrest.Model;
  * Created by Tidjini on 09/11/2017.
  */
 
+//Category = Famille, LibFamille, ImprimeCuisine, Imprimante, TFamille
 public class Category {
 
-    private int id;
-    private String name, imprimante;
-    private int impCuis;
-    private int tFamille;
+    private int Id;
+    private String LibFamille, Imprimante;
+    private int ImprimeCuisine;
+    private int TFamille;
 
     public Category() {
     }
 
-    public Category(int id, String name, int impCuis, int tFamille, String imprimante) {
-        this.id = id;
-        this.name = name;
-        this.impCuis = impCuis;
-        this.tFamille = tFamille;
-        this.imprimante = imprimante;
+    public Category(int id, String libFamille, int imprimeCuisine, int tFamille, String imprimante) {
+        this.Id = id;
+        this.LibFamille = libFamille;
+        this.ImprimeCuisine = imprimeCuisine;
+        this.TFamille = tFamille;
+        this.Imprimante = imprimante;
     }
 
     public String getIdName(){
-        return id+" "+name;
+        return Id+" "+LibFamille;
     }
     public int getId() {
-        return id;
+        return Id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getName() {
-        return name;
+        return LibFamille;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.LibFamille = name;
     }
 
     public String getImprimante() {
-        return imprimante;
+        return Imprimante;
     }
 
     public void setImprimante(String imprimante) {
-        this.imprimante = imprimante;
+        this.Imprimante = imprimante;
     }
 
-    public int getImpCuis() {
-        return impCuis;
+    public int getImprimeCuisine() {
+        return ImprimeCuisine;
     }
 
-    public void setImpCuis(int impCuis) {
-        this.impCuis = impCuis;
+    public void setImprimeCuisine(int impCuis) {
+        this.ImprimeCuisine = impCuis;
     }
 
-    public int gettFamille() {
-        return tFamille;
+    public int getTFamille() {
+        return TFamille;
     }
 
-    public void settFamille(int tFamille) {
-        this.tFamille = tFamille;
+    public void setTFamille(int tFamille) {
+        this.TFamille = tFamille;
     }
 }
