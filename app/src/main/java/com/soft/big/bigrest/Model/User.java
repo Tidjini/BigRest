@@ -6,8 +6,17 @@ package com.soft.big.bigrest.Model;
 
 public class User {
     private String userName, password;
+    private int id;
 
     public User() {
+    }
+
+    public int getUserId() {
+        return id;
+    }
+
+    public void setUserId(int id) {
+        this.id = id;
     }
 
     public String getUserName() {
