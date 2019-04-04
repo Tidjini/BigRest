@@ -208,13 +208,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
         mTable = table;
         mUsername = username;
         //Init to default value when change table (no save state gone)
+        mOrder = null;
         mDetailsOrderTemp = new ArrayList<>();
         mDetailsOrderAdapter.refreshAdapter(mDetailsOrder);
+
         MenuFragment.AsyncOrder asyncOrder = new MenuFragment.AsyncOrder();
         asyncOrder.execute(mTable);
     }
     //selected table order if exist
-    Order mOrder;
+    Order mOrder = null;
     /**
      * Get Just if Order is open (no close)
      * so the Table is still occupied
@@ -233,7 +235,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             Table table = tables[0];
             //if table is free don't get order
             if(table.getEtat() == Utils.TableState.FREE) return null;
-
+            mOrder = null;
             Connection connection = DatabaseAccess.databaseConnection(MenuFragment.this.getActivity());
             if(connection == null) {
                 mConnectionError = true;
@@ -261,6 +263,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
             if(detailsOrders != null){
                 mDetailsOrderTemp = detailsOrders;
                 mDetailsOrderAdapter.refreshAdapter(mDetailsOrderTemp);
+
             }
             //Sum price
             BigDecimal totalPrice = BigDecimal.valueOf(0);
@@ -268,6 +271,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
                 totalPrice  = totalPrice.add(mDetailsOrderTemp.get(i).getMtnetArt());
             String totalPriceFormat = Utils.Formater.getBigDecimalFormat(totalPrice, 2) + " DA";
             mTotalPriceTextView.setText(totalPriceFormat);
+
 
         }
     }
