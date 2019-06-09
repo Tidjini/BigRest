@@ -76,7 +76,7 @@ public class DatabaseAccess {
 
 
         return Constants.URL_PREFIX +configuration.getServerAddress() +";instanceName="+configuration.getInstance()+";DatabaseName="+configuration.getDatabaseName()
-                + "Configuration"
+               // + "Configuration"
                 +";integratedSecurity="+configuration.getIntegratedSecurtity()
                 + ";user="+configuration.getDatabaseUsername()
                 + ";password="+configuration.getDatabasePassword();
