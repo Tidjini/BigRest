@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.soft.big.bigrest.Behaviors.Constants.ARTICLES_TABLENAME;
+import static com.soft.big.bigrest.Behaviors.Constants.FAMILLY_TABLENAME;
 import static com.soft.big.bigrest.Behaviors.ImageUtils.setImageViewWithByteArray;
 
 /**
@@ -32,6 +33,12 @@ public class MenuService {
 
     private static String selectQueryWithIdBuilder(int id){
         return "select * from "+ARTICLES_TABLENAME+"\n" +
+                "Where\n" +
+                "Id = '"+ id +"' ";
+    }
+
+    private static String selectFamilleBuilder(int id){
+        return "select Imprimante from "+FAMILLY_TABLENAME+"\n" +
                 "Where\n" +
                 "Id = '"+ id +"' ";
     }
@@ -55,11 +62,17 @@ public class MenuService {
                 BigDecimal tva = resultSet.getBigDecimal("TvaValue");
                 BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVprod");
                 Blob imageBlob = resultSet.getBlob("Image");
+                ResultSet resultFamilleSet = statement.executeQuery(selectFamilleBuilder(famProd));
+                String impriment = "";
+                while (resultFamilleSet.next()){
+                    impriment = resultSet.getString("Imprimante");
+                }
+
                 Bitmap image = null;
                 if(imageBlob != null)
                     image =  setImageViewWithByteArray(imageBlob);
                 //public Plat(  Bitmap imageProd) {
-                plat = new Plat(id,  name, refProd, famProd, typeProd, tva, prixProdVente, image);
+                plat = new Plat(id,  name, refProd, famProd, typeProd, tva, prixProdVente, image, impriment);
                 //for fake image
                 plats.add(plat);
             }
@@ -94,10 +107,17 @@ public class MenuService {
                 BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVprod");
                 Blob imageBlob = resultSet.getBlob("Image");
                 Bitmap image = null;
+                ResultSet resultFamilleSet = statement.executeQuery(selectFamilleBuilder(famProd));
+                String impriment = "";
+                while (resultFamilleSet.next()){
+                    impriment = resultSet.getString("Imprimante");
+                }
+
+
                 if(imageBlob != null)
                     image =  setImageViewWithByteArray(imageBlob);
                 //public Plat(  Bitmap imageProd) {
-                plat = new Plat(id,  name, refProd, famProd, typeProd, tva, prixProdVente, image);
+                plat = new Plat(id,  name, refProd, famProd, typeProd, tva, prixProdVente, image, impriment);
                 //for fake image
 
             }

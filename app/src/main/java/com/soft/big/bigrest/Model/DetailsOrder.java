@@ -13,7 +13,15 @@ public class DetailsOrder {
     String  libeProd;
     BigDecimal prixProd, qttProd, tvaArt,remArt;
     String typPrd;
+    String imprimente;
     int idMag;
+
+    public String getImprimente() {
+        return imprimente;
+    }
+    public void setImprimente(String imprimente) {
+        this.imprimente = imprimente;
+    }
 
     public DetailsOrder() {
     }
@@ -115,7 +123,8 @@ public class DetailsOrder {
         this.idMag = idMag;
     }
 
-    public DetailsOrder(int nbrLigne, int numCmd, int codeProd, String libeProd, BigDecimal prixProd, BigDecimal qttProd, BigDecimal tvaArt,  BigDecimal remArt, int idMag) {
+    public DetailsOrder(int nbrLigne, int numCmd, int codeProd, String libeProd, BigDecimal prixProd, BigDecimal qttProd, BigDecimal tvaArt,  BigDecimal remArt, int idMag,
+                        String imprimente) {
         NbrLigne = nbrLigne;
         this.numCmd = numCmd;
         this.codeProd = codeProd;
@@ -124,7 +133,7 @@ public class DetailsOrder {
         this.qttProd = qttProd;
         this.tvaArt = tvaArt;
         this.remArt = remArt;
-
+        this.imprimente = imprimente;
         //this.typPrd = typPrd;
         this.idMag = idMag;
     }

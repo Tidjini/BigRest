@@ -383,7 +383,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
                     BigDecimal.valueOf(1),
                     mPlats.get(platPosition).getTva(),
                     BigDecimal.valueOf(0),
-                   0
+                   0, ""
 
             );
             mDetailsOrderTemp.add(detailsOrder);

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  */
 
 public class Plat {
-    String désignProf, refProd;
+    String designProf, refProd, impriment;
 
     int idProd, famProd, typeProd;
     BigDecimal tva, prixProdVente;
@@ -18,11 +18,13 @@ public class Plat {
     public Plat() {
     }
 
-    public Plat(int idProd, String désignProf, String refProd, int famProd, int typeProd, BigDecimal tva, BigDecimal prixProdVente, Bitmap imageProd) {
+    public Plat(int idProd, String désignProf, String refProd, int famProd, int typeProd, BigDecimal tva, BigDecimal prixProdVente,
+                Bitmap imageProd, String impriment) {
         this.idProd = idProd;
-        this.désignProf = désignProf;
+        this.designProf = désignProf;
         this.refProd = refProd;
         this.famProd = famProd;
+        this.impriment = impriment;
         this.typeProd = typeProd;
         this.tva = tva;
         this.prixProdVente = prixProdVente;
@@ -37,12 +39,19 @@ public class Plat {
         this.idProd = idProd;
     }
 
-    public String getDésignProf() {
-        return désignProf;
+    public String getDesignProf() {
+        return designProf;
     }
 
-    public void setDésignProf(String désignProf) {
-        this.désignProf = désignProf;
+    public void setDesignProf(String designProf) {
+        this.designProf = designProf;
+    }
+    public String getImpriment() {
+        return impriment;
+    }
+
+    public void setImpriment(String impriment) {
+        this.impriment = impriment;
     }
 
     public String getRefProd() {
