@@ -62,15 +62,18 @@ public class MenuService {
                 BigDecimal tva = resultSet.getBigDecimal("TvaValue");
                 BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVprod");
                 Blob imageBlob = resultSet.getBlob("Image");
-                ResultSet resultFamilleSet = statement.executeQuery(selectFamilleBuilder(famProd));
-                String impriment = "";
-                while (resultFamilleSet.next()){
-                    impriment = resultSet.getString("Imprimante");
-                }
+
 
                 Bitmap image = null;
                 if(imageBlob != null)
                     image =  setImageViewWithByteArray(imageBlob);
+
+                statement = connection.createStatement();
+                ResultSet resultFamilleSet = statement.executeQuery(selectFamilleBuilder(famProd));
+                String impriment = "";
+                while (resultFamilleSet.next()){
+                    impriment = resultFamilleSet.getString("Imprimante");
+                }
                 //public Plat(  Bitmap imageProd) {
                 plat = new Plat(id,  name, refProd, famProd, typeProd, tva, prixProdVente, image, impriment);
                 //for fake image
@@ -107,15 +110,17 @@ public class MenuService {
                 BigDecimal prixProdVente = resultSet.getBigDecimal("PrixVprod");
                 Blob imageBlob = resultSet.getBlob("Image");
                 Bitmap image = null;
-                ResultSet resultFamilleSet = statement.executeQuery(selectFamilleBuilder(famProd));
-                String impriment = "";
-                while (resultFamilleSet.next()){
-                    impriment = resultSet.getString("Imprimante");
-                }
 
 
                 if(imageBlob != null)
                     image =  setImageViewWithByteArray(imageBlob);
+                statement = connection.createStatement();
+                ResultSet resultFamilleSet = statement.executeQuery(selectFamilleBuilder(famProd));
+                String impriment = "";
+                while (resultFamilleSet.next()){
+                    impriment = resultFamilleSet.getString("Imprimante");
+                }
+
                 //public Plat(  Bitmap imageProd) {
                 plat = new Plat(id,  name, refProd, famProd, typeProd, tva, prixProdVente, image, impriment);
                 //for fake image

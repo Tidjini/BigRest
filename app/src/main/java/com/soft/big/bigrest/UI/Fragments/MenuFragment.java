@@ -378,12 +378,13 @@ public class MenuFragment extends Fragment implements MenuAdapter.MenuClickHandl
                     0,
                     0,
                     idPlat,
-                    mPlats.get(platPosition).getDésignProf(),
+                    mPlats.get(platPosition).getDesignProf(),
                     mPlats.get(platPosition).getPrixProdVente(),
                     BigDecimal.valueOf(1),
                     mPlats.get(platPosition).getTva(),
                     BigDecimal.valueOf(0),
-                   0, ""
+                   0,
+                    mPlats.get(platPosition).getImpriment()
 
             );
             mDetailsOrderTemp.add(detailsOrder);

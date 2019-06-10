@@ -50,7 +50,8 @@ public class DetailsOrderService {
     private static String updateDetailsOrderQueryBuilder(){
         return "UPDATE "+DETAILS_ORDER_TABLENAME+"\n" +
                 "SET [Qte] = ?,\n" +
-                "    [MtTotal] = ?\n" +
+                "    [MtTotal] = ?,\n" +
+                "    [Imprimante] = ?\n" +
                 "WHERE\n" +
                 "Id = ?";
     }
@@ -89,8 +90,9 @@ public class DetailsOrderService {
                 BigDecimal mtnetArt = resultSet.getBigDecimal("MtTotal");
                 //String typPrd = resultSet.getString("TypPrd");
                 //int idmag = resultSet.getInt("Idmag");
+                String imprimente = resultSet.getString("Imprimante");
 
-                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd);
+                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd, imprimente);
 
                 detailOrder.getCodeProd();
                 detailsOrders.add(detailOrder);
@@ -130,10 +132,11 @@ public class DetailsOrderService {
                 BigDecimal remArt = resultSet.getBigDecimal("Remise");
                 // BigDecimal mtremArt = resultSet.getBigDecimal("MtremArt");
                 BigDecimal mtnetArt = resultSet.getBigDecimal("MtTotal");
+                String imprimente = resultSet.getString("Imprimante");
                 //String typPrd = resultSet.getString("TypPrd");
                 //int idmag = resultSet.getInt("Idmag");
 
-                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd);
+                detailOrder = new DetailsOrder(nbrLigne, numCmd, codeProd, libeProd, prixProd, qttProd, tvaArt, remArt, codeProd, imprimente);
             }
 
             return detailOrder;
@@ -192,10 +195,10 @@ public class DetailsOrderService {
             statement.setBigDecimal(9, detailsOrder.getQttProd());
             statement.setBigDecimal(10, detailsOrder.getQttProd());
             statement.setBigDecimal(11, detailsOrder.getRemArt());
-            statement.setString(12, "Supplement");
+            statement.setString(12, "");
             statement.setBigDecimal(13, detailsOrder.getMtnetArt());
             statement.setBigDecimal(14, new BigDecimal(0));
-            statement.setString(15, "Imprimante");
+            statement.setString(15,  detailsOrder.getImprimente());
             statement.setBoolean(16, false);
             statement.setBoolean(17, false);
             statement.setInt(18, userId);
@@ -236,14 +239,18 @@ public class DetailsOrderService {
                     );
             statement.setBigDecimal(1, detailsOrder.getQttProd());
             statement.setBigDecimal(2, detailsOrder.getMtnetArt());
-            statement.setInt(3, detailsOrder.getNbrLigne());
+            statement.setString(3,  detailsOrder.getImprimente());
+            statement.setInt(4, detailsOrder.getNbrLigne());
+
             //Execute update request
             statement.executeUpdate();
             //get updated detail order
             detailsOrderUpdated = getDetailsOrderById(connection, detailsOrder.getNbrLigne());
             return detailsOrderUpdated;
         } catch (SQLException e) {
+            Log.e(TAG, e.getMessage());
             return detailsOrderUpdated;
+
         }
 
     }

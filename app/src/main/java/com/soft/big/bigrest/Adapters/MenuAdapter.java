@@ -120,7 +120,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
         holder.bind(
                 platPrice,
-                mPlatsFiltred.get(position).getDésignProf(),
+                mPlatsFiltred.get(position).getDesignProf(),
                 "", //remarque or description
                 mPlatsFiltred.get(position).getImageProd());
     }
