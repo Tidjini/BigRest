@@ -51,7 +51,11 @@ public class DetailsOrderService {
         return "UPDATE "+DETAILS_ORDER_TABLENAME+"\n" +
                 "SET [Qte] = ?,\n" +
                 "    [MtTotal] = ?,\n" +
-                "    [Imprimante] = ?\n" +
+                "    [Imprimante] = ?,\n" +
+                "    [IsPrinted] = ?,\n" +
+                "    [IsFromTabletModified] = ?,\n" +
+                "    [OldQte] = ?\n" +
+
                 "WHERE\n" +
                 "Id = ?";
     }
@@ -154,8 +158,8 @@ public class DetailsOrderService {
     private static String createDetailsOrderQueryBuilder(){
         return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(DateModification, DateCreation, CreerPar, IdProduit, IdBon, ProduitDesignation, TvaProduit,"+
-                " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified, ModifierPar) " +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+                " PrixVProduit, Qte, QteEnStock, Remise, Supplement, MtTotal, MtSupplement, Imprimante, IsPrinted, Modified, ModifierPar, IsFromTablet) " +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
         /*return "INSERT INTO "+ DETAILS_ORDER_TABLENAME+" " +
                 "(NumCmd, CodeProd, LibeProd,"+
@@ -202,6 +206,7 @@ public class DetailsOrderService {
             statement.setBoolean(16, false);
             statement.setBoolean(17, false);
             statement.setInt(18, userId);
+            statement.setBoolean(19, true);
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -233,6 +238,9 @@ public class DetailsOrderService {
         DetailsOrder detailsOrderUpdated = new DetailsOrder();
         try {
 
+
+            DetailsOrder detailsOrderOld = getDetailsOrderById(connection, detailsOrder.getNbrLigne());
+
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
                     updateDetailsOrderQueryBuilder()
@@ -240,7 +248,10 @@ public class DetailsOrderService {
             statement.setBigDecimal(1, detailsOrder.getQttProd());
             statement.setBigDecimal(2, detailsOrder.getMtnetArt());
             statement.setString(3,  detailsOrder.getImprimente());
-            statement.setInt(4, detailsOrder.getNbrLigne());
+            statement.setBoolean(4,  false);
+            statement.setBoolean(5,  true);
+            statement.setBigDecimal(6,  detailsOrderOld.getQttProd());
+            statement.setInt(7, detailsOrder.getNbrLigne());
 
             //Execute update request
             statement.executeUpdate();

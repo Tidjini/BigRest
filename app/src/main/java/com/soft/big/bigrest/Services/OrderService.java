@@ -148,6 +148,7 @@ public class OrderService {
 
         try {
 
+
             @SuppressLint("WrongConstant")
             PreparedStatement statement = connection.prepareStatement(
                     createOrederBuilder(),
@@ -159,7 +160,7 @@ public class OrderService {
             statement.setInt(3, order.getUserCreator());
 
             //TODO Make it
-            statement.setString(4, "Bons from tablet");
+            statement.setString(4, "---");
             statement.setDate(5, new Date(System.currentTimeMillis()));
             statement.setInt(6, 1);
             statement.setInt(7, 0);

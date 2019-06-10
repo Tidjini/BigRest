@@ -14,6 +14,7 @@ public class DetailsOrder {
     BigDecimal prixProd, qttProd, tvaArt,remArt;
     String typPrd;
     String imprimente;
+
     int idMag;
 
     public String getImprimente() {
@@ -86,6 +87,8 @@ public class DetailsOrder {
         BigDecimal tvaPercent = tvaArt.divide(BigDecimal.valueOf(100));
         return tvaPercent.multiply(getMtnetArt());
     }
+
+
 
 
 
